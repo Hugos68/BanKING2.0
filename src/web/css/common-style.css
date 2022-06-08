@@ -14,17 +14,12 @@
 
 body {
     margin: 0;
-    padding: 0;
-    background: #00def6;
+    background-color: #69fabc;
 }
 
 .pageWrapper {
-    display: flex;
-    justify-content: center;
-    align-items: start;
     height: 100vh;
     width: 100vw;
-    overflow: hidden;
     background-size: cover;
     background-repeat: no-repeat;
     background-image:url("../resources/bg.svg");
@@ -32,18 +27,33 @@ body {
 }
 
 .pageTitle {
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    margin-top: -1.5em;
+    padding: 25px;
     font-family: robotoregular;
-    color: grey;
-    font-size: 64px;
-    animation: fullDropdown 2s alternate;
+    color: #83b9e2;
+    font-size: 36px;
+    animation: halfDropdown 1.5s alternate;
 }
 
 @keyframes fullDropdown {
-    0% {
+    from {
         transform: translateY(-100%);
     }
 
-    100% {
+    to {
+        transform: translateY(0%);
+    }
+}
+
+@keyframes halfDropdown {
+    from {
+        transform: translateY(-50%);
+    }
+
+    to {
         transform: translateY(0%);
     }
 }
