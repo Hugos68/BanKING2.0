@@ -1,0 +1,50 @@
+@font-face {
+    font-family: 'roboto_condensedbold';
+    src: url('../resources/RobotoCondensed-Bold-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'robotoregular';
+    src: url('../resources/Roboto-Regular-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    background: #00def6;
+}
+
+.pageWrapper {
+    display: flex;
+    justify-content: center;
+    align-items: start;
+    height: 100vh;
+    width: 100vw;
+    overflow: hidden;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-image:url("../resources/bg.svg");
+    animation: fullDropdown 1s alternate;
+}
+
+.pageTitle {
+    font-family: robotoregular;
+    color: grey;
+    font-size: 64px;
+    animation: fullDropdown 2s alternate;
+}
+
+@keyframes fullDropdown {
+    0% {
+        transform: translateY(-100%);
+    }
+
+    100% {
+        transform: translateY(0%);
+    }
+}
+
