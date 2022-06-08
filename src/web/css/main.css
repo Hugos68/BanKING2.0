@@ -13,20 +13,49 @@
 }
 
 body {
+    background-color: #001220;
     margin: 0;
-    background-color: #69fabc;
+    overflow-x: hidden;
 }
 
-.pageWrapper {
-    height: 100vh;
+.start-home {
+    height: 108vh;
     width: 100vw;
     background-size: cover;
     background-repeat: no-repeat;
-    background-image:url("../resources/bg.svg");
+    background-image:url("../resources/home.svg");
     animation: fullDropdown 1s alternate;
 }
 
-.pageTitle {
+.home-signup {
+    height: 108vh;
+    width: 100vw;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-image:url("../resources/home-signup.svg");
+    animation: fullDropdown 1s alternate;
+}
+
+.signup-signin {
+    height: 70vh;
+    width: 100vw;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-image:url("../resources/signup-singin.svg");
+    animation: fullDropdown 1s alternate;
+}
+
+.signin-end {
+    height: 108vh;
+    width: 100vw;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-image:url("../resources/signin-end.svg");
+    animation: fullDropdown 1s alternate;
+}
+
+
+.topLeftTitle {
     display: flex;
     justify-content: flex-start;
     align-items: flex-start;
@@ -38,9 +67,13 @@ body {
     animation: halfDropdown 1.5s alternate;
 }
 
+.topLeftTitle:hover {
+
+}
+
 @keyframes fullDropdown {
     from {
-        transform: translateY(-100%);
+        transform: translateY(100%);
     }
 
     to {
@@ -50,7 +83,7 @@ body {
 
 @keyframes halfDropdown {
     from {
-        transform: translateY(-50%);
+        transform: translateY(50%);
     }
 
     to {
