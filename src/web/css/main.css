@@ -18,6 +18,8 @@ body {
     overflow-x: hidden;
     scroll-behavior: smooth;
     animation: scroll-up 2s alternate;
+    color: white;
+    font-family: roboto_condensedbold, serif;
 }
 
 .page-wrapper {
@@ -49,9 +51,7 @@ body {
 .nav {
     margin-bottom: 60px;
     margin-right: 100px;
-    color: white;
     cursor: none;
-    font-family: roboto_condensedbold, serif;
     list-style-type: none;
     display: flex;
     font-size: 36px;
@@ -71,6 +71,27 @@ body {
 .home {
     width: 100vw;
     height: 1175px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 250px;
+}
+
+.arrive-message {
+    width: 500px;
+    height: 500px;
+    border: solid red 1px;
+}
+
+.arrive-img {
+    width: 500px;
+    height: 500px;
+    border: solid red 1px;
+}
+
+h1 {
+    font-size: 100px;
 }
 
 .about {
@@ -91,8 +112,6 @@ body {
 }
 
 .footer {
-    color: white;
-    font-family: roboto_condensedbold, serif;
     font-size: 20px;
     padding-left: 30px;
 }
