@@ -99,7 +99,7 @@ body {
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    gap: 350px;
+    gap: 250px;
     padding-inline: 50px;
 }
 
@@ -167,7 +167,6 @@ label {
     flex-direction: column;
     gap: 25px;
     margin-bottom: 250px;
-    margin-left: -150px;
 }
 
 .sign-up-input {
