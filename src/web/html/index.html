@@ -1,39 +1,38 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="UTF-8">
-    <title>Home</title>
+    <title>BanKING</title>
     <link rel="stylesheet" href="../css/main.css">
     <script defer src="../js/main.js"></script>
 </head>
-    <body>
+    <body onload="location.href='#home'">
         <div class="page-wrapper">
             <header class="header">
                 <nav>
                     <ul class="nav">
-                        <li class="nav-item">Home</li>
-                        <li class="nav-item">About</li>
-                        <li class="nav-item">Login</li>
-                        <li class="nav-item">Register</li>
-                        <li class="nav-item">Undefined</li>
+                        <li class="nav-item" onclick="document.getElementById('home').scrollIntoView({behavior: 'smooth'})">Home</li>
+                        <li class="nav-item" onclick="document.getElementById('about').scrollIntoView({behavior: 'smooth'})">About</li>
+                        <li class="nav-item" onclick="document.getElementById('sign-up').scrollIntoView({behavior: 'smooth'})">Sign-up</li>
+                        <li class="nav-item" onclick="document.getElementById('sign-in').scrollIntoView({behavior: 'smooth'})">Sign-in</li>
                     </ul>
                 </nav>
             </header>
-            <section class="start-home">
+            <section class="home" id="home">
 
             </section>
-            <section class="home-signup">
+            <section class="about" id="about">
 
             </section>
-            <section class="signup-signin">
+            <section class="sign-up" id="sign-up" >
 
             </section>
-            <section class="signin-undefined">
+            <section class="sign-in" id="sign-in">
 
             </section>
-            <section class="undefined-end">
-
-            </section>
+            <footer class="footer">
+                Production by: H. Korte
+            </footer>
         </div>
     </body>
 </html>

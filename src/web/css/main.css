@@ -17,6 +17,7 @@ body {
     margin: 0;
     overflow-x: hidden;
     scroll-behavior: smooth;
+    animation: scroll-up 2s alternate;
 }
 
 .page-wrapper {
@@ -48,16 +49,15 @@ body {
     color: white;
     cursor: none;
     font-family: roboto_condensedbold, serif;
-    text-decoration: none;
     list-style-type: none;
     display: flex;
     font-size: 36px;
-    gap: 50px;
 }
 
 .nav-item {
     text-transform: uppercase;
     cursor: pointer;
+    padding-inline: 25px;
 }
 
 .nav-item:hover {
@@ -65,34 +65,40 @@ body {
 }
 
 
-.start-home {
+.home {
     width: 100vw;
+    height: 1175px;
 }
 
-.home-signup {
+.about {
     width: 100vw;
-}
-
-
-.signup-signin {
-    width: 100vw;
-}
-
-.signin-undefined {
-    width: 100vw;
-}
-
-.undefined-end {
-    width: 100vw;
+    height: 1175px;
 }
 
 
+.sign-up {
+    width: 100vw;
+    height: 1175px;
+}
 
 
+.sign-in {
+    width: 100vw;
+    height: 1100px;
+}
 
-@keyframes fullDropdown {
+
+.footer {
+    color: white;
+    font-family: roboto_condensedbold, serif;
+    font-size: 20px;
+    padding-left: 30px;
+}
+
+
+@keyframes scroll-up {
     from {
-        transform: translateY(100%);
+        transform: translateY(-75%);
     }
 
     to {
@@ -100,13 +106,4 @@ body {
     }
 }
 
-@keyframes halfDropdown {
-    from {
-        transform: translateY(50%);
-    }
-
-    to {
-        transform: translateY(0%);
-    }
-}
 
