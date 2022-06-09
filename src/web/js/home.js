@@ -31,11 +31,14 @@ signUpButton.addEventListener('click', async () => {
             }),
             body: JSON.stringify(jsonObj)
         });
-        if (!registrationResponse.ok) new Error(registrationResponse.status+' '+registrationResponse.statusText);
-
-        // User is registered here, maybe confetti?
+        if (!registrationResponse.ok) {
+            console.error(registrationResponse.status+' '+registrationResponse.statusText);
+        }
+        else {
+            // User is registered here, maybe confetti?
+        }
     } catch (e) {
-        new Error("Server request failed...");
+        throw new Error("Server timed out... "+e.error());
     }
 });
 

@@ -17,7 +17,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.*;
-
+import static org.springframework.http.HttpStatus.CONFLICT;
+import static org.springframework.http.HttpStatus.UNPROCESSABLE_ENTITY;
 
 
 @Service
@@ -55,17 +56,17 @@ public class UserService implements  UserDetailsService {
     public ResponseEntity<?> registerUser(String name, String email, String password) {
         if (name.equals("")) {
             log.error("Name cannot be null");
-            return ResponseEntity.badRequest().body("Name cannot be null");
+            return ResponseEntity.status(UNPROCESSABLE_ENTITY).body("Name cannot be null");
         }
 
         if (!emailValidator.validate(email)) {
             log.error("{} is not a valid email", email);
-            return ResponseEntity.badRequest().body(String.format("%s is not a valid email", email));
+            return ResponseEntity.status(UNPROCESSABLE_ENTITY).body(String.format("%s is not a valid email", email));
         }
 
         if (userRepo.findByEmail(email)!=null) {
             log.error("Email {} already taken", email);
-            return ResponseEntity.badRequest().body(String.format("Email %s already taken", email));
+            return ResponseEntity.status(CONFLICT).body(String.format("Email %s already taken", email));
         }
         Collection<Role> roles = new ArrayList<>();
         roles.add(roleRepo.findByName("ROLE_USER"));
