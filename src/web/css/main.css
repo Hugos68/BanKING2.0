@@ -36,6 +36,7 @@ body {
     position: fixed;
     width: 100vw;
     height: 25vh;
+    padding-bottom: 25px;
     transition: transform 0.35s ease-in-out;
 }
 
@@ -44,7 +45,7 @@ body {
 }
 
 .nav {
-    margin-bottom: 60px;
+    margin-bottom: 50px;
     margin-right: 100px;
     color: white;
     cursor: none;
