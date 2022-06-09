@@ -1,9 +1,8 @@
-document.onscroll = async () => {
-    if (scrollY<50) {
-        document.getElementById('header').classList.add("header-pop-out");
-    }
-    else {
-        document.getElementById('header').classList.remove("header-pop-out");
-    }
-}
+
+const header =document.querySelector("header");
+
+document.addEventListener("scroll", e => {
+    header.classList.toggle("header-pop-out", scrollY < 50);
+}, {passive: true});
+// This setting is particularly important for scroll based listeners - https://web.dev/uses-passive-event-listeners/
 
