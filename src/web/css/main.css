@@ -87,7 +87,6 @@ body {
     height: 1100px;
 }
 
-
 .footer {
     color: white;
     font-family: roboto_condensedbold, serif;
@@ -95,14 +94,15 @@ body {
     padding-left: 30px;
 }
 
-
 @keyframes scroll-up {
     from {
         transform: translateY(-75%);
+        overflow: hidden;
     }
 
     to {
         transform: translateY(0%);
+        overflow: hidden;
     }
 }
 
