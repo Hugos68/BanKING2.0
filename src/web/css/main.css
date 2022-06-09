@@ -35,17 +35,16 @@ body {
     background-color: #33cba1;
     position: fixed;
     width: 100vw;
-    height: 25vh;
-    padding-bottom: 25px;
+    height: 28vh;
     transition: transform 0.35s ease-in-out;
 }
 
 .header:hover {
-    transform: translateY(50%);
+    transform: translateY(35%);
 }
 
 .nav {
-    margin-bottom: 50px;
+    margin-bottom: 60px;
     margin-right: 100px;
     color: white;
     cursor: none;
