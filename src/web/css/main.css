@@ -35,11 +35,15 @@ body {
     background-color: #33cba1;
     position: fixed;
     width: 100vw;
-    height: 28vh;
-    transition: transform 0.35s ease-in-out;
+    height: 260px;
+    transition: transform 0.25s ease-in-out;
 }
 
 .header:hover {
+    transform: translateY(35%);
+}
+
+.header-pop-out {
     transform: translateY(35%);
 }
 

@@ -7,8 +7,8 @@
     <script defer src="../js/main.js"></script>
 </head>
     <body onload="location.href='#home'">
-        <div class="page-wrapper">
-            <header class="header">
+        <div class="page-wrapper" id="scrollable-page">
+            <header class="header" id="header">
                 <nav>
                     <ul class="nav">
                         <li class="nav-item" onclick="document.getElementById('home').scrollIntoView({behavior: 'smooth'})">Home</li>
@@ -17,6 +17,7 @@
                         <li class="nav-item" onclick="document.getElementById('sign-in').scrollIntoView({behavior: 'smooth'})">Sign-in</li>
                     </ul>
                 </nav>
+
             </header>
             <section class="home" id="home">
 
