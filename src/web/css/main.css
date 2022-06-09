@@ -29,7 +29,6 @@ body {
 .header {
     margin-top: -150px;
     display: flex;
-    flex-direction: row;
     justify-content: center;
     align-items: end;
     background-color: #33cba1;
