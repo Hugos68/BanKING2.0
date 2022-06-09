@@ -53,13 +53,23 @@ public class UserService implements  UserDetailsService {
     }
 
     public ResponseEntity<?> registerUser(String name, String email, String password) {
+        if (name.equals("")) {
+            log.error("Name cannot be null");
+            return ResponseEntity.badRequest().body("Name cannot be null");
+        }
+
         if (!emailValidator.validate(email)) {
             log.error("{} is not a valid email", email);
             return ResponseEntity.badRequest().body(String.format("%s is not a valid email", email));
         }
+
         if (userRepo.findByEmail(email)!=null) {
             log.error("Email {} already taken", email);
             return ResponseEntity.badRequest().body(String.format("Email %s already taken", email));
+        }
+        if (password.length() > 7 ) {
+            log.error("Password is too short");
+            return ResponseEntity.badRequest().body("Password is too short");
         }
         Collection<Role> roles = new ArrayList<>();
         roles.add(roleRepo.findByName("ROLE_USER"));
@@ -88,6 +98,7 @@ public class UserService implements  UserDetailsService {
             LocalDateTime.now()
         );
         bankAccountService.saveBankAccount(bankAccount);
+        log.info("User with email {} was successfully registered", email);
         return ResponseEntity.ok().build();
     }
 
