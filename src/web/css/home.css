@@ -1,3 +1,9 @@
+/*
+===============================
+       Font Imports
+===============================
+ */
+
 @font-face {
     font-family: 'roboto_condensedbold';
     src: url('../resources/RobotoCondensed-Bold-webfont.woff') format('woff');
@@ -11,6 +17,12 @@
     font-weight: normal;
     font-style: normal;
 }
+
+/*
+===============================
+       Page Properties
+===============================
+ */
 
 body {
     background-color: #001220;
@@ -27,6 +39,12 @@ body {
     height: 4664px;
     background-image:url("../resources/background.png");
 }
+
+/*
+===============================
+      Header properties
+===============================
+ */
 
 .header {
     margin-top: -150px;
@@ -67,58 +85,126 @@ body {
     color: lightgrey;
 }
 
-.home {
+
+/*
+===============================
+    Common Section Properties
+===============================
+ */
+
+.section {
     width: 100vw;
     height: 1175px;
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    gap: 250px;
+    gap: 350px;
 }
 
-.arrive-message {
-    width: 600px;
-    height: 500px;
-    animation: slide-right 2.5s alternate;
-}
-
-h1 {
+.page-title {
     font-size: 75px;
 }
 
-.home-paragraph {
+.page-text {
     margin-top: -50px;
-    font-size: 25px;
+    font-size: 36px;
 }
 
-.arrive-img {
+input {
+    background-color: orange;
+    width: 350px;
+    height: 50px;
+    border-radius: 25px;
+    border: none;
+    padding-inline: 10px;
+    font-family: roboto_condensedbold, serif;
+    font-size: 20px;
+    transition: transform 0.75s ease-in-out;
+}
+
+input:hover {
+    transform: scale(102%);
+}
+
+/*
+===============================
+            Home
+===============================
+ */
+
+.home-left {
+    animation: slide-right 2.5s alternate;
+    margin-bottom: 150px;
+}
+
+.home-right {
     width: 500px;
     height: 500px;
 }
 
+/*
+===============================
+            About
+===============================
+ */
 
-.about {
-    width: 100vw;
-    height: 1175px;
+/*
+===============================
+           Sign-up
+===============================
+ */
+
+
+
+
+
+.sign-up-form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 25px;
+    margin-bottom: 250px;
+    margin-left: -150px;
+}
+
+.sign-up-form > label {
+    font-size: 25px;
+}
+
+.sign-up-form > input {
+    background: rgb(205,205,205);
+    background: radial-gradient(circle, rgba(205,205,205,1) 0%, rgba(227,227,227,1) 100%);
 }
 
 
-.sign-up {
-    width: 100vw;
-    height: 1175px;
-}
+
+/*
+===============================
+           Sign-in
+===============================
+ */
 
 
-.sign-in {
-    width: 100vw;
-    height: 1100px;
-}
+/*
+===============================
+            Footer
+===============================
+ */
 
 .footer {
     font-size: 20px;
     padding-left: 30px;
 }
+
+
+
+/*
+===============================
+       Custom Animations
+===============================
+ */
 
 @keyframes scroll-up {
     from {

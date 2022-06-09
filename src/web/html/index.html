@@ -8,6 +8,7 @@
 </head>
     <body onload="location.href='#home'">
         <div class="page-wrapper">
+
             <header class="header header-pop-out">
                 <nav>
                     <ul class="nav">
@@ -17,29 +18,49 @@
                         <li class="nav-item" onclick="document.getElementById('sign-in').scrollIntoView({behavior: 'smooth'})">Sign-in</li>
                     </ul>
                 </nav>
-
             </header>
-            <section class="home" id="home">
-                <div class="arrive-message">
-                    <h1>BanKING</h1>
-                    <p class="home-paragraph">Welcome to BanKING, the KING of all banks</p>
+
+            <section class="section" id="home">
+                <div class="home-left">
+                    <h1 class="page-title">BanKING</h1>
+                    <p class="page-text">Welcome to BanKING, the King of Banks</p>
                 </div>
-                <div class="arrive-img">
-                    <im src=""></im>
+                <div class="home-right">
+                    <im>TODO: Add logo </im>
                 </div>
             </section>
-            <section class="about" id="about">
+
+            <section class="section" id="about">
 
             </section>
-            <section class="sign-up" id="sign-up" >
+
+            <section class="section" id="sign-up" >
+                <div class="sign-up-left">
+                    <p class="page-title">Sign up</p>
+                    <p class="page-text">Create your own account for free!</p>
+                </div>
+                <div class="sign-up-right">
+                   <form class="sign-up-form">
+                       <label>Name</label>
+                       <input type="text" name="name">
+                       <label>Email</label>
+                       <input type="text" name="email">
+                       <label>Password</label>
+                       <input type="password" name="password">
+                       <label>Confirm password</label>
+                       <input type="password" name="confirm-password">
+                   </form>
+                </div>
+            </section>
+
+            <section class="section" id="sign-in">
 
             </section>
-            <section class="sign-in" id="sign-in">
 
-            </section>
             <footer class="footer">
                 Production by: H. Korte
             </footer>
+
         </div>
     </body>
 </html>
