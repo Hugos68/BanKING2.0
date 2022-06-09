@@ -30,39 +30,45 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 @RequestMapping(path = "/api")
 @RequiredArgsConstructor
 @Slf4j
-@CrossOrigin
+@CrossOrigin(origins = "*")
 public class UserController {
     private final UserService userService;
 
     @PostMapping("/register")
+    @CrossOrigin(origins = "*")
     public ResponseEntity<?> registerUser(@RequestBody RegisterForm registerForm) {
         return userService.registerUser(registerForm.getName(), registerForm.getEmail().toLowerCase(), registerForm.getPassword());
     }
 
     @GetMapping("/users")
+    @CrossOrigin(origins = "*")
     public ResponseEntity<List<User>> getUsers() {
         return ResponseEntity.ok().body(userService.getUsers());
     }
 
     @PostMapping("/user/save")
+    @CrossOrigin(origins = "*")
     public ResponseEntity<User> saveUser(@RequestBody User user) {
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/user/save").toUriString());
         return ResponseEntity.created(uri).body(userService.saveUser(user));
     }
 
     @PostMapping("/role/save")
+    @CrossOrigin(origins = "*")
     public ResponseEntity<Role> saveRole(@RequestBody Role role) {
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/role/save").toUriString());
         return ResponseEntity.created(uri).body(userService.saveRole(role));
     }
 
     @PostMapping("/role/addtouser")
+    @CrossOrigin(origins = "*")
     public ResponseEntity<?> addRoleToUser(@RequestBody RoleToUserForm form) {
         userService.addRoleToUser(form.getEmail(), form.getRoleName());
         return ResponseEntity.ok().build();
     }
 
     @GetMapping("/token/refresh")
+    @CrossOrigin(origins = "*")
     public void refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String authorizationHeader = request.getHeader(AUTHORIZATION);
         if (authorizationHeader!=null && authorizationHeader.startsWith("Bearer ")) {

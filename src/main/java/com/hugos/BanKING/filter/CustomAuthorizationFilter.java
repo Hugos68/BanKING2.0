@@ -38,6 +38,7 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter {
             request.getServletPath().equals("/api/token/refresh")
             ) {
             filterChain.doFilter(request, response);
+
         }
         else {
             String authorizationHeader = request.getHeader(AUTHORIZATION);

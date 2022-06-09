@@ -1,10 +1,7 @@
-const header =document.querySelector("header");
 const signUpButton = document.querySelector(".sign-up-button");
 const signInButton = document.querySelector(".sign-in-button");
 const signUpForm = document.querySelector(".sign-up-form");
 const signInForm = document.querySelector(".sign-in-form");
-
-
 
 // Sign Up Event
 signUpButton.addEventListener('click', async () => {
@@ -44,19 +41,38 @@ signUpButton.addEventListener('click', async () => {
 
 // Sign In Event
 signInButton.addEventListener('click', async () => {
+    const formData = new FormData(signInForm);
 
+    // Convert form into object
+    let jsonObj = {
+        "email": formData.get("email"),
+        "password": formData.get("password")
+    }
+
+    // TODO: Validate login data (Better user experience)
+
+    try {
+        const loginResponse = await fetch("http://localhost:8080/api/login",  {
+            method:'POST',
+            headers: new Headers({
+                'content-type': 'application/json'
+
+            }),
+            body: JSON.stringify(jsonObj)
+        });
+        if (!loginResponse.ok) {
+            console.error(loginResponse.status+' '+loginResponse.statusText);
+        }
+        else {
+            // TODO: Retrieve JWT and store it in window.localStorage
+        }
+    } catch (e) {
+        throw new Error("Server timed out... "+e.error());
+    }
 });
 
 
-
-
-
-
-
-
-
-
-
+const header = document.querySelector("header");
 
 // Mechanism to toggle navigation menu top of page is reached
 document.addEventListener("scroll", () => {
