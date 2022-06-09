@@ -67,7 +67,6 @@ body {
     color: lightgrey;
 }
 
-
 .home {
     width: 100vw;
     height: 1175px;
@@ -90,9 +89,6 @@ body {
     border: solid red 1px;
 }
 
-h1 {
-    font-size: 100px;
-}
 
 .about {
     width: 100vw;
