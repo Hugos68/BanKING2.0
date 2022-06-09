@@ -80,6 +80,7 @@ body {
 .arrive-message {
     width: 600px;
     height: 500px;
+    animation: slide-right 2.5s alternate;
 }
 
 h1 {
@@ -128,6 +129,15 @@ h1 {
     to {
         transform: translateY(0%);
         overflow: hidden;
+    }
+}
+
+@keyframes slide-right {
+    from {
+        transform: translateX(-100%);
+    }
+    to {
+        transform: translateX(0);
     }
 }
 
