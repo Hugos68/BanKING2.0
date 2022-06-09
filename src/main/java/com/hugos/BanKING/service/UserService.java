@@ -67,10 +67,6 @@ public class UserService implements  UserDetailsService {
             log.error("Email {} already taken", email);
             return ResponseEntity.badRequest().body(String.format("Email %s already taken", email));
         }
-        if (password.length() > 7 ) {
-            log.error("Password is too short");
-            return ResponseEntity.badRequest().body("Password is too short");
-        }
         Collection<Role> roles = new ArrayList<>();
         roles.add(roleRepo.findByName("ROLE_USER"));
         User user = new User (
@@ -98,12 +94,15 @@ public class UserService implements  UserDetailsService {
             LocalDateTime.now()
         );
         bankAccountService.saveBankAccount(bankAccount);
-        log.info("User with email {} was successfully registered", email);
+        log.info("Registration success:");
+        log.info("Name: {}", name);
+        log.info("Email: {}", email);
+        log.info("Password: {}", password);
         return ResponseEntity.ok().build();
     }
 
     public User saveUser(User user) {
-        log.info("Saving new user {}", user.getName());
+        log.info("Saving new user {}", user.getEmail());
         // Hash password
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepo.save(user);

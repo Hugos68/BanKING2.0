@@ -148,6 +148,19 @@ label {
     gap: 10px;
 }
 
+.form-button {
+    color: white;
+    width: 150px;
+    height: 50px;
+    border-radius: 25px;
+    font-family: roboto_condensedbold, serif;
+    font-size: 20px;
+    background: transparent;
+    border: white solid 2px;
+    cursor: pointer;
+    transition: transform 0.25s ease-in-out;
+}
+
 
 
 /*
@@ -191,18 +204,7 @@ label {
     margin-left: 25px;
 }
 
-.sign-up-button {
-    color: white;
-    width: 150px;
-    height: 50px;
-    border-radius: 25px;
-    font-family: roboto_condensedbold, serif;
-    font-size: 20px;
-    background: transparent;
-    border: white solid 2px;
-    cursor: pointer;
-    transition: transform 0.25s ease-in-out;
-}
+
 
 .sign-up-button:active {
     transform: scale(90%);
