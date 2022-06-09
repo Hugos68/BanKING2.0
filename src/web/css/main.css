@@ -78,15 +78,22 @@ body {
 }
 
 .arrive-message {
-    width: 500px;
+    width: 600px;
     height: 500px;
-    border: solid red 1px;
+}
+
+h1 {
+    font-size: 75px;
+}
+
+.home-paragraph {
+    margin-top: -50px;
+    font-size: 25px;
 }
 
 .arrive-img {
     width: 500px;
     height: 500px;
-    border: solid red 1px;
 }
 
 
