@@ -52,7 +52,7 @@ signInButton.addEventListener('click', async () => {
     // TODO: Validate login data (Better user experience)
 
     try {
-        const loginResponse = await fetch("http://localhost:8080/api/login",  {
+        const loginResponse = await fetch("http://localhost:8080/api/authenticate",  {
             method:'POST',
             headers: new Headers({
                 'content-type': 'application/json'

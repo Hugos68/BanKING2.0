@@ -3,21 +3,22 @@ package com.hugos.BanKING.filter;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
@@ -38,14 +39,38 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
 
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
-        String email = request.getParameter("email");
-        String password = request.getParameter("password");
-        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
-            email,
-            password
-        );
-        return authenticationManager.authenticate(authenticationToken);
+        try {
+            BufferedReader reader = request.getReader();
+            StringBuffer sb = new StringBuffer();
+            String line = null;
+            while ((line = reader.readLine()) != null) {
+                sb.append(line);
+            }
+            String parsedReq = sb.toString();
+            if (parsedReq != null) {
+                ObjectMapper mapper = new ObjectMapper();
+                AuthReq authReq = mapper.readValue(parsedReq, AuthReq.class);
+
+                UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
+                    authReq.getEmail(),
+                    authReq.getPassword()
+                );
+                return authenticationManager.authenticate(authenticationToken);
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            throw new InternalAuthenticationServiceException("Failed to parse authentication request body");
+        }
+        return null;
+
     }
+
+    @Data
+    public static class AuthReq {
+        String email;
+        String password;
+    }
+
 
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authentication) throws IOException, ServletException {
