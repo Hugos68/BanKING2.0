@@ -26,14 +26,15 @@ body {
 }
 
 .header {
+    margin-top: -150px;
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
+    justify-content: center;
+    align-items: end;
     background-color: #33cba1;
     position: fixed;
     width: 100vw;
-    height: 10vh;
+    height: 25vh;
     transition: transform 0.35s ease-in-out;
 }
 
@@ -41,43 +42,48 @@ body {
     transform: translateY(50%);
 }
 
-.top-left-title {
-    margin-left: 25px;
-    color: hsl(220, 100%, 100%);
-    font-family: robotoregular, serif;
-    font-size: 25px;
-}
-
-.header:hover ~ .top-left-title {
-   color: black;
-}
-
 .nav {
-    margin-right: 40vw;
-    color: hsl(220, 100%, 100%);
-    font-family: robotoregular, serif;
+    margin-bottom: 60px;
+    margin-right: 100px;
+    color: white;
+    cursor: none;
+    font-family: roboto_condensedbold, serif;
     text-decoration: none;
+    list-style-type: none;
     display: flex;
-    font-size: 25px;
+    font-size: 36px;
     gap: 50px;
+}
+
+.nav-item {
+    text-transform: uppercase;
+    cursor: pointer;
+}
+
+.nav-item:hover {
+    color: gray;
 }
 
 
 .start-home {
-
+    width: 100vw;
 }
 
 .home-signup {
-
+    width: 100vw;
 }
 
 
 .signup-signin {
-
+    width: 100vw;
 }
 
-.signin-end {
+.signin-undefined {
+    width: 100vw;
+}
 
+.undefined-end {
+    width: 100vw;
 }
 
 
