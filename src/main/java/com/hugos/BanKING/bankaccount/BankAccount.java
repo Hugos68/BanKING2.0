@@ -1,15 +1,14 @@
-package com.hugos.BanKING.domain;
+package com.hugos.BanKING.bankaccount;
 
 
+import com.hugos.BanKING.appuser.AppUser;
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
-@Entity
-@Data
+@Entity(name = "bankaccount")
 @NoArgsConstructor
 @AllArgsConstructor
 public class BankAccount {
@@ -20,9 +19,10 @@ public class BankAccount {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String IBAN;
+
     @OneToOne
-    @JoinColumn(name = "user_id")
-    private User user;
+    @JoinColumn(name = "appuser_id")
+    private AppUser appUser;
     private Double balance;
     private LocalDateTime created;
 }
