@@ -1,6 +1,5 @@
 package com.hugos.BanKING.authenticate;
 
-import com.hugos.BanKING.util.JWTService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
