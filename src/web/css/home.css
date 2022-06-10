@@ -107,6 +107,7 @@ body {
     padding-inline: 75px;
 }
 
+
 .page-title {
     font-size: 75px;
 }
@@ -286,5 +287,6 @@ input:focus {
         transform: translateX(0);
     }
 }
+
 
 
