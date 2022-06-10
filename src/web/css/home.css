@@ -55,6 +55,8 @@ body {
     position: fixed;
     width: 100vw;
     height: 260px;
+    border-bottom-left-radius: 10%;
+    border-bottom-right-radius: 10%;
     transition: transform 0.25s ease-in-out;
 }
 
