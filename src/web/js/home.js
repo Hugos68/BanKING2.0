@@ -8,17 +8,12 @@ signUpButton.addEventListener('click', async () => {
     const formData = new FormData(signUpForm);
 
     // Convert form into object
-    let jsonObj = {
-        "name": formData.get("name"),
-        "email": formData.get("email"),
-        "password": formData.get("password"),
-        "confirm_password": formData.get("confirm_password")
-    }
+    const jsonObj = ["name", "email", "password"].reduce((res, key) => {
+        res[key] = formData.get(key);
+        return res;
+    },{});
 
-    // TODO: Validate register data (Better user experience)
-
-    // Confirm password is redundant after validation
-    delete jsonObj["confirm_password"];
+    // TODO: Validate register data (Better user experience), note: pass in formData.get("confirm-password");
 
     try {
         const registrationResponse = await fetch("http://localhost:8080/api/register",  {
@@ -44,10 +39,10 @@ signInButton.addEventListener('click', async () => {
     const formData = new FormData(signInForm);
 
     // Convert form into object
-    const jsonObj = {
-        "email": formData.get("email"),
-        "password": formData.get("password")
-    }
+    const jsonObj = ["email", "password"].reduce((res, key) => {
+        res[key] = formData.get(key);
+        return res;
+    },{});
 
     // TODO: Validate login data (Better user experience)
 

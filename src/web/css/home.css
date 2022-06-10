@@ -24,11 +24,14 @@
 ===============================
  */
 
+html {
+    scroll-behavior: smooth;
+}
+
 body {
     background-color: #001220;
     margin: 0;
     overflow-x: hidden;
-    scroll-behavior: smooth;
     animation: scroll-up 2s alternate;
     color: white;
     font-family: roboto_condensedbold, serif;
@@ -101,7 +104,7 @@ body {
     justify-content: center;
     align-items: center;
     gap: 250px;
-    padding-inline: 50px;
+    padding-inline: 75px;
 }
 
 .page-title {
