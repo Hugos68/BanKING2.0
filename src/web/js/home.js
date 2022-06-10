@@ -44,7 +44,7 @@ signInButton.addEventListener('click', async () => {
     const formData = new FormData(signInForm);
 
     // Convert form into object
-    let jsonObj = {
+    const jsonObj = {
         "email": formData.get("email"),
         "password": formData.get("password")
     }
@@ -60,14 +60,17 @@ signInButton.addEventListener('click', async () => {
             }),
             body: JSON.stringify(jsonObj)
         });
-        if (!loginResponse.ok) {
-            console.error(loginResponse.status+' '+loginResponse.statusText);
-        }
-        else {
-            // TODO: Retrieve JWT and store it in window.localStorage
-        }
+        if (!loginResponse.ok) new Error(loginResponse.status+' '+loginResponse.statusText);
+
+        // Get JWTs and store in browser local storage
+        const JWTs = await loginResponse.json();
+        // Access token -> get access to resources
+        localStorage.setItem("access_token", JWTs["access_token"]);
+        // Refresh token -> get new access token
+        localStorage.setItem("refresh_token", JWTs["refresh_token"]);
+
     } catch (e) {
-        throw new Error("Server timed out... "+e.error());
+        throw new Error(e.message);
     }
 });
 
