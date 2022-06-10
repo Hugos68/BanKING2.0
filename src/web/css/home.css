@@ -214,6 +214,7 @@ input:focus {
 
 .sign-up-left {
     animation: slide-right 1.5s alternate;
+    margin-top: -400px;
 }
 
 .sign-up-label {
