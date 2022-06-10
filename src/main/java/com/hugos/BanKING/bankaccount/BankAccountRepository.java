@@ -1,9 +1,10 @@
 package com.hugos.BanKING.bankaccount;
 
 import org.springframework.data.repository.CrudRepository;
-
+import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
+@Repository
 public class BankAccountRepository implements CrudRepository<Long, BankAccount> {
 
     @Override

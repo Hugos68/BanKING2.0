@@ -12,8 +12,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class AuthenticateController {
 
-    private final JWTService jwtService;
-
     @GetMapping
     public ResponseEntity<?> authenticate(AuthenticateRequest authenticateRequest) {
         return null;
