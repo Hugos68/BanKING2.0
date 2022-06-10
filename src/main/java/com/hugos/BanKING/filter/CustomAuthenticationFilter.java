@@ -25,6 +25,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.http.HttpStatus.FORBIDDEN;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
@@ -58,11 +59,13 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
                 return authenticationManager.authenticate(authenticationToken);
             }
         } catch (Exception e) {
-            System.out.println(e.getMessage());
-            throw new InternalAuthenticationServiceException("Failed to parse authentication request body");
+            try {
+                response.setContentType(APPLICATION_JSON_VALUE);
+                response.sendError(BAD_REQUEST.value(), "Failed to authenticate");
+            } catch (IOException ex) {
+            }
         }
         return null;
-
     }
 
     @Data

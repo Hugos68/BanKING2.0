@@ -4,18 +4,13 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hugos.BanKING.domain.User;
 import com.hugos.BanKING.domain.Role;
-import com.hugos.BanKING.filter.CustomAuthenticationFilter;
 import com.hugos.BanKING.service.UserService;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -27,8 +22,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
-import static org.springframework.http.HttpStatus.FORBIDDEN;
-import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
+import static org.springframework.http.HttpStatus.*;
 
 @RestController
 @RequestMapping(path = "/api")
@@ -40,8 +34,8 @@ public class UserController {
 
     @PostMapping("/register")
     @CrossOrigin(origins = "*")
-    public ResponseEntity<?> registerUser(@RequestBody RegisterForm registerForm) {
-        return userService.registerUser(registerForm.getName(), registerForm.getEmail().toLowerCase(), registerForm.getPassword());
+    public ResponseEntity<?> registerUser(@RequestBody RegisterRequest request) {
+        return userService.registerUser(request.getName(), request.getEmail().toLowerCase(), request.getPassword());
     }
 
     @GetMapping("/users")
@@ -66,16 +60,16 @@ public class UserController {
 
     @PostMapping("/role/addtouser")
     @CrossOrigin(origins = "*")
-    public ResponseEntity<?> addRoleToUser(@RequestBody RoleToUserForm form) {
-        userService.addRoleToUser(form.getEmail(), form.getRoleName());
+    public ResponseEntity<?> addRoleToUser(@RequestBody RoleToUserRequest request) {
+        userService.addRoleToUser(request.getEmail(), request.getRoleName());
         return ResponseEntity.ok().build();
     }
 
     @GetMapping("/token/refresh")
     @CrossOrigin(origins = "*")
-    public void refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public ResponseEntity<?> refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String authorizationHeader = request.getHeader(AUTHORIZATION);
-        if (authorizationHeader!=null && authorizationHeader.startsWith("Bearer ")) {
+        if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
             try {
                 String refreshToken = authorizationHeader.substring("Bearer ".length());
                 Algorithm algorithm = Algorithm.HMAC256("secret".getBytes());
@@ -87,40 +81,34 @@ public class UserController {
                 String accessToken = JWT.create()
                     .withSubject(user.getEmail())
                     // Access token is set to expire 5 minutes after creation
-                    .withExpiresAt(new Date(System.currentTimeMillis() + 5 * 60 * 1000) )
+                    .withExpiresAt(new Date(System.currentTimeMillis() + 5 * 60 * 1000))
                     .withIssuer(request.getRequestURL().toString())
                     .withClaim("roles", user.getRoles().stream().map(
                         Role::getName).collect(Collectors.toList()))
                     .sign(algorithm);
+
                 Map<String, String> tokens = new HashMap<>();
                 tokens.put("access_token", accessToken);
                 tokens.put("refresh_token", refreshToken);
-                response.setContentType(APPLICATION_JSON_VALUE);
-                new ObjectMapper().writeValue(response.getOutputStream(), tokens);
+                ResponseEntity.ok().body(tokens);
             } catch (Exception exception) {
-                log.error("Error logging in : {}", exception.getMessage());
-                response.setHeader("error", exception.getMessage());
-                response.setStatus(FORBIDDEN.value());
-                Map<String, String> error = new HashMap<>();
-                error.put("error message", exception.getMessage());
-                response.setContentType(APPLICATION_JSON_VALUE);
-                new ObjectMapper().writeValue(response.getOutputStream(), error);
+                log.error("Error: Invalid refresh token");
+                return ResponseEntity.status(BAD_REQUEST).body("Error: Invalid refresh token");
             }
         }
-        else {
-            throw new RuntimeException("Refresh token missing");
-        }
+        log.error("Error: Missing refresh token");
+        return ResponseEntity.status(BAD_REQUEST).body("Error: Missing refresh token");
     }
 }
 
 @Data
-class RoleToUserForm {
+class RoleToUserRequest {
     private String email;
     private String roleName;
 }
 
 @Data
-class RegisterForm {
+class RegisterRequest {
     private String name;
     private String email;
     private String password;
