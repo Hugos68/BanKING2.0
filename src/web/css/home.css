@@ -32,10 +32,10 @@ body {
     background: #a9f1fc;
     margin: 0;
     overflow-x: hidden;
-    animation: scroll-up 2s alternate;
     color: white;
     font-family: robotoregular, serif;
     font-size: 15px;
+    animation: scroll-up 2s alternate;
 }
 
 .page-wrapper {
@@ -74,6 +74,7 @@ body {
     background-repeat: no-repeat;
     position: fixed;
     left: 25px;
+    top: 8px;
     height: 35px;
     width: 35px;
 }
