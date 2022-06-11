@@ -44,7 +44,7 @@ body {
     background-image: url("../resources/bg.svg");
     background-repeat: no-repeat;
      */
-    height: 4664px;
+    height: 3500px;
     width: 100vw;
 }
 
@@ -100,14 +100,14 @@ body {
     justify-content: center;
     flex-direction: row;
     width: 100vw;
-    height: 1160px;
+    height: 875px;
     color: black;
     gap: 50px;
 }
 
 .section-block {
     margin-top: 25vh;
-    width: 25vw;
+    width: 33vw;
 }
 
 .page-title {
@@ -185,16 +185,6 @@ body {
 
 /*
 ===============================
-           Sign-up
-===============================
- */
-
-.sign-up-left {
-    animation: slide-right 1.5s alternate;
-}
-
-/*
-===============================
            Sign-in
 ===============================
  */
@@ -205,14 +195,25 @@ body {
 
 /*
 ===============================
+           Sign-up
+===============================
+ */
+
+.sign-up-left {
+    animation: slide-right 1.5s alternate;
+}
+
+
+/*
+===============================
             Footer
 ===============================
  */
 
 .footer {
-    font-size: 20px;
-    margin-top: -30px;
-    padding-left: 30px;
+    color: black;
+    font-size: 15px;
+    margin: 15px;
 }
 
 /*

@@ -20,13 +20,13 @@
                             onclick="document.getElementById('about').scrollIntoView({behavior: 'smooth'})">
                             About
                         </li>
-                        <li class="nav-item nav-sign-up"
-                            onclick="document.getElementById('sign-up').scrollIntoView({behavior: 'smooth'})">
-                            Sign-up
-                        </li>
                         <li class="nav-item nav-sign-in"
                             onclick="document.getElementById('sign-in').scrollIntoView({behavior: 'smooth'})">
                             Sign-in
+                        </li>
+                        <li class="nav-item nav-sign-up"
+                            onclick="document.getElementById('sign-up').scrollIntoView({behavior: 'smooth'})">
+                            Sign-up
                         </li>
                     </ul>
                 </nav>
@@ -53,8 +53,32 @@
                 </div>
             </section>
 
+            <section class="section" id="sign-in">
+                <div class="section-block sign-in-left">
+                    <form class="sign-in-form userForm">
+                        <p class="page-title">Sign in</p>
+                        <div class="input-label-combi">
+                            <label class="sign-up-label" for="email">Email</label>
+                            <input class="form-input" id="email" type="text" name="email">
+                        </div>
+                        <div class="input-label-combi">
+                            <label class="sign-up-label" for="password">Password</label>
+                            <input class="form-input" id="password" type="password" name="password">
+                        </div>
+
+                        <button class="form-button sign-in-button" type="button">Sign in</button>
+                    </form>
+                </div>
+                <div class="section-block sign-in-right">
+
+                </div>
+            </section>
+
             <section class="section" id="sign-up" >
                 <div class="section-block sign-up-left">
+
+                </div>
+                <div class="section-block sign-up-right">
                     <form class="sign-up-form userForm">
                         <p class="page-title">Sign up</p>
                         <div class="input-label-combi">
@@ -72,34 +96,10 @@
                         <button class="form-button sign-up-button" type="button">Sign up</button>
                     </form>
                 </div>
-                <div class="section-block sign-up-right">
-
-                </div>
-            </section>
-
-            <section class="section" id="sign-in">
-                <div class="section-block sign-in-left">
-
-                </div>
-                <div class="section-block sign-in-right">
-                    <form class="sign-in-form userForm">
-                        <p class="page-title">Sign in</p>
-                        <div class="input-label-combi">
-                            <label class="sign-up-label" for="email">Email</label>
-                            <input class="form-input" id="email" type="text" name="email">
-                        </div>
-                        <div class="input-label-combi">
-                            <label class="sign-up-label" for="password">Password</label>
-                            <input class="form-input" id="password" type="password" name="password">
-                        </div>
-
-                        <button class="form-button sign-in-button" type="button">Sign in</button>
-                    </form>
-                </div>
             </section>
 
             <footer class="footer">
-                Created by: Hugos68
+                Designed and create by: Hugo
             </footer>
 
         </div>
