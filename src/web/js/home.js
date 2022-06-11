@@ -68,3 +68,10 @@ signInButton.addEventListener('click', async () => {
         throw new Error(e.message);
     }
 });
+
+const logo = document.querySelector(".logo");
+
+logo.addEventListener('click', async () => {
+    console.log("click")
+    logo.classList.toggle(".logo-animation");
+}, {passive: true});

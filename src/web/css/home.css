@@ -35,7 +35,7 @@ body {
     color: white;
     font-family: robotoregular, serif;
     font-size: 15px;
-    animation: scroll-up 2s alternate;
+    animation: scroll-up 1s alternate;
 }
 
 .page-wrapper {
@@ -62,7 +62,6 @@ body {
     position: fixed;
     width: 100vw;
     height: 60px;
-    transition: height 0.25s ease-in-out;
 }
 
 .header:hover {
@@ -70,8 +69,6 @@ body {
 }
 
 .logo {
-    background-image: url("../resources/logo.svg");
-    background-repeat: no-repeat;
     position: fixed;
     left: 25px;
     top: 8px;
@@ -182,7 +179,11 @@ body {
 }
 
 .home-left {
-    animation: slide-right 2.5s alternate;
+    animation: slide-right 1s alternate;
+}
+
+.home-right {
+    animation: slide-left 1s alternate;
 }
 
 
@@ -193,14 +194,13 @@ body {
  */
 
 .about-right {
-    animation: slide-left 2s alternate;
+    animation: slide-left 1s alternate;
 }
 
 .about-left {
-    background-image: url("../resources/logo.svg");
-    background-repeat: no-repeat;
     height: 300px;
     width: 300px;
+    animation: slide-right 1s alternate;
 }
 
 /*
@@ -210,7 +210,11 @@ body {
  */
 
 .sign-in-left {
-    animation: slide-right 1.5s alternate;
+    animation: slide-right 1s alternate;
+}
+
+.sign-in-right {
+    animation: slide-left 1s alternate;
 }
 
 /*
@@ -218,6 +222,11 @@ body {
            Sign-up
 ===============================
  */
+
+.sign-up-left {
+    animation: slide-right 1s alternate;
+}
+
 
 .sign-up-right {
     animation: slide-left 1s alternate;
@@ -234,7 +243,7 @@ body {
     color: black;
     font-size: 15px;
     margin: 15px;
-    border: black solid 1px;
+
 }
 
 /*
@@ -245,7 +254,7 @@ body {
 
 @keyframes scroll-up {
     from {
-        transform: translateY(-75%);
+        transform: translateY(-3%);
         overflow: hidden;
     }
 
