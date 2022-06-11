@@ -1,15 +1,12 @@
 package com.hugos.BanKING.jwt;
 
-import com.hugos.BanKING.role.Role;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
 import java.util.Date;
 
-@Getter
 @AllArgsConstructor
 public class DecodedJwt {
-    private String subject;
-    private Role role;
-    private String issuer;
-    private Date issuedAt;
+    private final String subject;
+    private final String issuer;
+    private final Date issuedAt;
+    private final boolean isExpired;
 }

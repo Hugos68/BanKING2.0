@@ -1,7 +1,6 @@
 package com.hugos.BanKING.appuser;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.hugos.BanKING.bankaccount.BankAccount;
 import com.hugos.BanKING.bankaccount.BankAccountService;
@@ -141,13 +140,13 @@ public class AppUserService {
         }
 
         // TODO: Create access and refresh token
-        String accessToken = jwtService.encode(appUserRepository.findByEmail(email).get());
-        String refreshToken = null;
+        Map<String,String> tokenPair = jwtService.createAccessRefreshTokenPair(appUserRepository.findByEmail(email).get());
+
 
         // Create json body
         responseMap.put("message", message);
-        responseMap.put("access_token", accessToken);
-        responseMap.put("refresh_token", refreshToken);
+        responseMap.put("access_token", tokenPair.get("access_token"));
+        responseMap.put("refresh_token", tokenPair.get("refresh_token"));
         String responseBody = new Gson().toJson(responseMap);
 
         return ResponseEntity.status(status).body(responseBody);

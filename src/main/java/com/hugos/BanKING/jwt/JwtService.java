@@ -22,43 +22,73 @@ public class JwtService {
 
 
     @SneakyThrows
-    public String encode(AppUser appUser) {
+    public Map<String, String> createAccessRefreshTokenPair(AppUser appUser) {
 
-        // Prep data for payload
-        String subject = appUser.getEmail();
-        String role = appUser.getRole().name();
-        String issuer = "BanKING2.0";
-        Date now = new Date(System.currentTimeMillis());
+            // Prep data for payload
+            String subject = appUser.getEmail();
+            String role = appUser.getRole().name();
+            String issuer = "BanKING2.0";
+            Date now = new Date(System.currentTimeMillis());
 
-        return Jwts.builder()
-                .setSubject(subject)
-                .claim("role", role)
-                .setIssuer(issuer)
-                .setIssuedAt(now)
-                .signWith(secretKey)
-                .compact();
+            // Create access token
+            String accessToken = Jwts.builder()
+                    .setSubject(subject)
+                    .claim("type", JwtType.ACCESS)
+                    .claim("role", role)
+                    .setIssuer(issuer)
+                    .setIssuedAt(now)
+                    .signWith(secretKey)
+                    .compact();
+
+            // TODO: Create refresh token
+            // Create refresh token
+            String refreshToken = Jwts.builder()
+                    .setSubject(subject)
+                    .claim("type", JwtType.REFRESH)
+                    .setIssuer(issuer)
+                    .setIssuedAt(now)
+                    .signWith(secretKey)
+                    .compact();
+
+            // Return token pair
+            Map<String, String> tokenPair = new HashMap<>();
+            tokenPair.put("access_token", accessToken);
+            tokenPair.put("refresh_token", refreshToken);
+            return tokenPair;
     }
 
-    // Returns null when decoding unsuccessful
-    public DecodedJwt decode(String jwt) {
-
+    // Returns null when token is invalid
+    public DecodedJwt decodeToken(String jwt) {
         Claims claims = getAllClaimsFromToken(jwt);
         if (claims==null) {
             return null;
         }
 
+        // Get shared claims
         String subject = claims.get("sub", String.class);
-        Role role = Role.valueOf(claims.get("role", String.class));
         String issuer = claims.get("iss", String.class);
         Date issuedAt = claims.get("iat", Date.class);
 
-        return new DecodedJwt(
-            subject,
-            role,
-            issuer,
-            issuedAt
-        );
+        // Handle access token
+        if (claims.get("type").equals(JwtType.ACCESS)) {
+
+            Role role = Role.valueOf(claims.get("role", String.class));
+
+            // Check if access token is older than 15 minutes
+            boolean isExpired = issuedAt.getTime() > System.currentTimeMillis() - 15 * 60 * 1000;
+
+            return new DecodedAccessJwt(subject, role, issuer, issuedAt, isExpired);
+        }
+
+        // Handle refresh token
+        else {
+            // Check if refresh token is older than 30 days
+            boolean isExpired = issuedAt.getTime() > System.currentTimeMillis() - 30L * 24 * 60 * 60 * 1000;
+
+            return new DecodedRefreshJwt(subject, issuer, issuedAt, isExpired);
+        }
     }
+
 
     private Claims getAllClaimsFromToken(String jwt) {
         Claims claims;
@@ -74,3 +104,4 @@ public class JwtService {
         return claims;
     }
 }
+
