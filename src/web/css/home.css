@@ -29,18 +29,21 @@ html {
 }
 
 body {
-    background: #72daea;
+    background: #a9f1fc;
     margin: 0;
     overflow-x: hidden;
     animation: scroll-up 2s alternate;
     color: white;
     font-family: robotoregular, serif;
+    font-size: 25px;
 }
 
 .page-wrapper {
+    /*
     background-size: cover;
     background-image: url("../resources/bg.svg");
     background-repeat: no-repeat;
+     */
     height: 4664px;
     width: 100vw;
 }
@@ -55,7 +58,7 @@ body {
     background-color: white;
     display: flex;
     justify-content: center;
-    align-items: end;
+    align-items: center;
     position: fixed;
     width: 100vw;
     height: 60px;
@@ -63,10 +66,6 @@ body {
 }
 
 .header:hover {
-    height: 60px;
-}
-
-.header-pop-out {
     height: 60px;
 }
 
@@ -99,7 +98,6 @@ body {
 .section {
     display: flex;
     justify-content: center;
-    align-items: center;
     flex-direction: row;
     width: 100vw;
     height: 1160px;
@@ -108,11 +106,9 @@ body {
 }
 
 .section-block {
-    width: 30vw;
-    height: 500px;
-    padding-inline: 25px;
+    margin-top: 25vh;
+    padding: 100px;
 }
-
 
 .page-title {
     font-size: 36px;
@@ -124,11 +120,10 @@ body {
 
 .userForm {
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
-    flex-direction: column;
     gap: 25px;
-    margin-bottom: 250px;
 }
 
 .form-input {
@@ -143,7 +138,7 @@ body {
 }
 
 .input-label {
-    font-size: 25px;
+
 }
 
 .input-label-combi {
@@ -180,11 +175,6 @@ body {
 
 .home-left {
     animation: slide-right 2.5s alternate;
-}
-
-
-.home-right {
-
 }
 
 
