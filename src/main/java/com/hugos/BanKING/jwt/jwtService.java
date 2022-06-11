@@ -70,8 +70,9 @@ public class jwtService {
     private Claims getAllClaimsFromToken(String jwt) {
         Claims claims;
         try {
-            claims = Jwts.parser()
+            claims = Jwts.parserBuilder()
                     .setSigningKey(secretKey)
+                    .build()
                     .parseClaimsJws(jwt)
                     .getBody();
         } catch (Exception e) {

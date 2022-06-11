@@ -8,4 +8,5 @@ public class BanKINGApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(BanKINGApplication.class, args);
 	}
+
 }
