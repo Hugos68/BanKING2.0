@@ -209,8 +209,8 @@ body {
 ===============================
  */
 
-.sign-in-right {
-    animation: slide-left 1s alternate;
+.sign-in-left {
+    animation: slide-right 1.5s alternate;
 }
 
 /*
@@ -219,8 +219,8 @@ body {
 ===============================
  */
 
-.sign-up-left {
-    animation: slide-right 1.5s alternate;
+.sign-up-right {
+    animation: slide-left 1s alternate;
 }
 
 
