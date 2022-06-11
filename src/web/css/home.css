@@ -231,6 +231,7 @@ body {
     max-height: 250px;
     animation: slide-left 1s alternate;
 }
+
 .sign-in-right > .page-text {
     display: flex;
     justify-content: center;
@@ -246,6 +247,8 @@ body {
  */
 
 .sign-up-left {
+    max-width: 250px;
+    max-height: 250px;
     animation: slide-right 1s alternate;
 }
 
