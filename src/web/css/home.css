@@ -39,6 +39,7 @@ body {
 
 .page-wrapper {
     height: 4664px;
+    width: 100vw;
     background-image:url("../resources/background.png");
 }
 
@@ -72,17 +73,17 @@ body {
 
 .nav {
     margin-bottom: 60px;
-    margin-right: 100px;
     cursor: none;
     list-style-type: none;
     display: flex;
-    font-size: 36px;
+    justify-content: space-evenly;
 }
 
 .nav-item {
     text-transform: uppercase;
     cursor: pointer;
     padding-inline: 25px;
+    font-size: 36px;
 }
 
 .nav-item:hover {
@@ -103,8 +104,11 @@ body {
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    gap: 250px;
-    padding-inline: 75px;
+    gap: 50px;
+}
+
+.section-block {
+    padding-inline: 25px;
 }
 
 
@@ -184,10 +188,6 @@ input:focus {
     margin-bottom: 150px;
 }
 
-.home-right {
-    width: 500px;
-    height: 500px;
-}
 
 /*
 ===============================
@@ -195,14 +195,7 @@ input:focus {
 ===============================
  */
 
-.about-left {
-    width: 500px;
-    height: 500px;
-}
-
 .about-right {
-    width: 500px;
-    height: 500px;
     margin-top: -150px;
     animation: slide-left 2s alternate;
 }
@@ -285,6 +278,79 @@ input:focus {
     }
     to {
         transform: translateX(0);
+    }
+}
+
+/*
+===============================
+         Media Queries
+===============================
+ */
+
+@media (max-width: 960px) {
+
+    .section {
+        flex-direction: column;
+    }
+
+    .form-input {
+        width: 250px;
+        height: 25px;
+    }
+
+    .form-button {
+        width: 125px;
+        height: 35px;
+    }
+
+
+    .home-left {
+        margin-top: -150px;
+        margin-bottom: 0;
+    }
+
+    .about-left {
+        margin-bottom: -150px;
+    }
+
+    .sign-up-left {
+        margin-bottom: -75px;
+    }
+
+    .sign-up-left > .page-text {
+        display: none;
+    }
+
+    .sign-up-right {
+        margin-bottom: -375px;
+    }
+
+    .sign-in-right {
+        margin-top: -800px
+    }
+
+    .sign-in-left {
+        margin-top: -250px
+    }
+
+    .sign-in-right > .page-text {
+        display: none;
+    }
+}
+
+@media (max-width: 666px) {
+    .nav-item {
+        padding-inline: 15px;
+        font-size: 26px;
+        margin:0;
+    }
+}
+
+@media (max-width: 475px) {
+    .nav-item {
+        padding-inline: 10px;
+        font-size: 20px;
+        margin:0;
     }
 }
 
