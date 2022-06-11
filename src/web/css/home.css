@@ -76,7 +76,20 @@ body {
     cursor: none;
     list-style-type: none;
     display: flex;
-    justify-content: space-evenly;
+    flex-direction: row;
+}
+
+.nav-left {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+.nav-right {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
 }
 
 .nav-item {
@@ -294,8 +307,8 @@ input:focus {
     }
 
     .form-input {
-        width: 250px;
-        height: 25px;
+        width: 300px;
+        height: 30px;
     }
 
     .form-button {
@@ -326,7 +339,7 @@ input:focus {
     }
 
     .sign-in-right {
-        margin-top: -800px
+        margin-top: -750px
     }
 
     .sign-in-left {
@@ -339,20 +352,18 @@ input:focus {
 }
 
 @media (max-width: 666px) {
-    .nav-item {
-        padding-inline: 15px;
-        font-size: 26px;
-        margin:0;
+    .nav {
+        flex-direction: column;
     }
+    .nav-sign-in {
+        margin-left: -30px;
+    }
+    .nav-item {
+        font-size: 35px;
+    }
+
 }
 
-@media (max-width: 475px) {
-    .nav-item {
-        padding-inline: 10px;
-        font-size: 20px;
-        margin:0;
-    }
-}
 
 
 
