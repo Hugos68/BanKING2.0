@@ -35,7 +35,7 @@ body {
     animation: scroll-up 2s alternate;
     color: white;
     font-family: robotoregular, serif;
-    font-size: 25px;
+    font-size: 15px;
 }
 
 .page-wrapper {
@@ -107,7 +107,7 @@ body {
 
 .section-block {
     margin-top: 25vh;
-    padding: 100px;
+    width: 25vw;
 }
 
 .page-title {
@@ -137,10 +137,6 @@ body {
     transition: color 0.25s ease-in-out;
 }
 
-.input-label {
-
-}
-
 .input-label-combi {
     display: flex;
     flex-direction: column;
@@ -149,14 +145,13 @@ body {
 }
 
 .form-button {
-    color: white;
-    width: 150px;
-    height: 50px;
-    border-radius: 25px;
-    font-family: roboto_condensedbold, serif;
-    font-size: 20px;
     background: transparent;
-    border: white solid 2px;
+    border: black solid 2px;
+    border-radius: 25px;
+    width: 125px;
+    height: 35px;
+    font-family: roboto_condensedbold, serif;
+    font-size: 15px;
     cursor: pointer;
     transition: transform 0.25s ease-in-out;
 }
