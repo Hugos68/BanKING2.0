@@ -69,6 +69,15 @@ body {
     height: 60px;
 }
 
+.logo {
+    background-image: url("../resources/logo.svg");
+    background-repeat: no-repeat;
+    position: fixed;
+    left: 25px;
+    height: 35px;
+    width: 35px;
+}
+
 .nav {
     display: flex;
     flex-direction: row;
