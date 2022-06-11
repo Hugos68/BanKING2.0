@@ -300,6 +300,19 @@ input:focus {
 ===============================
  */
 
+@media (hover: none) {
+
+    .header {
+        transform: translateY(35%);
+    }
+    .header:hover {
+        transform: translateY(35%);
+    }
+    .header-pop-out {
+        transform: translateY(35%);
+    }
+}
+
 @media (max-width: 960px) {
 
     .section {
@@ -352,9 +365,14 @@ input:focus {
 }
 
 @media (max-width: 666px) {
+
+    .header {
+        height: 240px;
+    }
     .nav {
         flex-direction: column;
         margin-right: 25px;
+        margin-bottom: 20px;
     }
     .nav-sign-in {
         margin-left: -30px;
@@ -362,7 +380,6 @@ input:focus {
     .nav-item {
         font-size: 35px;
     }
-
 }
 
 
