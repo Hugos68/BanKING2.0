@@ -117,7 +117,8 @@ body {
 
 .section-block {
     margin-top: 25vh;
-    width: 33vw;
+    margin-inline: 10vw;
+    width: 25vw;
 }
 
 .page-title {
@@ -195,6 +196,13 @@ body {
     animation: slide-left 2s alternate;
 }
 
+.about-left {
+    background-image: url("../resources/logo.svg");
+    background-repeat: no-repeat;
+    height: 300px;
+    width: 300px;
+}
+
 /*
 ===============================
            Sign-in
@@ -226,6 +234,7 @@ body {
     color: black;
     font-size: 15px;
     margin: 15px;
+    border: black solid 1px;
 }
 
 /*
