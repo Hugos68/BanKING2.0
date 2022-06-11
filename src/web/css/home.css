@@ -121,7 +121,7 @@ body {
 .page-title {
     font-size: 36px;
     font-weight: bold;
-    margin-bottom: 50px;
+    margin-bottom: 25px;
 }
 
 .page-text {
@@ -161,7 +161,7 @@ body {
     border-radius: 25px;
     width: 125px;
     height: 35px;
-    margin-top: 50px;
+    margin-top: 35px;
     font-family: roboto_condensedbold, serif;
     font-size: 15px;
     cursor: pointer;
@@ -219,7 +219,16 @@ body {
 }
 
 .sign-in-right {
+    background-size: cover;
+    min-width: 190px;
+    min-height: 190px;
     animation: slide-left 1s alternate;
+}
+.sign-in-right > .page-text {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
 }
 
 /*
