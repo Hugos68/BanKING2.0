@@ -34,13 +34,13 @@ body {
     overflow-x: hidden;
     animation: scroll-up 2s alternate;
     color: white;
-    font-family: roboto_condensedbold, serif;
+    font-family: robotoregular, serif;
 }
 
 .page-wrapper {
     height: 4664px;
     width: 100vw;
-    background-image:url("../resources/background.png");
+    background-color: #72daea;
 }
 
 /*
@@ -50,57 +50,41 @@ body {
  */
 
 .header {
-    margin-top: -200px;
+    background-color: white;
     display: flex;
     justify-content: center;
     align-items: end;
-    background-color: #33cba1;
     position: fixed;
     width: 100vw;
-    height: 260px;
-    border-bottom-left-radius: 10%;
-    border-bottom-right-radius: 10%;
-    transition: transform 0.25s ease-in-out;
+    height: 60px;
+    transition: height 0.25s ease-in-out;
 }
 
 .header:hover {
-    transform: translateY(35%);
+    height: 60px;
 }
 
 .header-pop-out {
-    transform: translateY(35%);
+    height: 60px;
 }
 
 .nav {
-    margin-bottom: 60px;
-    cursor: none;
-    list-style-type: none;
     display: flex;
     flex-direction: row;
-}
-
-.nav-left {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-}
-.nav-right {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
+    gap: 25px;
 }
 
 .nav-item {
+    list-style-type: none;
+    font-family: 'roboto_condensedbold', Serif;
     text-transform: uppercase;
     cursor: pointer;
-    padding-inline: 25px;
-    font-size: 36px;
+    font-size: 20px;
+    color: black;
 }
 
 .nav-item:hover {
-    color: lightgrey;
+    color: #424242;
 }
 
 
@@ -111,27 +95,29 @@ body {
  */
 
 .section {
-    width: 100vw;
-    height: 1160px;
     display: flex;
-    flex-direction: row;
     justify-content: center;
     align-items: center;
+    flex-direction: row;
+    width: 100vw;
+    height: 1160px;
+    color: black;
     gap: 50px;
 }
 
 .section-block {
+    width: 30vw;
+    height: 500px;
     padding-inline: 25px;
 }
 
 
 .page-title {
-    font-size: 75px;
+    font-size: 36px;
 }
 
 .page-text {
-    margin-top: -50px;
-    font-size: 36px;
+    font-size: 18px;
 }
 
 .userForm {
@@ -144,19 +130,18 @@ body {
 }
 
 .form-input {
-    color: white;
-    width: 350px;
-    height: 50px;
+    color: black;
+    width: 300px;
+    height: 25px;
     border-radius: 25px;
     border: none;
     padding-inline: 10px;
-    font-family: roboto_condensedbold, serif;
-    font-size: 20px;
-    transition: border-color 0.25s ease-in-out;
+    font-size: 15px;
+    transition: color 0.25s ease-in-out;
 }
 
 input:focus {
-    border-color: lightskyblue;
+    color: lightskyblue;
 }
 
 .form-input {
@@ -196,9 +181,17 @@ input:focus {
 ===============================
  */
 
+.home-left > .page-title{
+    font-size: 50px;
+}
+
 .home-left {
     animation: slide-right 2.5s alternate;
-    margin-bottom: 150px;
+}
+
+
+.home-right {
+
 }
 
 
@@ -209,12 +202,7 @@ input:focus {
  */
 
 .about-right {
-    margin-top: -150px;
     animation: slide-left 2s alternate;
-}
-
-.about-right > .page-text {
-    font-size: 30px;
 }
 
 /*
@@ -300,99 +288,6 @@ input:focus {
 
 /*
 ===============================
-   Media Query No Touchscreen
+         Media Queries
 ===============================
  */
-
-@media (hover: none) {
-
-    .header {
-        transform: translateY(35%);
-    }
-    .header:hover {
-        transform: translateY(35%);
-    }
-    .header-pop-out {
-        transform: translateY(35%);
-    }
-}
-
-/*
-===============================
-   Media Query Width Scaling
-===============================
- */
-
-@media (max-width: 960px) {
-
-    .section {
-        flex-direction: column;
-    }
-
-    .form-input {
-        width: 275px;
-        height: 30px;
-    }
-
-    .form-button {
-        width: 125px;
-        height: 35px;
-    }
-
-    .home-left {
-        margin-top: -150px;
-        margin-bottom: 0;
-    }
-
-    .about-left {
-        margin-bottom: -150px;
-    }
-
-    .sign-up-left {
-        margin-bottom: -75px;
-    }
-
-    .sign-up-left > .page-text {
-        display: none;
-    }
-
-    .sign-up-right {
-        margin-bottom: -375px;
-    }
-
-    .sign-in-right {
-        margin-top: -750px
-    }
-
-    .sign-in-left {
-        margin-top: -250px
-    }
-
-    .sign-in-right > .page-text {
-        display: none;
-    }
-}
-
-/*
-===============================
-  Media Query Header Scaling
-===============================
- */
-
-@media (max-width: 666px) {
-
-    .header {
-        height: 240px;
-    }
-    .nav {
-        flex-direction: column;
-        margin-right: 25px;
-        margin-bottom: 20px;
-    }
-    .nav-sign-in {
-        margin-left: -30px;
-    }
-    .nav-item {
-        font-size: 35px;
-    }
-}

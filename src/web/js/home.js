@@ -8,7 +8,7 @@ signUpButton.addEventListener('click', async () => {
     const formData = new FormData(signUpForm);
 
     // Convert form into object
-    const jsonObj = ["name", "email", "password"].reduce((res, key) => {
+    const jsonObj = ["email", "password"].reduce((res, key) => {
         res[key] = formData.get(key);
         return res;
     },{});
