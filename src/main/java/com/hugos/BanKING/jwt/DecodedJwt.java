@@ -1,5 +1,6 @@
 package com.hugos.BanKING.jwt;
 
+import com.hugos.BanKING.role.Role;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import java.util.Date;
@@ -8,7 +9,7 @@ import java.util.Date;
 @AllArgsConstructor
 public class DecodedJwt {
     private String subject;
-    private String role;
+    private Role role;
     private String issuer;
     private Date issuedAt;
 }
