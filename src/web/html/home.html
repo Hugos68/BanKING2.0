@@ -8,30 +8,26 @@
 </head>
     <body onload="location.href='#home'">
         <div class="page-wrapper">
-            <header class="header top-reached">
-                <nav>
-                    <ul class="nav">
-                        <li class="nav-item nav-home"
-                            onclick="document.getElementById('home').scrollIntoView({behavior: 'smooth'})">
-                            Home
-                        </li>
-                        <li class="nav-item nav-about"
-                            onclick="document.getElementById('about').scrollIntoView({behavior: 'smooth'})">
-                            About
-                        </li>
-                        <li class="nav-item nav-sign-in"
-                            onclick="document.getElementById('sign-in').scrollIntoView({behavior: 'smooth'})">
-                            Sign-in
-                        </li>
-                        <li class="nav-item nav-sign-up"
-                            onclick="document.getElementById('sign-up').scrollIntoView({behavior: 'smooth'})">
-                            Sign-up
-                        </li>
-                    </ul>
+            <header class="header">
+                <img class="logo" loading="lazy" src="../resources/logo.svg">
+                <nav class="nav">
+                    <a class="nav-item nav-home"
+                       onclick="document.getElementById('home').scrollIntoView({behavior: 'smooth'})">
+                        Home
+                    </a>
+                    <a class="nav-item nav-about"
+                       onclick="document.getElementById('about').scrollIntoView({behavior: 'smooth'})">
+                        About
+                    </a>
+                    <a class="nav-item nav-sign-in"
+                       onclick="document.getElementById('sign-in').scrollIntoView({behavior: 'smooth'})">
+                        Sign-in
+                    </a>
+                    <a class="nav-item nav-sign-up"
+                       onclick="document.getElementById('sign-up').scrollIntoView({behavior: 'smooth'})">
+                        Sign-up
+                    </a>
                 </nav>
-                <div class="logo">
-                    <img loading="lazy" src="../resources/logo.svg">
-                </div>
             </header>
 
             <section class="section" id="home">
