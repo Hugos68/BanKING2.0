@@ -41,13 +41,6 @@ body {
 }
 
 .page-wrapper {
-    /*
-    background-size: cover;
-    background-image: url("../resources/bg.svg");
-    background-repeat: no-repeat;
-     */
-    min-height: 3100px;
-    max-height: 3500px;
     width: 100vw;
 }
 
@@ -105,8 +98,7 @@ body {
     display: flex;
     justify-content: center;
     flex-direction: row;
-    min-height: 775px;
-    max-height: 875px;
+    height: 875px;
     max-width: 100vw;
     color: black;
     gap: 50px;
@@ -227,8 +219,8 @@ body {
 }
 
 .sign-in-right {
-    max-width: 250px;
-    max-height: 250px;
+    max-width: 190px;
+    max-height: 190px;
     animation: slide-left 1s alternate;
 }
 
@@ -247,8 +239,8 @@ body {
  */
 
 .sign-up-left {
-    max-width: 250px;
-    max-height: 250px;
+    max-width: 190px;
+    max-height: 190px;
     animation: slide-right 1s alternate;
 }
 
@@ -267,11 +259,11 @@ body {
 .footer {
     color: lightslategray;
     font-size: 15px;
-    margin: 15px;
     width: fit-content;
     border: lightslategray solid 1px;
     border-radius: 25px;
     padding: 5px;
+    margin: 10px;
 }
 
 /*
@@ -316,14 +308,24 @@ body {
 ===============================
  */
 
-@media (max-width: 900px) {
+@media (max-width: 800px) {
+
 
     .section {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 0;
+        height: 700px;
     }
-
+    .home-right {
+        display: none;
+    }
+    .about-left {
+        display: none;
+    }
+    .sign-in-right {
+        display: none;
+    }
+    .sign-up-left {
+        display: none;
+    }
 }
 
 @media (max-width: 400px) {
