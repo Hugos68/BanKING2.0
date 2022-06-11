@@ -213,6 +213,10 @@ input:focus {
     animation: slide-left 2s alternate;
 }
 
+.about-right > .page-text {
+    font-size: 30px;
+}
+
 /*
 ===============================
            Sign-up
@@ -237,7 +241,12 @@ input:focus {
 ===============================
  */
 
+.sign-in-left {
+    margin-bottom: -300px;
+}
+
 .sign-in-right {
+    margin-top: -300px;
     animation: slide-left 1s alternate;
 }
 
@@ -352,7 +361,7 @@ input:focus {
     }
 
     .sign-in-right {
-        margin-top: -750px
+        margin-top: -450px
     }
 
     .sign-in-left {
