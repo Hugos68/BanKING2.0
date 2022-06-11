@@ -2,7 +2,6 @@ package com.hugos.BanKING.jwt;
 
 import com.hugos.BanKING.appuser.AppUser;
 import com.hugos.BanKING.role.Role;
-import com.zaxxer.hikari.util.ClockSource;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import lombok.SneakyThrows;
@@ -11,14 +10,10 @@ import org.springframework.stereotype.Service;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 import java.nio.charset.StandardCharsets;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.Instant;
 import java.util.*;
 
 @Service
-public class jwtService {
+public class JwtService {
 
     // Generate key with secret
     private final String API_SECRET = "kjlfds4124ho4h1l24hl1l1gkj41h4k1u4h12l";
