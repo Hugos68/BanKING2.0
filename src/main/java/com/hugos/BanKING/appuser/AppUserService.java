@@ -1,5 +1,7 @@
 package com.hugos.BanKING.appuser;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.hugos.BanKING.bankaccount.BankAccount;
 import com.hugos.BanKING.bankaccount.BankAccountService;
@@ -13,6 +15,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 @Service
@@ -29,36 +33,41 @@ public class AppUserService {
     public ResponseEntity<?> register(HttpServletRequest request) {
 
         // Prep response entity
-        HttpStatus status = HttpStatus.OK;
-        String err = null;
+        HttpStatus status = null;
+        String message = null;
 
         // Get data from request
         JsonObject body = requestService.getJsonFromRequest(request);
         String email = body.get("email").getAsString().toLowerCase();
         String password = body.get("password").getAsString();
 
+        // Data validation
         if (email.equals("")) {
             status = HttpStatus.UNPROCESSABLE_ENTITY;
-            err = "Email is missing";
+            message = "Email is missing";
         }
         else if (!emailValidator.validate(email)) {
             status = HttpStatus.UNPROCESSABLE_ENTITY;
-            err = "Email is invalid";
+            message = "Email is invalid";
         }
         else if (appUserRepository.findByEmail(email).isPresent()) {
             status = HttpStatus.CONFLICT;
-            err = "Email already taken";
+            message = "Email already taken";
         }
         else if (password==null || password.equals("")) {
             status = HttpStatus.UNPROCESSABLE_ENTITY;
-            err = "Password is missing";
+            message = "Password is missing";
         }
         else if(password.length() < 7) {
             status = HttpStatus.UNPROCESSABLE_ENTITY;
-            err = "Password is too short";
+            message = "Password is too short";
         }
-        if (status!= HttpStatus.OK) {
-            return ResponseEntity.status(status).body(String.format("Error: %s", err));
+        else {
+            status = HttpStatus.CREATED;
+            message = "User registered";
+        }
+        if (status != HttpStatus.CREATED) {
+            return ResponseEntity.status(status).body(String.format("Error: %s", message));
         }
 
         // TODO: Create and save salt for every user (Optional)
@@ -85,11 +94,62 @@ public class AppUserService {
         );
         bankAccountService.save(bankAccount);
 
-        // Return 200
-        return ResponseEntity.ok().body("Success: User registered");
+        // Create json body
+        Map<String, String> responseMap = new HashMap<>();
+        responseMap.put("message", message);
+        String responseBody = new Gson().toJson(responseMap);
+
+        return ResponseEntity.status(status).body(responseBody);
     }
     public ResponseEntity<?> authenticate(HttpServletRequest request) {
-        // TODO: Verify and return json with Access and Refresh token
-        return null;
+
+        // Prep response entity
+        Map<String, String> responseMap = new HashMap<>();
+        HttpStatus status = HttpStatus.OK;
+        String message = null;
+
+        // Get data from request
+        JsonObject body = requestService.getJsonFromRequest(request);
+        String email = body.get("email").getAsString().toLowerCase();
+        String password = body.get("password").getAsString();
+
+        // Data validation
+        if (email.equals("")) {
+            status = HttpStatus.UNPROCESSABLE_ENTITY;
+            message = "Email is missing";
+        }
+        else if (appUserRepository.findByEmail(email).isEmpty()) {
+            status = HttpStatus.CONFLICT;
+            message = "Email not found";
+        }
+        else if (password==null || password.equals("")) {
+            status = HttpStatus.UNPROCESSABLE_ENTITY;
+            message = "Password is missing";
+        }
+        else if (!bCryptPasswordEncoder.matches(password, appUserRepository.findByEmail(email).get().getPassword())) {
+            status = HttpStatus.BAD_REQUEST;
+            message = "Password is incorrect";
+        }
+        else {
+            status = HttpStatus.OK;
+            message = "User authenticated";
+        }
+        if (status!= HttpStatus.OK) {
+            responseMap.put("message", message);
+            String responseBody = new Gson().toJson(responseMap);
+            return ResponseEntity.status(status).body(responseBody);
+        }
+
+        // TODO: Create access and refresh token
+        String accessToken = jwtService.encode(appUserRepository.findByEmail(email).get());
+        String refreshToken = null;
+
+        // Create json body
+        responseMap.put("message", message);
+        responseMap.put("access_token", accessToken);
+        responseMap.put("refresh_token", refreshToken);
+        String responseBody = new Gson().toJson(responseMap);
+
+        return ResponseEntity.status(status).body(responseBody);
     }
 }

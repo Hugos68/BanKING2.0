@@ -32,8 +32,7 @@ public class JwtService {
 
         return Jwts.builder()
                 .setSubject(subject)
-                .claim("email", appUser.getEmail())
-                .claim("role",role)
+                .claim("role", role)
                 .setIssuer(issuer)
                 .setIssuedAt(now)
                 .signWith(secretKey)
@@ -44,7 +43,6 @@ public class JwtService {
     public DecodedJwt decode(String jwt) {
 
         Claims claims = getAllClaimsFromToken(jwt);
-
         if (claims==null) {
             return null;
         }
