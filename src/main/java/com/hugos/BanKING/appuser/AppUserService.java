@@ -86,7 +86,7 @@ public class AppUserService {
         bankAccountService.save(bankAccount);
 
         // Return 200
-        return ResponseEntity.ok().body("Success: AppUser registered");
+        return ResponseEntity.ok().body("Success: User registered");
     }
     public ResponseEntity<?> authenticate(HttpServletRequest request) {
         // TODO: Verify and return json with Access and Refresh token
