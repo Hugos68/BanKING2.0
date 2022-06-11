@@ -73,8 +73,9 @@ body {
 
 .nav {
     margin-inline: auto;
+
     display: flex;
-    gap: 100px;
+    gap: 5vw;
 }
 
 
@@ -111,7 +112,7 @@ body {
 .section-block {
     margin-top: 25vh;
     margin-inline: 10vw;
-    width: 25vw;
+    width: 300px;
 }
 
 .page-title {
