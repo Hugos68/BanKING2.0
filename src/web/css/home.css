@@ -24,17 +24,19 @@
 ===============================
  */
 
+* {
+    margin: 0;
+}
+
 html {
     scroll-behavior: smooth;
+    overflow-x: hidden;
 }
 
 body {
     background: #a9f1fc;
-    margin: 0;
-    overflow-x: hidden;
-    color: white;
-    font-family: robotoregular, serif;
     font-size: 15px;
+    font-family: robotoregular, serif;
     animation: scroll-up 1s alternate;
 }
 
@@ -44,7 +46,8 @@ body {
     background-image: url("../resources/bg.svg");
     background-repeat: no-repeat;
      */
-    height: 3500px;
+    min-height: 3100px;
+    max-height: 3500px;
     width: 100vw;
 }
 
@@ -73,7 +76,6 @@ body {
 
 .nav {
     margin-inline: auto;
-
     display: flex;
     gap: 5vw;
 }
@@ -103,8 +105,9 @@ body {
     display: flex;
     justify-content: center;
     flex-direction: row;
-    width: 100vw;
-    height: 875px;
+    min-height: 775px;
+    max-height: 875px;
+    max-width: 100vw;
     color: black;
     gap: 50px;
 }
@@ -112,11 +115,13 @@ body {
 .section-block {
     margin-top: 25vh;
     margin-inline: 10vw;
-    width: 300px;
+    max-width: 300px;
 }
 
 .page-title {
     font-size: 36px;
+    font-weight: bold;
+    margin-bottom: 50px;
 }
 
 .page-text {
@@ -197,7 +202,6 @@ body {
 
 .about-left {
     height: 300px;
-    width: 300px;
     animation: slide-right 1s alternate;
 }
 
