@@ -1,10 +1,11 @@
 package com.hugos.BanKING.jwt;
 
-import lombok.Data;
-
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 import java.util.Date;
 
-@Data
+@Getter
+@AllArgsConstructor
 public class DecodedJwt {
     private String subject;
     private String role;

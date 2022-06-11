@@ -27,9 +27,10 @@ class ApplicationRunner implements CommandLineRunner {
 			"123",
 			Role.USER
 		);
-		String JWT = new jwtService().encode(hugo);
+		jwtService service = new jwtService();
+		String JWT = service.encode(hugo);
 		System.out.println(JWT);
-		DecodedJwt jwt = new jwtService().decode(JWT);
+		DecodedJwt jwt = new jwtService().decode(JWT);;
 		System.out.println(jwt.getSubject());
 	}
 }
