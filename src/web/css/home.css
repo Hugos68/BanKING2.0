@@ -285,3 +285,24 @@ body {
          Media Queries
 ===============================
  */
+
+@media (max-width: 815px) {
+    .home-right {
+        display: none;
+    }
+    .about-left{
+        display: none;
+    }
+    .sign-in-right {
+        display: none;
+    }
+    .sign-up-left {
+        display: none;
+    }
+}
+
+@media (max-width: 400px) {
+    .logo {
+        display: none;
+    }
+}
