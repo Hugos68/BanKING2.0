@@ -27,7 +27,6 @@ signInButton.addEventListener('click', async () => {
     // Get token pair from response
     const tokenPair = await loginResponse.json();
 
-
     // Set refresh token cookie with expire date of 1 week
     document.cookie = "refresh_token="+tokenPair["refresh_token"]
         + "; SameSite=lax"
