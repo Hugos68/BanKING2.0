@@ -30,7 +30,10 @@ signInButton.addEventListener('click', async () => {
         // Access token -> get access to resources
         // Refresh token -> get new access token
         const tokenPair = await loginResponse.json();
-        document.cookie = "refresh_token="+tokenPair["refresh_token"];
+        let expireDate = new Date;
+        expireDate.setFullYear(expireDate.getFullYear());
+        document.cookie = "refresh_token="+tokenPair["refresh_token"]+"; expires="+expireDate.toUTCString()+";";
+
         location.replace("account.html");
     } catch (e) {
         throw new Error(e.message);
