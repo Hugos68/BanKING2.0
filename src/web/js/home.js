@@ -27,18 +27,16 @@ signInButton.addEventListener('click', async () => {
     // Get token pair from response
     const tokenPair = await loginResponse.json();
 
-    // Create date 1 year from now
-    const date = new Date();
-    const expires = new Date(date.getFullYear() + 1, date.getMonth(), date.getDate());
 
-    // Set refresh token cookie with expire date of 1 year
+    // Set refresh token cookie with expire date of 1 week
     document.cookie = "refresh_token="+tokenPair["refresh_token"]
         + "; SameSite=lax"
-        + "; expires="+expires.toUTCString()+";";
+        + "; expires="+7 * 24 * 60 * 60 * 1000+";";
 
-    // Set access token cookie with expire date of session
+    // Set access token cookie with expire date of 15 minutes
     document.cookie = "access_token="+tokenPair["access_token"]
-        + "; SameSite=lax";
+        + "; SameSite=lax"
+        + "; expires="+15 * 60 * 1000+";";
 
     // Redirect to account page
     location.replace("account.html");
