@@ -63,14 +63,14 @@ public class JwtService {
             return null;
         }
 
-        // Get shared claims
+        // Get claims
         String subject = claims.get("sub", String.class);
         Role role = Role.valueOf(claims.get("role", String.class));
         String issuer = claims.get("iss", String.class);
         Date issuedAt = claims.get("iat", Date.class);
 
-        // Check if expired (expire interval is 15 minutes)
-        boolean isExpired = issuedAt.getTime() > System.currentTimeMillis() - 15 * 60 * 1000;
+        // Check if token is expired
+        boolean isExpired = issuedAt.getTime() < System.currentTimeMillis() - 15 * 60 * 1000;
 
         // Return access token object
         return new DecodedAccessToken(subject, role, issuer, issuedAt, isExpired);
@@ -85,15 +85,16 @@ public class JwtService {
             return null;
         }
 
-        // Get shared claims
+        // Get claims
         String subject = claims.get("sub", String.class);
         String issuer = claims.get("iss", String.class);
         Date issuedAt = claims.get("iat", Date.class);
 
-        // Check if expired
-        boolean isExpired = issuedAt.getTime() > System.currentTimeMillis() - 7 * 24 * 60 * 60 * 1000;
+        // Check if token is expired
+        boolean isExpired = issuedAt.getTime() < System.currentTimeMillis() - 7 * 24 * 60 * 60 * 1000;
 
-        // Return access token object
+
+        // Return refresh token object
         return new DecodedRefreshToken(subject, issuer, issuedAt, isExpired);
     }
 
