@@ -31,6 +31,7 @@
 html {
     scroll-behavior: smooth;
     overflow-x: hidden;
+    animation: disable-scroll 1s alternate;
 }
 
 body {
@@ -52,6 +53,8 @@ body {
     align-items: center;
     width: 100vw;
     height: 60px;
+    z-index: 1000;
+    box-shadow: 0 0 50px;
 }
 
 .logo {
@@ -410,11 +413,17 @@ body {
 @keyframes scroll-up {
     from {
         transform: translateY(-3%);
-        overflow: hidden;
     }
-
     to {
         transform: translateY(0%);
+    }
+}
+
+@keyframes disable-scroll {
+    from {
+        overflow: hidden;
+    }
+    to {
         overflow: hidden;
     }
 }
