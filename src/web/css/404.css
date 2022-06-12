@@ -24,21 +24,57 @@
 ===============================
  */
 
-body {
-    background-color: #001220;
+* {
     margin: 0;
-    overflow-x: hidden;
+}
+
+html {
     scroll-behavior: smooth;
-    animation: scroll-up 2s alternate;
-    color: white;
-    font-family: roboto_condensedbold, serif;
+    overflow-x: hidden;
+}
+
+body {
+    background: #a9f1fc;
+    font-size: 15px;
+    font-family: robotoregular, serif;
+    animation: scroll-up 1s alternate;
 }
 
 .page-wrapper {
-    margin-top: -50px;
-    height: 4664px;
-    background-image:url("../resources/background.png");
+    width: 100vw;
 }
+
+/*
+===============================
+      Header properties
+===============================
+ */
+
+.header {
+    position: fixed;
+    background-color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100vw;
+    height: 60px;
+}
+
+.logo {
+    background-size: cover;
+    height: 35px;
+    width: 35px;
+    margin-inline: 35px;
+    margin-bottom: 10px;
+}
+
+.jwt-icon {
+    margin-top: 15px;
+    height: 50px;
+    width: 50px;
+    cursor: pointer;
+}
+
 
 /*
 ===============================
@@ -47,39 +83,60 @@ body {
  */
 
 .section {
-    width: 100vw;
-    height: 1175px;
     display: flex;
-    flex-direction: row;
     justify-content: center;
-    align-items: center;
-    gap: 250px;
-    padding-inline: 50px;
+    flex-direction: row;
+    height: 875px;
+    max-width: 100vw;
+    color: black;
+    gap: 50px;
+}
+
+.section-block {
+    margin-top: 25vh;
+    margin-inline: 10vw;
+    max-width: 500px;
 }
 
 .page-title {
-    font-size: 75px;
+    font-size: 36px;
+    font-weight: bold;
+    margin-bottom: 25px;
+    text-shadow: 0 0 100px;
 }
 
 .page-text {
-    margin-top: -50px;
-    font-size: 36px;
+    font-size: 18px;
+}
+
+
+/*
+===============================
+            Home
+===============================
+ */
+
+
+.not-found-left > .page-title{
+    font-size: 50px;
+    text-decoration: underline;
+    text-decoration-color: black;
 }
 
 /*
 ===============================
-            404
+            Footer
 ===============================
  */
 
-.err-left {
-    animation: slide-right 3.5s alternate;
-    margin-bottom: 150px;
-}
-
-.err-right {
-    width: 500px;
-    height: 500px;
+.footer {
+    color: lightslategray;
+    font-size: 15px;
+    width: fit-content;
+    border: lightslategray solid 1px;
+    border-radius: 25px;
+    padding: 5px;
+    margin: 10px;
 }
 
 /*
@@ -90,7 +147,7 @@ body {
 
 @keyframes scroll-up {
     from {
-        transform: translateY(-75%);
+        transform: translateY(-3%);
         overflow: hidden;
     }
 
@@ -106,5 +163,26 @@ body {
     }
     to {
         transform: translateX(0);
+    }
+}
+
+@keyframes slide-left {
+    from {
+        transform: translateX(100%);
+    }
+    to {
+        transform: translateX(0);
+    }
+}
+
+/*
+===============================
+         Media Queries
+===============================
+ */
+
+@media (max-width: 800px) {
+    .not-found-right {
+        display: none;
     }
 }
