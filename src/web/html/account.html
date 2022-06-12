@@ -3,10 +3,77 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <link rel="stylesheet" href="../css/account.css">
+    <link rel="stylesheet" href="../css/style.css">
     <script defer src="../js/account.js"></script>
 </head>
-<body>
+    <body onload="location.href='#overview'">
+        <div class="page-wrapper">
+            <header class="header">
+                <img class="logo banking-icon" loading="lazy" src="../resources/logo.svg">
+                <nav class="nav">
+                    <a class="nav-item nav-overview"
+                       onclick="document.getElementById('overview').scrollIntoView({behavior: 'smooth'})">
+                        Overview
+                    </a>
+                    <a class="nav-item nav-deposit"
+                       onclick="document.getElementById('deposit').scrollIntoView({behavior: 'smooth'})">
+                        Deposit
+                    </a>
+                    <a class="nav-item nav-withdraw"
+                       onclick="document.getElementById('withdraw').scrollIntoView({behavior: 'smooth'})">
+                        Withdraw
+                    </a>
+                    <a class="nav-item nav-transfer"
+                       onclick="document.getElementById('transfer').scrollIntoView({behavior: 'smooth'})">
+                        Transfer
+                    </a>
+                </nav>
+                <button class="general-button sign-out-button">Sign out</button>
+            </header>
 
-</body>
+            <section class="section overview" id="overview">
+                <div class="section-block overview">
+                    <h1 class="page-title">Overview</h1>
+                    <p class="page-text overview-items">
+                        <p class="email">Email:</p>
+                        <p class="balance">0.0</p>
+                    </p>
+                </div>
+            </section>
+
+            <section class="section deposit" id="deposit">
+                <div class="section-block deposit-left">
+
+                </div>
+                <div class="section-block deposit-right">
+
+                </div>
+            </section>
+
+            <section class="section withdraw" id="withdraw">
+                <div class="section-block withdraw-left">
+
+                </div>
+                <div class="section-block withdraw-right">
+
+                </div>
+            </section>
+
+            <section class="section transfer" id="transfer">
+                <div class="section-block transfer-left">
+
+                </div>
+                <div class="section-block transfer-right">
+
+                </div>
+            </section>
+
+
+
+
+            <footer class="footer">
+                Designed and created by: Hugo
+            </footer>
+        </div>
+    </body>
 </html>

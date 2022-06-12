@@ -97,7 +97,7 @@ body {
 
 /*
 ===============================
-    Common Section Properties
+        General styles
 ===============================
  */
 
@@ -159,7 +159,7 @@ body {
     gap: 10px;
 }
 
-.form-button {
+.general-button {
     background: transparent;
     border: black solid 2px;
     border-radius: 25px;
@@ -172,14 +172,21 @@ body {
     transition: transform 0.1s ease-in-out, background-color.15s ease-in-out;
 }
 
-.form-button:hover {
+.general-button:hover {
     background-color: rgba(0,0,0,25%);
 }
 
-.form-button:active {
+.general-button:active {
     transform: scaleX(95%);
 }
 
+/*
+====================================================
+====================================================
+                    HOME PAGE
+====================================================
+====================================================
+ */
 
 
 /*
@@ -187,7 +194,6 @@ body {
             Home
 ===============================
  */
-
 
 
 .home-left {
@@ -283,6 +289,92 @@ body {
     animation: slide-left 1s alternate;
 }
 
+/*
+====================================================
+====================================================
+                    ACCOUNT PAGE
+====================================================
+====================================================
+ */
+
+
+
+/*
+===============================
+      Header properties
+===============================
+ */
+
+.sign-out-button {
+    margin-bottom: 35px;
+    margin-right: 25px;
+    width: 100px;
+}
+
+/*
+===============================
+           Overview
+===============================
+ */
+
+
+/*
+===============================
+           Deposit
+===============================
+ */
+
+
+/*
+===============================
+           Withdraw
+===============================
+ */
+
+
+/*
+===============================
+           Transfer
+===============================
+ */
+
+
+
+/*
+====================================================
+====================================================
+                  NOT FOUND PAGE
+====================================================
+====================================================
+ */
+
+/*
+===============================
+      Header properties
+===============================
+ */
+
+.not-found-header {
+    display: flex;
+    justify-content: space-between;
+}
+
+.not-found-left {
+    animation: slide-right 1s alternate;
+}
+
+.not-found-left > .page-title{
+    font-size: 50px;
+    text-decoration: underline;
+    text-decoration-color: black;
+}
+
+.not-found-right {
+    margin-top: 350px;
+    max-width: 190px;
+    max-height: 190px;
+    animation: slide-right 1s alternate;
+}
 
 /*
 ===============================
@@ -368,6 +460,9 @@ body {
         display: none;
     }
     .sign-up-left {
+        display: none;
+    }
+    .not-found {
         display: none;
     }
 }
