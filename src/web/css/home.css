@@ -129,7 +129,7 @@ body {
 }
 
 .form-input {
-    background-color: rgba(50,50,50,50%);
+    background-color: rgba(50,50,50,25%);
     border-style: none;
     width: 225px;
     height: 25px;
@@ -157,7 +157,15 @@ body {
     font-family: roboto_condensedbold, serif;
     font-size: 15px;
     cursor: pointer;
-    transition: transform 0.25s ease-in-out;
+    transition: transform 0.1s ease-in-out, background-color.15s ease-in-out;
+}
+
+.form-button:hover {
+    background-color: rgba(0,0,0,25%);
+}
+
+.form-button:active {
+    transform: scaleX(90%);
 }
 
 
