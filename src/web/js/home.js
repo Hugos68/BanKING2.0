@@ -25,8 +25,7 @@ signInButton.addEventListener('click', async () => {
             }),
             body: JSON.stringify(jsonObj)
         });
-        if (!loginResponse.ok) new Error(loginResponse.status+' '+loginResponse.statusText);
-
+        if (!loginResponse.ok) throw new Error(loginResponse.status+' '+loginResponse.statusText);
         // Get token pair from response
         const tokenPair = await loginResponse.json();
 
@@ -43,7 +42,7 @@ signInButton.addEventListener('click', async () => {
         location.replace("account.html");
         
     } catch (e) {
-        throw new Error(e.message);
+        console.error(e.message);
     }
 });
 
@@ -67,13 +66,11 @@ signUpButton.addEventListener('click', async () => {
             }),
             body: JSON.stringify(jsonObj)
         });
-        if (!registrationResponse.ok) {
-            console.error(registrationResponse.status+' '+registrationResponse.statusText);
-        }
-        else {
-            // User is registered here, maybe confetti?
-        }
+        if (!registrationResponse.ok) throw new Error(registrationResponse.status+' '+registrationResponse.statusText);
+
+        // User is registered here, maybe confetti?
+
     } catch (e) {
-        throw new Error("Server timed out... "+e.error());
+        console.error(e.message)
     }
 });
