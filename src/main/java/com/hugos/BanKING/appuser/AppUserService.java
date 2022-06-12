@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -29,9 +30,14 @@ public class AppUserService {
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final JwtService jwtService;
 
+    public Optional<AppUser> findByEmail(String email) {
+        return appUserRepository.findByEmail(email);
+    }
+
     public ResponseEntity<?> register(HttpServletRequest request) {
 
         // Prep response entity
+        Map<String, String> responseMap = new HashMap<>();
         HttpStatus status = null;
         String message = null;
 
@@ -65,8 +71,12 @@ public class AppUserService {
             status = HttpStatus.CREATED;
             message = "User registered";
         }
+
+        // Check if something was wrong, if so, return 400 code
         if (status != HttpStatus.CREATED) {
-            return ResponseEntity.status(status).body(String.format("Error: %s", message));
+            responseMap.put("message", message);
+            String responseBody = new Gson().toJson(responseMap);
+            return ResponseEntity.status(status).body(responseBody);
         }
 
         // TODO: Create and save salt for every user (Optional)
@@ -94,7 +104,6 @@ public class AppUserService {
         bankAccountService.save(bankAccount);
 
         // Create json body
-        Map<String, String> responseMap = new HashMap<>();
         responseMap.put("message", message);
         String responseBody = new Gson().toJson(responseMap);
 
@@ -133,15 +142,15 @@ public class AppUserService {
             status = HttpStatus.OK;
             message = "User authenticated";
         }
+
+        // Check if something was wrong, if so, return 400 code
         if (status!= HttpStatus.OK) {
             responseMap.put("message", message);
             String responseBody = new Gson().toJson(responseMap);
             return ResponseEntity.status(status).body(responseBody);
         }
 
-        // TODO: Create access and refresh token
         Map<String,String> tokenPair = jwtService.createAccessRefreshTokenPair(appUserRepository.findByEmail(email).get());
-
 
         // Create json body
         responseMap.put("message", message);
@@ -149,6 +158,7 @@ public class AppUserService {
         responseMap.put("refresh_token", tokenPair.get("refresh_token"));
         String responseBody = new Gson().toJson(responseMap);
 
+        // Respond to request
         return ResponseEntity.status(status).body(responseBody);
     }
 }

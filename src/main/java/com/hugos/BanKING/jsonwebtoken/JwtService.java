@@ -1,19 +1,76 @@
 package com.hugos.BanKING.jsonwebtoken;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.hugos.BanKING.appuser.AppUser;
+import com.hugos.BanKING.appuser.AppUserService;
+import com.hugos.BanKING.jsonwebtoken.tokens.DecodedAccessToken;
+import com.hugos.BanKING.jsonwebtoken.tokens.DecodedRefreshToken;
 import com.hugos.BanKING.role.Role;
+import com.hugos.BanKING.util.RequestService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
-import lombok.SneakyThrows;
+import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
+import javax.servlet.http.HttpServletRequest;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 @Service
+@AllArgsConstructor
 public class JwtService {
+
+    private final RequestService requestService;
+    private final AppUserService appUserService;
+
+    public ResponseEntity<?> refresh(HttpServletRequest request) {
+
+        // Prep response entity
+        Map<String, String> responseMap = new HashMap<>();
+        HttpStatus status = null;
+        String message = null;
+
+        // Get data from request
+        JsonObject body = requestService.getJsonFromRequest(request);
+
+        // Get decoded token from request
+        DecodedRefreshToken decodedRefreshToken = decodeRefreshToken(body.get("refresh_token").getAsString());
+
+        // Validate token
+        if (decodedRefreshToken==null) {
+            status = HttpStatus.UNPROCESSABLE_ENTITY;
+            message = "Invalid token";
+        }
+        else {
+            status = HttpStatus.OK;
+            message = "Valid token";
+        }
+
+        // Check if something was wrong, if so, return 400 code
+        if (status!= HttpStatus.OK) {
+            responseMap.put("message", message);
+            String responseBody = new Gson().toJson(responseMap);
+            return ResponseEntity.status(status).body(responseBody);
+        }
+
+        Map<String,String> tokenPair = createAccessRefreshTokenPair(
+            appUserService.findByEmail(decodedRefreshToken.subject()).get()
+        );
+
+        // Create json body
+        responseMap.put("message", message);
+        responseMap.put("access_token", tokenPair.get("access_token"));
+        responseMap.put("refresh_token", tokenPair.get("refresh_token"));
+        String responseBody = new Gson().toJson(responseMap);
+
+        // Respond to request
+        return ResponseEntity.status(status).body(responseBody);
+    }
 
     // Generate key with secret
     private final String API_SECRET = "kjlfds4124ho4h1l24hl1l1gkj41h4k1u4h12l";
@@ -75,7 +132,7 @@ public class JwtService {
     }
 
     // Returns null if token is invalid
-    public DecodedRefreshToken decodedRefreshToken(String token) {
+    public DecodedRefreshToken decodeRefreshToken(String token) {
 
         // Get payload from token
         Claims claims = getAllClaimsFromToken(token);
@@ -109,5 +166,6 @@ public class JwtService {
         }
         return claims;
     }
+]
 }
 

@@ -76,7 +76,7 @@ body {
 
 .nav-item {
     list-style-type: none;
-    font-family: 'roboto_condensedbold', Serif;
+    font-family: 'roboto_condensedbold', serif;
     text-transform: uppercase;
     cursor: pointer;
     font-size: 20px;
