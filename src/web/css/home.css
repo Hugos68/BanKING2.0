@@ -114,6 +114,7 @@ body {
     font-size: 36px;
     font-weight: bold;
     margin-bottom: 25px;
+    text-shadow: 0 0 75px;
 }
 
 .page-text {
@@ -129,15 +130,19 @@ body {
 }
 
 .form-input {
-    background-color: rgba(50,50,50,25%);
-    border-style: none;
+    background-color: rgba(0,0,0,25%);
+    border: none;
     width: 225px;
     height: 25px;
-    border-radius: 25px;
+    border-radius: 5px;
     padding-inline: 10px;
     padding-bottom: 3px;
     font-size: 15px;
-    transition: color 0.25s ease-in-out;
+    transition: color 0.25s ease-in-out, box-shadow 0.25s ease-in-out;
+}
+
+.form-input:focus {
+    box-shadow: 0 0 10px;
 }
 
 .input-label-combi {
@@ -176,14 +181,16 @@ body {
 ===============================
  */
 
+
+
+.home-left {
+    animation: slide-right 1s alternate;
+}
+
 .home-left > .page-title{
     font-size: 50px;
     text-decoration: underline;
     text-decoration-color: black;
-}
-
-.home-left {
-    animation: slide-right 1s alternate;
 }
 
 .home-right {
