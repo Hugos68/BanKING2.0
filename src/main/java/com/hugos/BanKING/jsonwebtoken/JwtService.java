@@ -13,8 +13,6 @@ import javax.crypto.spec.SecretKeySpec;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 
-import static org.springframework.http.HttpHeaders.AUTHORIZATION;
-
 @Service
 @AllArgsConstructor
 public class JwtService {
@@ -92,8 +90,8 @@ public class JwtService {
         String issuer = claims.get("iss", String.class);
         Date issuedAt = claims.get("iat", Date.class);
 
-        // Check if expired (expire interval is 30 days)
-        boolean isExpired = issuedAt.getTime() > System.currentTimeMillis() - 30L * 24 * 60 * 60 * 1000;
+        // Check if expired
+        boolean isExpired = issuedAt.getTime() > System.currentTimeMillis() - 7 * 24 * 60 * 60 * 1000;
 
         // Return access token object
         return new DecodedRefreshToken(subject, issuer, issuedAt, isExpired);

@@ -102,7 +102,7 @@ public class AppUserService {
         );
         bankAccountService.save(bankAccount);
 
-        // Create json body
+        // Create json response body
         responseMap.put("message", message);
         String responseBody = new Gson().toJson(responseMap);
 
@@ -151,7 +151,7 @@ public class AppUserService {
 
         Map<String,String> tokenPair = jwtService.createAccessRefreshTokenPair(appUserRepository.findByEmail(email).get());
 
-        // Create json body
+        // Create json response body
         responseMap.put("message", message);
         responseMap.put("access_token", tokenPair.get("access_token"));
         responseMap.put("refresh_token", tokenPair.get("refresh_token"));
@@ -174,14 +174,18 @@ public class AppUserService {
         // Get decoded token from request
         DecodedRefreshToken decodedRefreshToken = jwtService.decodeRefreshToken(refreshToken);
 
-        // Validate token
+        // Token validation
         if (decodedRefreshToken==null) {
             status = HttpStatus.UNPROCESSABLE_ENTITY;
             message = "Invalid token";
         }
+        else if (decodedRefreshToken.isExpired()) {
+            status = HttpStatus.UNAUTHORIZED;
+            message = "Refresh token has expired";
+        }
         else {
             status = HttpStatus.OK;
-            message = "Valid token";
+            message = "Token validated";
         }
 
         // Check if something was wrong, if so, return 400 code
@@ -195,7 +199,7 @@ public class AppUserService {
                 appUserRepository.findByEmail(decodedRefreshToken.subject()).get()
         );
 
-        // Create json body
+        // Create json response body
         responseMap.put("message", message);
         responseMap.put("access_token", tokenPair.get("access_token"));
         responseMap.put("refresh_token", tokenPair.get("refresh_token"));

@@ -2,22 +2,34 @@ const refreshToken = getCookie("refresh_token");
 
 // Send refresh token to server to validate it
 if (refreshToken!=="") {
-    try {
-        const refreshResponse = fetch("http://localhost:8080/api/token/refresh", {
-            method: 'get',
-            headers: {
-                'Authorization': 'Bearer '+refreshToken
-            }
-        });
-        if (!refreshResponse.ok) new Error(refreshResponse.status+" "+refreshResponse.statusText);
-    } catch (e) {
-        setPageLoggedIn(false);
-        throw new Error(e.message);
+    const refreshResponse = fetch("http://localhost:8080/api/token/refresh", {
+        method: 'get',
+        headers: {
+            'Authorization': 'Bearer '+refreshToken
+        }
+    });
+
+    if (!refreshResponse.ok)  {
+        setPageLoggedIn(false)
+        throw new Error(refreshResponse.status+" "+refreshResponse.statusText);
     }
+
+    // Get token pair from response
+    const tokenPair = await refreshResponse.json();
+
+    // Create expire date (1 year from now)
+    const date = new Date();
+    const expireDate = new Date(date.getMinutes()+15);
+
+    // Set access token cookie in session
+    document.cookie = "access_token="+tokenPair["access_token"]
+        + "; SameSite=lax"
+        + "; expires="+expireDate.toUTCString()+";";
+
     setPageLoggedIn(true)
 }
 else {
-    setPageLoggedIn(false)
+    setPageLoggedIn(false);
 }
 
 // Get cookie from name, returns null if cookie was not found
