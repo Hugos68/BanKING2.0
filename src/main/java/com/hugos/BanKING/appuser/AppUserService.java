@@ -5,6 +5,7 @@ import com.google.gson.JsonObject;
 import com.hugos.BanKING.bankaccount.BankAccount;
 import com.hugos.BanKING.bankaccount.BankAccountService;
 import com.hugos.BanKING.jsonwebtoken.JwtService;
+import com.hugos.BanKING.jsonwebtoken.tokens.DecodedRefreshToken;
 import com.hugos.BanKING.role.Role;
 import com.hugos.BanKING.util.EmailValidator;
 import com.hugos.BanKING.util.RequestService;
@@ -16,8 +17,9 @@ import org.springframework.stereotype.Service;
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 import java.util.UUID;
+
+import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 
 @Service
 @AllArgsConstructor
@@ -30,16 +32,13 @@ public class AppUserService {
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final JwtService jwtService;
 
-    public Optional<AppUser> findByEmail(String email) {
-        return appUserRepository.findByEmail(email);
-    }
 
     public ResponseEntity<?> register(HttpServletRequest request) {
 
         // Prep response entity
         Map<String, String> responseMap = new HashMap<>();
-        HttpStatus status = null;
-        String message = null;
+        HttpStatus status;
+        String message;
 
         // Get data from request
         JsonObject body = requestService.getJsonFromRequest(request);
@@ -113,8 +112,8 @@ public class AppUserService {
 
         // Prep response entity
         Map<String, String> responseMap = new HashMap<>();
-        HttpStatus status = HttpStatus.OK;
-        String message = null;
+        HttpStatus status;
+        String message;
 
         // Get data from request
         JsonObject body = requestService.getJsonFromRequest(request);
@@ -151,6 +150,50 @@ public class AppUserService {
         }
 
         Map<String,String> tokenPair = jwtService.createAccessRefreshTokenPair(appUserRepository.findByEmail(email).get());
+
+        // Create json body
+        responseMap.put("message", message);
+        responseMap.put("access_token", tokenPair.get("access_token"));
+        responseMap.put("refresh_token", tokenPair.get("refresh_token"));
+        String responseBody = new Gson().toJson(responseMap);
+
+        // Respond to request
+        return ResponseEntity.status(status).body(responseBody);
+    }
+
+    public ResponseEntity<?> refreshTokenPair(HttpServletRequest request) {
+
+        // Prep response entity
+        Map<String, String> responseMap = new HashMap<>();
+        HttpStatus status;
+        String message;
+
+        // Get data from request
+        String refreshToken = request.getHeader(AUTHORIZATION).substring("Bearer ".length());
+
+        // Get decoded token from request
+        DecodedRefreshToken decodedRefreshToken = jwtService.decodeRefreshToken(refreshToken);
+
+        // Validate token
+        if (decodedRefreshToken==null) {
+            status = HttpStatus.UNPROCESSABLE_ENTITY;
+            message = "Invalid token";
+        }
+        else {
+            status = HttpStatus.OK;
+            message = "Valid token";
+        }
+
+        // Check if something was wrong, if so, return 400 code
+        if (status!= HttpStatus.OK) {
+            responseMap.put("message", message);
+            String responseBody = new Gson().toJson(responseMap);
+            return ResponseEntity.status(status).body(responseBody);
+        }
+
+        Map<String,String> tokenPair = jwtService.createAccessRefreshTokenPair(
+                appUserRepository.findByEmail(decodedRefreshToken.subject()).get()
+        );
 
         // Create json body
         responseMap.put("message", message);

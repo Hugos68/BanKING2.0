@@ -17,7 +17,7 @@ public class AuthenticationController {
     private final AppUserService appUserService;
 
     @PostMapping
-    @CrossOrigin(origins = "http://localhost:63342")
+    @CrossOrigin
     public ResponseEntity<?> authenticate(HttpServletRequest request) {
         return appUserService.authenticate(request);
     }

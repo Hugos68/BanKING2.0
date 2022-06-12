@@ -1,5 +1,6 @@
 package com.hugos.BanKING.jsonwebtoken;
 
+import com.hugos.BanKING.appuser.AppUserService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -14,11 +15,11 @@ import javax.servlet.http.HttpServletRequest;
 @AllArgsConstructor
 public class JwtController {
 
-    private final JwtService jwtService;
+    private final AppUserService appUserService;
 
     @GetMapping
     @CrossOrigin
     public ResponseEntity<?> refreshToken(HttpServletRequest request) {
-        return jwtService.refresh(request);
+        return appUserService.refreshTokenPair(request);
     }
 }
