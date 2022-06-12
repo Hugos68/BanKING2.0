@@ -27,14 +27,14 @@ signInButton.addEventListener('click', async () => {
     // Get token pair from response
     const tokenPair = await loginResponse.json();
 
-    // Create expire date (1 year from now)
+    // Create date 1 year from now
     const date = new Date();
-    const expireDate = new Date(date.getFullYear() + 1, date.getMonth(), date.getDate());
+    const expires = new Date(date.getFullYear() + 1, date.getMonth(), date.getDate());
 
     // Set refresh token cookie with expire date of 1 year
     document.cookie = "refresh_token="+tokenPair["refresh_token"]
         + "; SameSite=lax"
-        + "; expires="+expireDate.toUTCString()+";";
+        + "; expires="+expires.toUTCString()+";";
 
     // Set access token cookie with expire date of session
     document.cookie = "access_token="+tokenPair["access_token"]
