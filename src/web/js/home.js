@@ -26,15 +26,22 @@ signInButton.addEventListener('click', async () => {
             body: JSON.stringify(jsonObj)
         });
         if (!loginResponse.ok) new Error(loginResponse.status+' '+loginResponse.statusText);
-        // Get tokenPair and refresh in cookies
-        // Access token -> get access to resources
-        // Refresh token -> get new access token
-        const tokenPair = await loginResponse.json();
-        let expireDate = new Date;
-        expireDate.setFullYear(expireDate.getFullYear());
-        document.cookie = "refresh_token="+tokenPair["refresh_token"]+"; expires="+expireDate.toUTCString()+";";
 
+        // Get token pair from response
+        const tokenPair = await loginResponse.json();
+
+        // Create expire date (1 year from now)
+        const date = new Date();
+        const expireDate = new Date(date.getFullYear() + 1, date.getMonth(), date.getDate());
+
+        // Create cookie refresh token
+        document.cookie = "refresh_token="+tokenPair["refresh_token"]
+            + "; SameSite=lax"
+            + "; expires="+expireDate.toUTCString()+";";
+
+        // Redirect to account page
         location.replace("account.html");
+        
     } catch (e) {
         throw new Error(e.message);
     }

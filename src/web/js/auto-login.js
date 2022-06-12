@@ -1,5 +1,6 @@
 const refreshToken = getCookie("refresh_token");
 
+// Send refresh token to server to validate it
 if (refreshToken!=="") {
     try {
         const refreshResponse = fetch("http://localhost:8080/api/token/refresh", {
@@ -19,6 +20,7 @@ else {
     setPageLoggedIn(false)
 }
 
+// Get cookie from name, returns null if cookie was not found
 function getCookie(cname) {
     let name = cname + "=";
     let decodedCookie = decodeURIComponent(document.cookie);
@@ -35,7 +37,7 @@ function getCookie(cname) {
     return "";
 }
 
-// This function will show/hide certain things based on if the user is logged in or not
+// Manipulate the DOM based on if the user is logged in or not
 function setPageLoggedIn(boolean) {
     if (boolean) {
         document.querySelector(".sign-in").classList.add("display-none");
