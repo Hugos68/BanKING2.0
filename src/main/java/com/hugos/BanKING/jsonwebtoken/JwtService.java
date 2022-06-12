@@ -1,4 +1,4 @@
-package com.hugos.BanKING.jwt;
+package com.hugos.BanKING.jsonwebtoken;
 
 import com.hugos.BanKING.appuser.AppUser;
 import com.hugos.BanKING.role.Role;
@@ -20,8 +20,6 @@ public class JwtService {
     byte[] encoded = API_SECRET.getBytes(StandardCharsets.UTF_8);
     SecretKey secretKey = new SecretKeySpec(encoded, "HmacSHA256");
 
-
-    @SneakyThrows
     public Map<String, String> createAccessRefreshTokenPair(AppUser appUser) {
 
             // Prep data for payload
@@ -33,18 +31,15 @@ public class JwtService {
             // Create access token
             String accessToken = Jwts.builder()
                     .setSubject(subject)
-                    .claim("type", JwtType.ACCESS)
                     .claim("role", role)
                     .setIssuer(issuer)
                     .setIssuedAt(now)
                     .signWith(secretKey)
                     .compact();
 
-            // TODO: Create refresh token
             // Create refresh token
             String refreshToken = Jwts.builder()
                     .setSubject(subject)
-                    .claim("type", JwtType.REFRESH)
                     .setIssuer(issuer)
                     .setIssuedAt(now)
                     .signWith(secretKey)
@@ -58,8 +53,32 @@ public class JwtService {
     }
 
     // Returns null when token is invalid
-    public DecodedJwt decodeToken(String jwt) {
-        Claims claims = getAllClaimsFromToken(jwt);
+    public DecodedAccessToken decodeAccessToken(String token) {
+
+        // Get payload from token
+        Claims claims = getAllClaimsFromToken(token);
+        if (claims==null) {
+            return null;
+        }
+
+        // Get shared claims
+        String subject = claims.get("sub", String.class);
+        Role role = Role.valueOf(claims.get("role", String.class));
+        String issuer = claims.get("iss", String.class);
+        Date issuedAt = claims.get("iat", Date.class);
+
+        // Check if expired (expire interval is 15 minutes)
+        boolean isExpired = issuedAt.getTime() > System.currentTimeMillis() - 15 * 60 * 1000;
+
+        // Return access token object
+        return new DecodedAccessToken(subject, role, issuer, issuedAt, isExpired);
+    }
+
+    // Returns null if token is invalid
+    public DecodedRefreshToken decodedRefreshToken(String token) {
+
+        // Get payload from token
+        Claims claims = getAllClaimsFromToken(token);
         if (claims==null) {
             return null;
         }
@@ -69,24 +88,11 @@ public class JwtService {
         String issuer = claims.get("iss", String.class);
         Date issuedAt = claims.get("iat", Date.class);
 
-        // Handle access token
-        if (claims.get("type").equals(JwtType.ACCESS)) {
+        // Check if expired (expire interval is 30 days)
+        boolean isExpired = issuedAt.getTime() > System.currentTimeMillis() - 30L * 24 * 60 * 60 * 1000;
 
-            Role role = Role.valueOf(claims.get("role", String.class));
-
-            // Check if access token is older than 15 minutes
-            boolean isExpired = issuedAt.getTime() > System.currentTimeMillis() - 15 * 60 * 1000;
-
-            return new DecodedAccessJwt(subject, role, issuer, issuedAt, isExpired);
-        }
-
-        // Handle refresh token
-        else {
-            // Check if refresh token is older than 30 days
-            boolean isExpired = issuedAt.getTime() > System.currentTimeMillis() - 30L * 24 * 60 * 60 * 1000;
-
-            return new DecodedRefreshJwt(subject, issuer, issuedAt, isExpired);
-        }
+        // Return access token object
+        return new DecodedRefreshToken(subject, issuer, issuedAt, isExpired);
     }
 
 
