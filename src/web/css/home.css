@@ -68,6 +68,12 @@ body {
     margin-bottom: 10px;
 }
 
+.account-icon {
+    height: 30px;
+    width: 30px;
+    cursor: pointer;
+}
+
 .nav {
     margin-inline: auto;
     display: flex;
@@ -112,7 +118,7 @@ body {
 }
 
 .section-block {
-    margin-top: 25vh;
+    margin-top: 250px;
     margin-inline: 10vw;
     max-width: 350px;
 }
@@ -298,6 +304,16 @@ body {
     border-radius: 25px;
     padding: 5px;
     margin: 10px;
+}
+
+/*
+===============================
+        Query Selectors
+===============================
+ */
+
+.display-none {
+    display: none;
 }
 
 /*

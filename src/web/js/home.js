@@ -26,14 +26,12 @@ signInButton.addEventListener('click', async () => {
             body: JSON.stringify(jsonObj)
         });
         if (!loginResponse.ok) new Error(loginResponse.status+' '+loginResponse.statusText);
-
-        // Get JWTs and store in browser local storage
-        const JWTs = await loginResponse.json();
+        // Get tokenPair and refresh in cookies
         // Access token -> get access to resources
-        localStorage.setItem("access_token", JWTs["access_token"]);
         // Refresh token -> get new access token
-        localStorage.setItem("refresh_token", JWTs["refresh_token"]);
-
+        const tokenPair = await loginResponse.json();
+        document.cookie = "refresh_token="+tokenPair["refresh_token"];
+        location.replace("account.html");
     } catch (e) {
         throw new Error(e.message);
     }

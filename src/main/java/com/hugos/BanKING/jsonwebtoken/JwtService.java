@@ -21,11 +21,12 @@ import javax.servlet.http.HttpServletRequest;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 
+import static org.springframework.http.HttpHeaders.AUTHORIZATION;
+
 @Service
 @AllArgsConstructor
 public class JwtService {
 
-    private final RequestService requestService;
     private final AppUserService appUserService;
 
     public ResponseEntity<?> refresh(HttpServletRequest request) {
@@ -36,10 +37,10 @@ public class JwtService {
         String message = null;
 
         // Get data from request
-        JsonObject body = requestService.getJsonFromRequest(request);
+        String refreshToken = request.getHeader(AUTHORIZATION).substring("Bearer ".length());
 
         // Get decoded token from request
-        DecodedRefreshToken decodedRefreshToken = decodeRefreshToken(body.get("refresh_token").getAsString());
+        DecodedRefreshToken decodedRefreshToken = decodeRefreshToken(refreshToken);
 
         // Validate token
         if (decodedRefreshToken==null) {
@@ -166,6 +167,5 @@ public class JwtService {
         }
         return claims;
     }
-]
 }
 
