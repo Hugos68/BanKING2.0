@@ -34,7 +34,7 @@ signInButton.addEventListener('click', async () => {
         const date = new Date();
         const expireDate = new Date(date.getFullYear() + 1, date.getMonth(), date.getDate());
 
-        // Create cookie refresh token
+        // Set refresh token cookie with expire date of 1 year
         document.cookie = "refresh_token="+tokenPair["refresh_token"]
             + "; SameSite=lax"
             + "; expires="+expireDate.toUTCString()+";";
