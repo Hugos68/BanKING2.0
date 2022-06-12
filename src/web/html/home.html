@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8" name="viewport" content=initial-scale=1.0">
     <title>BanKING</title>
-    <link rel="stylesheet" href="../css/style.css">
     <script defer src="../js/auto-login.js"></script>
     <script defer src="../js/home.js"></script>
+    <link rel="stylesheet" href="../css/style.css">
 </head>
     <body onload="location.href='#home'">
         <div class="page-wrapper">
@@ -29,14 +29,15 @@
                        onclick="document.getElementById('sign-up').scrollIntoView({behavior: 'smooth'})">
                         Sign-up
                     </a>
+                    <a class="nav-item nav-account " href="account.html">
+                        Account
+                    </a>
                 </nav>
-                <a href="account.html">
-                    <img class="logo account-icon" loading="lazy" src="../resources/account-icon.svg">
-                </a>
-
+                <img class="logo jwt-icon" loading="lazy" src="../resources/jwt.svg"
+                     onclick="location.href='https://jwt.io/'">
             </header>
 
-            <section class="section home" id="home">
+            <section class="section home home-page-section" id="home">
                 <div class="section-block home-left">
                     <h1 class="page-title">BanKING</h1>
                     <p class="page-text">Welcome to BanKING, the King of Banks</p>
@@ -46,7 +47,7 @@
                 </div>
             </section>
 
-            <section class="section about" id="about">
+            <section class="section about home-page-section" id="about">
                 <div class="section-block about-left">
                     <img loading="lazy" src="../resources/logo.svg">
                     <p class="page-text">King of Banks</p>
@@ -58,7 +59,7 @@
                 </div>
             </section>
 
-            <section class="section sign-in" id="sign-in">
+            <section class="section sign-in home-page-section" id="sign-in">
                 <div class="section-block sign-in-left">
                     <form class="sign-in-form general-form">
                         <p class="page-title">Sign in</p>
@@ -80,7 +81,7 @@
                 </div>
             </section>
 
-            <section class="section sign-up" id="sign-up" >
+            <section class="section sign-up home-page-section" id="sign-up" >
                 <div class="section-block sign-up-left">
                     <img loading="lazy" src="../resources/sign-up-icon.svg">
                     <p class="page-text">Personal account</p>

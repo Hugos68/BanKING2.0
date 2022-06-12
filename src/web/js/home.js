@@ -3,7 +3,6 @@ const signUpButton = document.querySelector(".sign-up-button");
 const signInForm = document.querySelector(".sign-in-form");
 const signUpForm = document.querySelector(".sign-up-form");
 
-
 // Sign In Event
 signInButton.addEventListener('click', async () => {
     const formData = new FormData(signInForm);
@@ -43,7 +42,6 @@ signInButton.addEventListener('click', async () => {
 
     // Redirect to account page
     location.replace("account.html");
-
 });
 
 // Sign Up Event

@@ -63,13 +63,6 @@ body {
     cursor: pointer;
 }
 
-.account-icon {
-    height: 25px;
-    width: 25px;
-    margin-top: 10px;
-    cursor: pointer;
-}
-
 .nav {
     margin-inline: auto;
     display: flex;
@@ -78,6 +71,7 @@ body {
 
 .nav-item {
     list-style-type: none;
+    text-decoration: none;
     font-family: 'roboto_condensedbold', serif;
     text-transform: uppercase;
     cursor: pointer;
@@ -175,6 +169,12 @@ body {
 ====================================================
 ====================================================
  */
+
+.jwt-icon {
+    margin-top: 10px;
+    width: 50px;
+    height: 50px;
+}
 
 
 /*
@@ -306,7 +306,7 @@ body {
  */
 
 .overview {
-    width: 100vw;
+    max-width: 100vw;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -448,9 +448,7 @@ body {
  */
 
 @media (max-width: 800px) {
-
-
-    .section {
+    .home-page-section {
         height: 700px;
     }
     .home-right {
@@ -470,8 +468,26 @@ body {
     }
 }
 
+@media (max-width: 700px) {
+    .nav-deposit {
+        display: none;
+    }
+    .nav-withdraw {
+        display: none;
+    }
+    .nav-transfer {
+        display: none;
+    }
+}
+
 @media (max-width: 550px) {
-    .logo {
+    .nav-about {
+        display: none;
+    }
+    .nav-sign-in {
+        display: none;
+    }
+    .nav-sign-up {
         display: none;
     }
 }
