@@ -1,7 +1,7 @@
 const refreshToken = getCookie("refresh_token");
 
 document.addEventListener("DOMContentLoaded", async () => {
-    console.log("logged in");
+
     // Send refresh token to server to validate it
     if (refreshToken!=="") {
         const refreshResponse = await fetch("http://localhost:8080/api/token/refresh", {
