@@ -9,7 +9,8 @@
     <body onload="location.href='#overview'">
         <div class="page-wrapper">
             <header class="header">
-                <img class="logo banking-icon" loading="lazy" src="../resources/logo.svg">
+                <img class="logo banking-icon" loading="lazy" src="../resources/logo.svg"
+                     onclick="location.href='home.html'">
                 <nav class="nav">
                     <a class="nav-item nav-overview"
                        onclick="document.getElementById('overview').scrollIntoView({behavior: 'smooth'})">
@@ -32,13 +33,9 @@
             </header>
 
             <section class="section overview" id="overview">
-                <div class="section-block overview">
-                    <h1 class="page-title">Overview</h1>
-                    <p class="page-text overview-items">
-                        <p class="email">Email:</p>
-                        <p class="balance">0.0</p>
-                    </p>
-                </div>
+                <h1 class="page-title">Account Overview</h1>
+                <p class="email">Email:</p>
+                <p class="balance">0.0</p>
             </section>
 
             <section class="section deposit" id="deposit">
@@ -67,9 +64,6 @@
 
                 </div>
             </section>
-
-
-
 
             <footer class="footer">
                 Designed and created by: Hugo

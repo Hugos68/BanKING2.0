@@ -10,7 +10,8 @@
     <body onload="location.href='#home'">
         <div class="page-wrapper">
             <header class="header">
-                <img class="logo banking-icon" loading="lazy" src="../resources/logo.svg">
+                <img class="logo banking-icon" loading="lazy" src="../resources/logo.svg"
+                     onclick="location.href='home.html'">
                 <nav class="nav">
                     <a class="nav-item nav-home"
                        onclick="document.getElementById('home').scrollIntoView({behavior: 'smooth'})">
@@ -59,15 +60,15 @@
 
             <section class="section sign-in" id="sign-in">
                 <div class="section-block sign-in-left">
-                    <form class="sign-in-form userForm">
+                    <form class="sign-in-form general-form">
                         <p class="page-title">Sign in</p>
-                        <div class="input-label-combi">
+                        <div class="input-label-combination">
                             <label class="sign-up-label" for="email">Email</label>
-                            <input class="form-input" id="email" type="text" name="email">
+                            <input class="general-input" id="email" type="text" name="email">
                         </div>
-                        <div class="input-label-combi">
+                        <div class="input-label-combination">
                             <label class="sign-up-label" for="password">Password</label>
-                            <input class="form-input" id="password" type="password" name="password">
+                            <input class="general-input" id="password" type="password" name="password">
                         </div>
 
                         <button class="general-button sign-in-button" type="button">Sign in</button>
@@ -85,19 +86,19 @@
                     <p class="page-text">Personal account</p>
                 </div>
                 <div class="section-block sign-up-right">
-                    <form class="sign-up-form userForm">
+                    <form class="sign-up-form general-form">
                         <p class="page-title">Sign up</p>
-                        <div class="input-label-combi">
+                        <div class="input-label-combination">
                             <label class="sign-up-label" for="email2">Email</label>
-                            <input class="form-input" id="email2" type="text" name="email">
+                            <input class="general-input" id="email2" type="text" name="email">
                         </div>
-                        <div class="input-label-combi">
+                        <div class="input-label-combination">
                             <label class="sign-up-label" for="password2">Password</label>
-                            <input class="form-input" id="password2" type="password" name="password">
+                            <input class="general-input" id="password2" type="password" name="password">
                         </div>
-                        <div class="input-label-combi">
+                        <div class="input-label-combination">
                             <label class="sign-up-label" for="confirm-password">Confirm password</label>
-                            <input class="form-input" id="confirm-password" type="password" name="confirm-password">
+                            <input class="general-input" id="confirm-password" type="password" name="confirm-password">
                         </div>
                         <button class="general-button sign-up-button" type="button">Sign up</button>
                     </form>
