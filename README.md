@@ -23,7 +23,7 @@ To ensure our users security are all passwords **Hashed** and **Salted**.
 A Hash is a function that takes in any input and computes a nearly random fixed set of characters that look like a random mess. Our users passwords are hashed using BCrypt which is one of the most secure hasing algorithms as of 2022. This means that anyone with access to our database will not be able to use any of the passwords to access any accounts because hashing is 1 way only.
 
 ### **Salt:**
-A Salt is a short random set of characters that is added to the password before its hashed. The reason we do this is to make sure precomputed hashes (Rainbow Tables) are not used to reverse engineer any commonly used passwords. This ensures that not even brute forcing is worth it for any person with malicious intend.
+A Salt is a short random set of characters that is added to the password before it is passed through the hash function described above. This ensures any precomputed hashes (Rainbow Tables) are not used to reverse engineer any commonly used passwords. This ensures that not even brute forcing is worth it for any person with malicious intend.
 
 
 ## System Architecture
