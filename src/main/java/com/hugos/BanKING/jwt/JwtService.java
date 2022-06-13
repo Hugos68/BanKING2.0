@@ -1,8 +1,8 @@
-package com.hugos.BanKING.jsonwebtoken;
+package com.hugos.BanKING.jwt;
 
 import com.hugos.BanKING.appuser.AppUser;
-import com.hugos.BanKING.jsonwebtoken.tokens.DecodedAccessToken;
-import com.hugos.BanKING.jsonwebtoken.tokens.DecodedRefreshToken;
+import com.hugos.BanKING.jwt.tokens.DecodedAccessToken;
+import com.hugos.BanKING.jwt.tokens.DecodedRefreshToken;
 import com.hugos.BanKING.role.Role;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

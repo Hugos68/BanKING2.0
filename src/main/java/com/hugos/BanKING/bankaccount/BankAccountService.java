@@ -1,8 +1,10 @@
 package com.hugos.BanKING.bankaccount;
 
 import lombok.AllArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Optional;
 
 @Service
@@ -19,16 +21,16 @@ public class BankAccountService {
         return bankAccountRepository.save(bankAccount);
     }
 
-    public void deposit() {
-
+    public ResponseEntity<?> deposit(HttpServletRequest request) {
+        return null;
     }
 
-    public void withdraw() {
-
+    public ResponseEntity<?> withdraw(HttpServletRequest request) {
+        return null;
     }
 
-    public void transfer() {
-
+    public ResponseEntity<?> transfer(HttpServletRequest request) {
+        return null;
     }
 
 }

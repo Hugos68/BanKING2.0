@@ -4,8 +4,8 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.hugos.BanKING.bankaccount.BankAccount;
 import com.hugos.BanKING.bankaccount.BankAccountService;
-import com.hugos.BanKING.jsonwebtoken.JwtService;
-import com.hugos.BanKING.jsonwebtoken.tokens.DecodedRefreshToken;
+import com.hugos.BanKING.jwt.JwtService;
+import com.hugos.BanKING.jwt.tokens.DecodedRefreshToken;
 import com.hugos.BanKING.role.Role;
 import com.hugos.BanKING.util.EmailValidator;
 import com.hugos.BanKING.util.RequestService;
@@ -208,5 +208,13 @@ public class AppUserService {
 
         // Respond to request
         return ResponseEntity.status(status).body(responseBody);
+    }
+
+    public ResponseEntity<?> getEmail(HttpServletRequest request) {
+        return null;
+    }
+
+    public ResponseEntity<?> getBankAccount(HttpServletRequest request) {
+        return null;
     }
 }

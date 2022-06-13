@@ -1,4 +1,4 @@
-package com.hugos.BanKING.authenticate;
+package com.hugos.BanKING.auth;
 
 import com.hugos.BanKING.appuser.AppUserService;
 import lombok.RequiredArgsConstructor;

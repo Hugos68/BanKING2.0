@@ -1,4 +1,4 @@
-package com.hugos.BanKING.jsonwebtoken.tokens;
+package com.hugos.BanKING.jwt.tokens;
 
 import com.hugos.BanKING.role.Role;
 import java.util.Date;

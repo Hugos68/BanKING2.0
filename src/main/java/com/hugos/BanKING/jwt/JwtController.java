@@ -1,4 +1,4 @@
-package com.hugos.BanKING.jsonwebtoken;
+package com.hugos.BanKING.jwt;
 
 import com.hugos.BanKING.appuser.AppUserService;
 import lombok.AllArgsConstructor;
