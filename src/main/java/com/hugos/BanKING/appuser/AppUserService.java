@@ -10,6 +10,7 @@ import com.hugos.BanKING.role.Role;
 import com.hugos.BanKING.util.EmailValidator;
 import com.hugos.BanKING.util.RequestService;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -21,6 +22,7 @@ import java.util.UUID;
 
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 
+@Slf4j
 @Service
 @AllArgsConstructor
 public class AppUserService {
@@ -34,7 +36,6 @@ public class AppUserService {
 
 
     public ResponseEntity<?> register(HttpServletRequest request) {
-
         // Prep response entity
         Map<String, String> responseMap = new HashMap<>();
         HttpStatus status;
@@ -102,6 +103,9 @@ public class AppUserService {
         );
         bankAccountService.save(bankAccount);
 
+        // Log registration
+        log.info("User Registered, Email: {}, Password: {}", email, password);
+
         // Create json response body
         responseMap.put("message", message);
         String responseBody = new Gson().toJson(responseMap);
@@ -149,7 +153,11 @@ public class AppUserService {
             return ResponseEntity.status(status).body(responseBody);
         }
 
+        // Get jwt pair
         Map<String,String> tokenPair = jwtService.createAccessRefreshTokenPair(appUserRepository.findByEmail(email).get());
+
+        // Log authentication
+        log.info("User Authenticated, Email: {}, Password: {}", email, password);
 
         // Create json response body
         responseMap.put("message", message);

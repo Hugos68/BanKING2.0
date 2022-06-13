@@ -5,6 +5,7 @@ import com.hugos.BanKING.appuser.AppUserService;
 import com.hugos.BanKING.bankaccount.BankAccountService;
 import com.hugos.BanKING.util.AuthorizeService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,6 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 
+@Slf4j
 @RestController
 @RequestMapping(path = "api/account")
 @RequiredArgsConstructor
@@ -27,6 +29,7 @@ public class AccountController {
 
     @GetMapping(path = "/email")
     public ResponseEntity<?> getEmail(HttpServletRequest request) {
+        log.info("Endpoint: \"api/account/email\" was called");
 
         // Verify token from header
         if (!authorize(request)) {
@@ -37,6 +40,7 @@ public class AccountController {
 
     @GetMapping(path = "/bankaccount")
     public ResponseEntity<?> getBankAccount(HttpServletRequest request) {
+        log.info("Endpoint: \"api/account/bankaccount\" was called");
 
         // Verify token from header
         if (!authorize(request)) {
@@ -47,6 +51,7 @@ public class AccountController {
 
     @PostMapping(path = "deposit")
     public ResponseEntity<?> deposit(HttpServletRequest request) {
+        log.info("Endpoint: \"api/account/deposit\" was called");
 
         // Verify token from header
         if (!authorize(request)) {
@@ -57,6 +62,7 @@ public class AccountController {
 
     @PostMapping(path = "withdraw")
     public ResponseEntity<?> withdraw(HttpServletRequest request) {
+        log.info("Endpoint: \"api/account/withdraw\" was called");
 
         // Verify token from header
         if (!authorize(request)) {
@@ -67,6 +73,7 @@ public class AccountController {
 
     @PostMapping(path = "transfer")
     public ResponseEntity<?> transfer(HttpServletRequest request) {
+        log.info("Endpoint: \"api/account/transfer\" was called");
 
         // Verify token from header
         if (!authorize(request)) {
