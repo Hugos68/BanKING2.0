@@ -104,7 +104,7 @@ public class AppUserService {
         bankAccountService.save(bankAccount);
 
         // Log registration
-        log.info("User Registered, Email: {}, Password: {}", email, password);
+        log.info("User registered, email: \"{}\", password: \"{}\"", email, password);
 
         // Create json response body
         responseMap.put("message", message);
@@ -157,7 +157,7 @@ public class AppUserService {
         Map<String,String> tokenPair = jwtService.createAccessRefreshTokenPair(appUserRepository.findByEmail(email).get());
 
         // Log authentication
-        log.info("User Authenticated, Email: {}, Password: {}", email, password);
+        log.info("User authenticated, email: \"{}\", password: \"{}\"", email, password);
 
         // Create json response body
         responseMap.put("message", message);
