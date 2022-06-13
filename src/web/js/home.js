@@ -106,7 +106,8 @@ signInButton.addEventListener('click', async () => {
         body: JSON.stringify(jsonObj)
     });
     if (!loginResponse.ok) throw new Error(loginResponse.status+' '+loginResponse.statusText);
-    // TODO: Fetch feedback label
+
+    promptFeedback(signInLabel, "Login success!", softGreenHex);
 
     // Get token pair from response
     const tokenPair = await loginResponse.json();
@@ -154,7 +155,8 @@ signUpButton.addEventListener('click', async () => {
         body: JSON.stringify(jsonObj)
     });
     if (!registrationResponse.ok) throw new Error(registrationResponse.status+' '+registrationResponse.statusText);
-    // TODO: Fetch feedback label
+
+    promptFeedback(signInLabel, "Registration success!", softGreenHex);
 
     // User is registered here, maybe confetti?
 });

@@ -1,5 +1,15 @@
 const signOutButton = document.querySelector(".sign-out-button");
 
+
+document.addEventListener('DOMContentLoaded0', async () => {
+    try {
+        // TODO: Fetch email, balance and iban with access_token in cookies
+
+    } catch (e) {
+        // TODO: Redirect home (something went wrong authenticating)
+    }
+});
+
 signOutButton.addEventListener('click', async () => {
 
     // Set tokens to undefine to counter auto-login, set expires to now plus 1 second to expire them
