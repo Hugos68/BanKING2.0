@@ -23,7 +23,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         }
         else {
             // Get token pair from response
-            const tokenPair = refreshResponse.json();
+            const tokenPair = await refreshResponse.json();
 
             // Create expire date (1 year from now)
             const date = new Date();
