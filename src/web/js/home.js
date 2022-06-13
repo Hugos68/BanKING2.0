@@ -156,7 +156,7 @@ signUpButton.addEventListener('click', async () => {
     });
     if (!registrationResponse.ok) throw new Error(registrationResponse.status+' '+registrationResponse.statusText);
 
-    promptFeedback(signInLabel, "Registration success!", softGreenHex);
+    promptFeedback(signUpLabel, "Registration success!", softGreenHex);
 
     // User is registered here, maybe confetti?
 });
