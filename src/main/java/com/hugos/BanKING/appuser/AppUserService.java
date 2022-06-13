@@ -69,7 +69,7 @@ public class AppUserService {
         }
         else {
             status = HttpStatus.CREATED;
-            message = "User registered";
+            message = "User was registered";
         }
 
         // Check if something was wrong, if so, return 400 code
@@ -143,7 +143,7 @@ public class AppUserService {
         }
         else {
             status = HttpStatus.OK;
-            message = "User authenticated";
+            message = "User was authenticated";
         }
 
         // Check if something was wrong, if so, return 400 code
@@ -177,7 +177,7 @@ public class AppUserService {
         HttpStatus status;
         String message;
 
-        // Get data from request
+        // Get authorization
         String refreshToken = request.getHeader(AUTHORIZATION).substring("Bearer ".length());
 
         // Get decoded token from request
@@ -186,7 +186,7 @@ public class AppUserService {
         // Token validation
         if (decodedRefreshToken==null) {
             status = HttpStatus.UNPROCESSABLE_ENTITY;
-            message = "Invalid token";
+            message = "Refresh token is invalid";
         }
         else if (decodedRefreshToken.isExpired()) {
             status = HttpStatus.UNAUTHORIZED;
@@ -194,7 +194,7 @@ public class AppUserService {
         }
         else {
             status = HttpStatus.OK;
-            message = "Token validated";
+            message = "Refresh token was validated";
         }
 
         // Check if something was wrong, if so, return 400 code
