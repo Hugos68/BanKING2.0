@@ -4,9 +4,7 @@ import com.hugos.BanKING.jwt.JwtService;
 import com.hugos.BanKING.jwt.tokens.DecodedAccessToken;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
 import javax.servlet.http.HttpServletRequest;
-
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import static org.springframework.http.HttpStatus.OK;
 import static org.springframework.http.HttpStatus.UNAUTHORIZED;

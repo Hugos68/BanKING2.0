@@ -16,12 +16,12 @@ import javax.servlet.http.HttpServletRequest;
 @RequiredArgsConstructor
 public class AuthenticationController {
 
-    private final AppUserService appUserService;
+    private final AuthenticationService authenticate;
 
     @PostMapping
     @CrossOrigin
     public ResponseEntity<?> authenticate(HttpServletRequest request) {
         log.info("Endpoint: \"/api/authentication\" was called");
-        return appUserService.authenticate(request);
+        return authenticate.authenticate(request);
     }
 }
