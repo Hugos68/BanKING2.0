@@ -18,12 +18,9 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class AccountService {
 
-    // TODO: Create logic that makes sure access token is valid, not expired and contains roles to access resources
-
     private final AppUserService appUserService;
     private final BankAccountService bankAccountService;
     private final AuthorizationService authorizationService;
-
 
     public ResponseEntity<?> getEmail(HttpServletRequest request) {
         ResponseEntity<?> authorizeResponse = authorizeRequest(request);
@@ -84,7 +81,6 @@ public class AccountService {
         // Execute request once authorized
         return bankAccountService.transfer(request);
     }
-
 
     private ResponseEntity<?> authorizeRequest(HttpServletRequest request) {
 
