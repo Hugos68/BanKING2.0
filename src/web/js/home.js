@@ -105,30 +105,35 @@ signInButton.addEventListener('click', async () => {
         }),
         body: JSON.stringify(jsonObj)
     });
-    if (!loginResponse.ok) throw new Error(loginResponse.status+' '+loginResponse.statusText);
+    if (!loginResponse.ok) {
 
-    promptFeedback(signInLabel, "Login success!", softGreenHex);
+        // Prompt server response formatted to be user friendly
+        promptFeedback(signInLabel, (await loginResponse.json())["message"], softRedHex);
+    }
+    else {
+        promptFeedback(signInLabel, "Login success!", softGreenHex);
 
-    // Get token pair from response
-    const tokenPair = await loginResponse.json();
+        // Get token pair from response
+        const tokenPair = await loginResponse.json();
 
-    // Create expire dates for tokens
-    const date = new Date();
-    const refreshExpire = new Date(date.getTime() + (7 * 24 * 60 * 60 * 1000));
-    const accessExpire = new Date(date.getTime() + (15 * 60 * 1000));
+        // Create expire dates for tokens
+        const date = new Date();
+        const refreshExpire = new Date(date.getTime() + (7 * 24 * 60 * 60 * 1000));
+        const accessExpire = new Date(date.getTime() + (15 * 60 * 1000));
 
-    // Set refresh token cookie with expire date of 1 year
-    document.cookie = "refresh_token="+tokenPair["refresh_token"]
-        + "; SameSite=lax"
-        + "; expires="+refreshExpire.toUTCString()+";";
+        // Set refresh token cookie with expire date of 1 year
+        document.cookie = "refresh_token="+tokenPair["refresh_token"]
+            + "; SameSite=lax"
+            + "; expires="+refreshExpire.toUTCString()+";";
 
-    // Set access token cookie with expire date of session
-    document.cookie = "access_token="+tokenPair["access_token"]
-        + "; SameSite=lax"
-        + "; expires="+accessExpire.toUTCString()+";";
+        // Set access token cookie with expire date of session
+        document.cookie = "access_token="+tokenPair["access_token"]
+            + "; SameSite=lax"
+            + "; expires="+accessExpire.toUTCString()+";";
 
-    // Redirect to account page
-    location.replace("account.html");
+        // Redirect to account page
+        location.replace("account.html");
+    }
 });
 
 // Sign Up Event
@@ -154,11 +159,15 @@ signUpButton.addEventListener('click', async () => {
         }),
         body: JSON.stringify(jsonObj)
     });
-    if (!registrationResponse.ok) throw new Error(registrationResponse.status+' '+registrationResponse.statusText);
+    if (!registrationResponse.ok) {
 
-    promptFeedback(signUpLabel, "Registration success!", softGreenHex);
-
-    // User is registered here, maybe confetti?
+        // Prompt server response formatted to be user friendly
+        promptFeedback(signUpLabel, (await registrationResponse.json())["message"], softRedHex);
+    }
+    else {
+        // User is registered here, maybe confetti?
+        promptFeedback(signUpLabel, "Registration success!", softGreenHex);
+    }
 });
 
 function validateSignIn(jsonObj) {
