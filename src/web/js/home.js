@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         const refreshResponse = await fetch("http://localhost:8080/api/token/pair-refresh", {
             method: 'get',
             headers: {
-                'Authorization': 'Bearer '+refreshToken
+                'Authorization': 'Bearer '+ refreshToken
             }
         });
         if (!refreshResponse.ok) {

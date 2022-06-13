@@ -345,21 +345,23 @@ body {
     text-decoration-color: black;
 }
 
-
 /*
 ===============================
             Banking
 ===============================
  */
 
-
 .banking > .section-block {
     width: 150px;
     height: 400px;
 }
 
-.banking-middle {
-    margin-top: 50px;
+.banking-left {
+    margin-top: 350px;
+}
+
+.banking-right {
+    margin-top: 350px;
 }
 
 /*
@@ -510,7 +512,11 @@ body {
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        height: 1750px;
+        height: 1100px;
+    }
+
+    .banking > .section-block {
+        margin-top: 25px;
     }
 }
 
