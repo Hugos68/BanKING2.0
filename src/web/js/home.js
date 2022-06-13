@@ -4,8 +4,8 @@ const signInForm = document.querySelector(".sign-in-form");
 const signUpForm = document.querySelector(".sign-up-form");
 const signInLabel = document.querySelector(".sign-in-feedback");
 const signUpLabel = document.querySelector(".sign-up-feedback");
-const softRedHex = '#F47174';
-const softGreenHex = '#ACD1AF';
+const redHex = '#F47174';
+const greenHex = '#228B22';
 const refreshToken = getCookie("refresh_token");
 
 document.addEventListener("DOMContentLoaded", async () => {
@@ -99,7 +99,7 @@ signInButton.addEventListener('click', async () => {
     const validationResponse = validateSignIn(jsonObj);
 
     if (validationResponse!=="OK") {
-        promptFeedback(signInLabel, validationResponse, softRedHex);
+        promptFeedback(signInLabel, validationResponse, redHex);
     }
 
 
@@ -113,10 +113,10 @@ signInButton.addEventListener('click', async () => {
     if (!loginResponse.ok) {
 
         // Prompt server response formatted to be user friendly
-        promptFeedback(signInLabel, (await loginResponse.json())["message"], softRedHex);
+        promptFeedback(signInLabel, (await loginResponse.json())["message"], redHex);
     }
     else {
-        promptFeedback(signInLabel, "Login success!", softGreenHex);
+        promptFeedback(signInLabel, "Success, signing in...", greenHex);
 
         // Get token pair from response
         const tokenPair = await loginResponse.json();
@@ -137,7 +137,9 @@ signInButton.addEventListener('click', async () => {
             + "; expires="+accessExpire.toUTCString()+";";
 
         // Redirect to account page
-        location.replace("account.html");
+        setTimeout(async () => {
+            location.replace("account.html")
+        }, 750);
     }
 });
 
@@ -154,7 +156,7 @@ signUpButton.addEventListener('click', async () => {
     const validationResponse = validateSignUp(jsonObj, formData.get("confirm-password"));
 
     if (validationResponse!=="OK") {
-        promptFeedback(signUpLabel, validationResponse, softRedHex)
+        promptFeedback(signUpLabel, validationResponse, redHex)
     }
 
     const registrationResponse = await fetch("http://localhost:8080/api/registration",  {
@@ -167,11 +169,11 @@ signUpButton.addEventListener('click', async () => {
     if (!registrationResponse.ok) {
 
         // Prompt server response formatted to be user friendly
-        promptFeedback(signUpLabel, (await registrationResponse.json())["message"], softRedHex);
+        promptFeedback(signUpLabel, (await registrationResponse.json())["message"], redHex);
     }
     else {
         // User is registered here, maybe confetti?
-        promptFeedback(signUpLabel, "Registration success!", softGreenHex);
+        promptFeedback(signUpLabel, "Registration success!", greenHex);
     }
 });
 
