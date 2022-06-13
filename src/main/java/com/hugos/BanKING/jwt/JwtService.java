@@ -98,7 +98,6 @@ public class JwtService {
         return new DecodedRefreshToken(subject, issuer, issuedAt, isExpired);
     }
 
-
     private Claims getAllClaimsFromToken(String jwt) {
         Claims claims;
         try {

@@ -11,15 +11,8 @@ public class AuthorizeService {
 
     private final JwtService jwtService;
 
-    public boolean isAuthorized(String token) {
-        DecodedAccessToken decodedAccessToken = jwtService.decodeAccessToken(token);
-        if (decodedAccessToken==null) {
-            return false;
-        }
-        if (decodedAccessToken.isExpired()) {
-            return false;
-        }
-        return true;
+    public DecodedAccessToken getDecodedAccessToken(String token) {
+        return jwtService.decodeAccessToken(token);
     }
 
 }
