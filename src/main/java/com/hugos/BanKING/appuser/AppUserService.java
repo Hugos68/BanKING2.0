@@ -179,7 +179,7 @@ public class AppUserService {
         HttpStatus status;
         String message;
 
-        // TODO: Handle exception that gets thrown when no token is submitted
+        // TODO: Handle exception that gets thrown when no token is submitted (maybe let front end not send it in the first place)
 
         // Get authorization token
         String refreshToken = request.getHeader(AUTHORIZATION).substring("Bearer ".length());
