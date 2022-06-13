@@ -21,7 +21,7 @@ public class AuthenticationController {
     @PostMapping
     @CrossOrigin
     public ResponseEntity<?> authenticate(HttpServletRequest request) {
-        log.info("Endpoint: \"/api/authentication\" was called");
+        log.info("Endpoint: \"api/authentication\" was called");
         return authenticate.authenticate(request);
     }
 }
