@@ -2,6 +2,10 @@ const signInButton = document.querySelector(".sign-in-button");
 const signUpButton = document.querySelector(".sign-up-button");
 const signInForm = document.querySelector(".sign-in-form");
 const signUpForm = document.querySelector(".sign-up-form");
+const signInLabel = document.querySelector(".sign-in-feedback");
+const signUpLabel = document.querySelector(".sign-up-feedback");
+const softRedHex = '#F47174';
+const softGreenHex = '#ACD1AF';
 const refreshToken = getCookie("refresh_token");
 
 document.addEventListener("DOMContentLoaded", async () => {
@@ -37,7 +41,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     catch (e) {
         setPageLoggedIn(false);
     }
-})
+});
 
 
 // Get cookie from name, returns null if cookie was not found
@@ -87,7 +91,12 @@ signInButton.addEventListener('click', async () => {
         return res;
     },{});
 
-    // TODO: Validate login data (Better user experience)
+    const validationResponse = validateSignIn(jsonObj);
+
+    if (validationResponse!=="OK") {
+        promptFeedback(signInLabel, validationResponse, softRedHex);
+    }
+
 
     const loginResponse = await fetch("http://localhost:8080/api/authenticate",  {
         method:'POST',
@@ -97,6 +106,7 @@ signInButton.addEventListener('click', async () => {
         body: JSON.stringify(jsonObj)
     });
     if (!loginResponse.ok) throw new Error(loginResponse.status+' '+loginResponse.statusText);
+    // TODO: Fetch feedback label
 
     // Get token pair from response
     const tokenPair = await loginResponse.json();
@@ -130,7 +140,11 @@ signUpButton.addEventListener('click', async () => {
         return res;
     },{});
 
-    // TODO: Validate register data (Better user experience), note: pass in formData.get("confirm-password");
+    const validationResponse = validateSignUp(jsonObj, formData.get("confirm-password"));
+
+    if (validationResponse!=="OK") {
+        promptFeedback(signUpLabel, validationResponse, softRedHex)
+    }
 
     const registrationResponse = await fetch("http://localhost:8080/api/registration",  {
         method:'POST',
@@ -140,6 +154,71 @@ signUpButton.addEventListener('click', async () => {
         body: JSON.stringify(jsonObj)
     });
     if (!registrationResponse.ok) throw new Error(registrationResponse.status+' '+registrationResponse.statusText);
+    // TODO: Fetch feedback label
 
     // User is registered here, maybe confetti?
 });
+
+function validateSignIn(jsonObj) {
+
+    const email = jsonObj.email;
+
+    if (email === null || email === "") {
+        return "Missing Email"
+    }
+
+    const password = jsonObj.password;
+
+    if (password === null || password === "") {
+        return "Missing Password"
+    }
+
+    return "OK";
+}
+
+function validateSignUp(jsonObj, confirmPassword) {
+
+    const email = jsonObj.email
+
+    if (email === null || email === "") {
+        return "Missing Email"
+    }
+
+    if (!email.match(new RegExp("(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|\"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\\\[\x01-\x09\x0b\x0c\x0e-\x7f])*\")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\\])"))) {
+        return "Invalid Email";
+    }
+
+    const password = jsonObj.password
+
+    if (password === null || password === "") {
+        return "Missing Password"
+    }
+
+    if (password.length < 8) {
+        return "Password is too short";
+    }
+
+    if (confirmPassword === null || confirmPassword === "") {
+        return "Missing Confirm password";
+    }
+
+    if (password !== confirmPassword) {
+        return "Password mismatch";
+    }
+
+    return "OK";
+}
+
+
+let fading = false;
+function promptFeedback(element, text, color) {
+    if (!fading) {
+        fading = true;
+        element.innerText = text;
+        element.style.color = color;
+        element.classList.add("feedback-label-fade");
+        setTimeout(async () => {
+            element.classList.remove("feedback-label-fade"); fading=false;
+        }, 2000);
+    }
+}

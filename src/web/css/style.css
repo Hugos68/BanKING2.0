@@ -144,6 +144,26 @@ body {
     gap: 10px;
 }
 
+.feedback-label {
+    height: 25px;
+    opacity: 0;
+    font-weight: bold;
+}
+
+.feedback-label-fade {
+    animation: fade-out 2s ease-in-out;
+}
+
+@keyframes fade-out {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
+}
+
+
 .general-button {
     background: transparent;
     border: black solid 2px;
