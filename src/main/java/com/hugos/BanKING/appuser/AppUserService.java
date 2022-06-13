@@ -172,7 +172,7 @@ public class AppUserService {
     }
 
 
-    public ResponseEntity<?> refreshTokenPair(HttpServletRequest request) {
+    public ResponseEntity<?> refreshAccessToken(HttpServletRequest request) {
 
         // Prep response entity
         Map<String, String> responseMap = new HashMap<>();
@@ -194,6 +194,10 @@ public class AppUserService {
             status = HttpStatus.UNAUTHORIZED;
             message = "Refresh token has expired";
         }
+        else if (appUserRepository.findByEmail(decodedRefreshToken.subject()).isEmpty()) {
+            status = HttpStatus.UNPROCESSABLE_ENTITY;
+            message = "Refresh token is invalid";
+        }
         else {
             status = HttpStatus.OK;
             message = "Refresh token was validated";
@@ -206,6 +210,7 @@ public class AppUserService {
             return ResponseEntity.status(status).body(responseBody);
         }
 
+        // Get token pair (Note: refresh is not used to force authentication after 1 week)
         Map<String,String> tokenPair = jwtService.createAccessRefreshTokenPair(
                 appUserRepository.findByEmail(decodedRefreshToken.subject()).get()
         );
@@ -213,7 +218,6 @@ public class AppUserService {
         // Create json response body
         responseMap.put("message", message);
         responseMap.put("access_token", tokenPair.get("access_token"));
-        responseMap.put("refresh_token", tokenPair.get("refresh_token"));
         String responseBody = new Gson().toJson(responseMap);
 
         // Respond to request

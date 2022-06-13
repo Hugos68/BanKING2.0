@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 
 @Slf4j
 @RestController
-@RequestMapping(path = "/api/token/pair-refresh")
+@RequestMapping(path = "/api/token/access/refresh")
 @AllArgsConstructor
 public class JwtController {
 
@@ -22,6 +22,6 @@ public class JwtController {
     @CrossOrigin
     public ResponseEntity<?> refreshToken(HttpServletRequest request) {
         log.info("Endpoint: \"api/token/pair-refresh\" was called");
-        return appUserService.refreshTokenPair(request);
+        return appUserService.refreshAccessToken(request);
     }
 }

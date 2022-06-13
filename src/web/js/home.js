@@ -17,7 +17,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
     try {
         // Send refresh token to server to validate it
-        const refreshResponse = await fetch("http://localhost:8080/api/token/pair-refresh", {
+        const refreshResponse = await fetch("http://localhost:8080/api/token/access/refresh", {
             method: 'get',
             headers: {
                 'Authorization': 'Bearer '+ refreshToken
