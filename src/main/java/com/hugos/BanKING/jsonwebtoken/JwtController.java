@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.HttpServletRequest;
 
 @RestController
-@RequestMapping(path = "/api/token/refresh")
+@RequestMapping(path = "/api/token/pair-refresh")
 @AllArgsConstructor
 public class JwtController {
 

@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.HttpServletRequest;
 
 @RestController
-@RequestMapping(path = "/api/authenticate")
+@RequestMapping(path = "/api/authentication")
 @RequiredArgsConstructor
 public class AuthenticationController {
 

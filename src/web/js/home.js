@@ -12,7 +12,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     // Send refresh token to server to validate it
     try {
-        const refreshResponse = await fetch("http://localhost:8080/api/token/refresh", {
+        const refreshResponse = await fetch("http://localhost:8080/api/token/pair-refresh", {
             method: 'get',
             headers: {
                 'Authorization': 'Bearer '+refreshToken
@@ -98,7 +98,7 @@ signInButton.addEventListener('click', async () => {
     }
 
 
-    const loginResponse = await fetch("http://localhost:8080/api/authenticate",  {
+    const loginResponse = await fetch("http://localhost:8080/api/authentication",  {
         method:'POST',
         headers: new Headers({
             'content-type': 'application/json'
