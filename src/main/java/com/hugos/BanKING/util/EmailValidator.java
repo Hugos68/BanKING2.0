@@ -4,7 +4,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class EmailValidator {
-    public boolean validate(String email) {
+    public static boolean validate(String email) {
         return email.matches("(?:[a-z\\d!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z\\d!#$%&'*" +
             "+/=?^_`{|}~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x" +
             "5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[a-z\\d](?:[a-" +

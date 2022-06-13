@@ -30,7 +30,6 @@ public class AppUserService {
     private final AppUserRepository appUserRepository;
     private final BankAccountService bankAccountService;
     private final RequestService requestService;
-    private final EmailValidator emailValidator;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final JwtService jwtService;
 
@@ -51,7 +50,7 @@ public class AppUserService {
             status = HttpStatus.UNPROCESSABLE_ENTITY;
             message = "Email is missing";
         }
-        else if (!emailValidator.validate(email)) {
+        else if (!EmailValidator.validate(email)) {
             status = HttpStatus.UNPROCESSABLE_ENTITY;
             message = "Email is invalid";
         }
@@ -129,7 +128,8 @@ public class AppUserService {
             status = HttpStatus.UNPROCESSABLE_ENTITY;
             message = "Email is missing";
         }
-        else if (appUserRepository.findByEmail(email).isEmpty()) {
+        // Prevent database from querying if email is not valid
+        else if (!EmailValidator.validate(email) || appUserRepository.findByEmail(email).isEmpty()) {
             status = HttpStatus.CONFLICT;
             message = "Email not found";
         }

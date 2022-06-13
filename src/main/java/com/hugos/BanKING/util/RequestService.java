@@ -10,7 +10,6 @@ import java.util.stream.Collectors;
 @Service
 public class RequestService {
 
-
     // Returns null if parse fails
     public JsonObject getJsonFromRequest(HttpServletRequest request) {
         JsonObject jsonObj;
