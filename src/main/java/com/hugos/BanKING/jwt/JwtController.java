@@ -21,7 +21,7 @@ public class JwtController {
     @GetMapping
     @CrossOrigin
     public ResponseEntity<?> refreshToken(HttpServletRequest request) {
-        log.info("Endpoint: \"api/token/pair-refresh\" was called");
+        log.info("Endpoint: \"api/token/access/refresh\" was called");
         return appUserService.refreshAccessToken(request);
     }
 }

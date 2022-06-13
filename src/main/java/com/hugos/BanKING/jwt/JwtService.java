@@ -79,6 +79,13 @@ public class JwtService {
     // Returns null if token is invalid
     public DecodedRefreshToken decodeRefreshToken(String token) {
 
+        // Check if token is missing
+        if (token.length()<7) {
+            return null;
+        }
+
+        token = token.substring("Bearer ".length());
+
         // Get payload from token
         Claims claims = getAllClaimsFromToken(token);
         if (claims==null) {

@@ -508,16 +508,19 @@ body {
 }
 
 @media (max-width: 1200px) {
+    .overview {
+        margin-bottom: 50px;
+    }
     .banking {
         flex-direction: column;
         justify-content: center;
         align-items: center;
         height: 1100px;
     }
-
     .banking > .section-block {
         margin-top: 25px;
     }
+
 }
 
 @media (max-width: 600px) {
