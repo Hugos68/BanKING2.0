@@ -10,12 +10,8 @@ const refreshToken = getCookie("refresh_token");
 
 document.addEventListener("DOMContentLoaded", async () => {
 
-    // Prevent unnecessary fetch by null checking
-    if(refreshToken==="" || refreshToken===null) {
-        setPageLoggedIn(false);
-        return;
-    }
     try {
+
         // Send refresh token to server to validate it
         const refreshResponse = await fetch("http://localhost:8080/api/token/access/refresh", {
             method: 'get',
@@ -27,6 +23,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             setPageLoggedIn(false)
         }
         else {
+
             // Get token pair from response
             const tokenPair = await refreshResponse.json();
 
