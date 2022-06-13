@@ -179,8 +179,10 @@ public class AppUserService {
         HttpStatus status;
         String message;
 
-        // Get request authorization header
-        String refreshToken = request.getHeader(AUTHORIZATION);
+        // TODO: Handle exception that gets thrown when no token is submitted
+
+        // Get authorization token
+        String refreshToken = request.getHeader(AUTHORIZATION).substring("Bearer ".length());
 
         // Get decoded token from request
         DecodedRefreshToken decodedRefreshToken = jwtService.decodeRefreshToken(refreshToken);
