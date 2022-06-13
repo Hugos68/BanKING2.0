@@ -16,17 +16,13 @@
                        onclick="document.getElementById('overview').scrollIntoView({behavior: 'smooth'})">
                         Overview
                     </a>
-                    <a class="nav-item nav-deposit"
-                       onclick="document.getElementById('deposit').scrollIntoView({behavior: 'smooth'})">
-                        Deposit
+                    <a class="nav-item nav-banking"
+                       onclick="document.getElementById('banking').scrollIntoView({behavior: 'smooth'})">
+                        Banking
                     </a>
-                    <a class="nav-item nav-withdraw"
-                       onclick="document.getElementById('withdraw').scrollIntoView({behavior: 'smooth'})">
-                        Withdraw
-                    </a>
-                    <a class="nav-item nav-transfer"
-                       onclick="document.getElementById('transfer').scrollIntoView({behavior: 'smooth'})">
-                        Transfer
+                    <a class="nav-item nav-transactions"
+                       onclick="document.getElementById('transactions').scrollIntoView({behavior: 'smooth'})">
+                        Transactions
                     </a>
                 </nav>
                 <button class="general-button sign-out-button">Sign out</button>
@@ -43,30 +39,53 @@
                 </div>
             </section>
 
-            <section class="section deposit" id="deposit">
-                <div class="section-block deposit-left">
+            <section class="section banking" id="banking">
+                <div class="section-block banking-left">
+                    <form class="deposit-form general-form">
+                        <p class="page-title">Deposit</p>
+                        <div class="input-label-combination">
+                            <label class="deposit-label" for="deposit-amount">Amount</label>
+                            <input class="general-input" id="deposit-amount" type="text" name="amount">
+                        </div>
+                        <div class="feedback-label deposit-feedback"></div>
+                        <button class="general-button deposit-button" type="button">Deposit</button>
+                    </form>
+                </div>
+                <div class="section-block banking-middle">
+                    <form class="transfer-form general-form">
+                        <p class="page-title">Transfer</p>
+                        <div class="input-label-combination">
+                            <label class="transfer-label" for="transfer-to">Receiver (IBAN)</label>
+                            <input class="general-input" id="transfer-to" type="text" name="amount">
+                        </div>
+                        <div class="input-label-combination">
+                            <label class="transfer-label" for="transfer-amount">Amount</label>
+                            <input class="general-input" id="transfer-amount" type="text" name="amount">
+                        </div>
+                        <div class="feedback-label transfer-feedback"></div>
+                        <button class="general-button transfer-button" type="button">Transfer</button>
+                    </form>
 
                 </div>
-                <div class="section-block deposit-right">
-
+                <div class="section-block banking-right">
+                    <form class="withdraw-form general-form">
+                        <p class="page-title">Withdraw</p>
+                        <div class="input-label-combination">
+                            <label class="deposit-label" for="withdraw-amount">Amount</label>
+                            <input class="general-input" id="withdraw-amount" type="text" name="amount">
+                        </div>
+                        <div class="feedback-label withdraw-feedback"></div>
+                        <button class="general-button withdraw-button" type="button">Withdraw</button>
+                    </form>
                 </div>
             </section>
 
-            <section class="section withdraw" id="withdraw">
-                <div class="section-block withdraw-left">
-
+            <section class="section transactions" id="transactions">
+                <div class="section-block transactions-left">
+                    COMING SOON
                 </div>
-                <div class="section-block withdraw-right">
-
-                </div>
-            </section>
-
-            <section class="section transfer" id="transfer">
-                <div class="section-block transfer-left">
-
-                </div>
-                <div class="section-block transfer-right">
-
+                <div class="section-block transactions-right">
+                    COMING SOON
                 </div>
             </section>
 

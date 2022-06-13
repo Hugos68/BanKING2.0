@@ -194,12 +194,17 @@ body {
 ====================================================
  */
 
+/*
+===============================
+           Header
+===============================
+ */
+
 .jwt-icon {
     margin-top: 10px;
     width: 50px;
     height: 50px;
 }
-
 
 /*
 ===============================
@@ -343,24 +348,30 @@ body {
 
 /*
 ===============================
-           Deposit
+            Banking
 ===============================
  */
 
+
+.banking > .section-block {
+    width: 150px;
+    height: 400px;
+}
+
+.banking-middle {
+    margin-top: 50px;
+}
 
 /*
 ===============================
-           Withdraw
+          Transactions
 ===============================
  */
 
-
-/*
-===============================
-           Transfer
-===============================
- */
-
+.transactions > .section-block {
+    width: 150px;
+    margin-top: 75px;
+}
 
 
 /*
@@ -494,14 +505,20 @@ body {
     }
 }
 
-@media (max-width: 700px) {
-    .nav-deposit {
+@media (max-width: 1200px) {
+    .banking {
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 1750px;
+    }
+}
+
+@media (max-width: 600px) {
+    .nav-banking {
         display: none;
     }
-    .nav-withdraw {
-        display: none;
-    }
-    .nav-transfer {
+    .nav-transactions {
         display: none;
     }
 }
