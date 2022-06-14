@@ -18,8 +18,8 @@ public class AuthenticationController {
 
     private final AuthenticationService authenticate;
 
-    @PostMapping
     @CrossOrigin
+    @PostMapping
     public ResponseEntity<?> authenticate(HttpServletRequest request) {
         log.info("Endpoint: \"api/authentication\" was called");
         return authenticate.authenticate(request);

@@ -15,8 +15,8 @@ public class RegistrationController {
 
     private final AppUserService appUserService;
 
+    @CrossOrigin
     @PostMapping
-    @CrossOrigin(origins = "http://localhost:63342")
     public ResponseEntity<?> register(HttpServletRequest request) {
         log.info("Endpoint: \"api/registration\" was called");
         return appUserService.register(request);
