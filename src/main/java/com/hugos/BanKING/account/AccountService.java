@@ -1,6 +1,7 @@
 package com.hugos.BanKING.account;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.hugos.BanKING.appuser.AppUserService;
 import com.hugos.BanKING.authorization.AuthorizationOutcome;
 import com.hugos.BanKING.bankaccount.BankAccountService;
@@ -89,17 +90,10 @@ public class AccountService {
         AuthorizationOutcome authorizationOutcome = authorizationService.authorize(request);
         if (!authorizationOutcome.isAuthorized() || !authorizationOutcome.getRole().equals(Role.USER)) {
 
-            Map<String, String> responseMap = new HashMap<>();
-
-            HttpStatus status = authorizationOutcome.getStatus();
-            String message = authorizationOutcome.getMessage();
-
-            // Create json response body
-            responseMap.put("message", message);
-            String responseBody = new Gson().toJson(responseMap);
-
-            // Compile authorization response
-            return ResponseEntity.status(status).body(responseBody);
+            // Create authorization response
+            JsonObject jsonObject = new JsonObject();
+            jsonObject.addProperty("message", authorizationOutcome.getMessage());
+            return ResponseEntity.status(authorizationOutcome.getStatus()).body(jsonObject.toString());
         }
 
         // Return empty response entity if request was authorized
