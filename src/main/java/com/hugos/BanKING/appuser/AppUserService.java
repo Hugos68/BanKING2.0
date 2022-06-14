@@ -186,8 +186,8 @@ public class AppUserService {
 
         // Create json response body
         JsonObject jsonObject = new JsonObject();
-        jsonObject.addProperty("id", appUser.getId());
-        jsonObject.addProperty("email", appUser.getEmail());
+        jsonObject.addProperty("app_user_id", appUser.getId());
+        jsonObject.addProperty("app_user_email", appUser.getEmail());
         jsonObject.addProperty("bank_account_id", bankAccount.getId());
         jsonObject.addProperty("bank_account_iban", bankAccount.getIban());
         jsonObject.addProperty("bank_account_balance", bankAccount.getBalance());

@@ -1,29 +1,30 @@
 const signOutButton = document.querySelector(".sign-out-button");
 const emailElement = document.querySelector(".email");
+const balanceElement = document.querySelector(".balance");
 const accessToken = getCookie("access_token");
 
+// TODO: Hide content until all fetches are successful
+
+// TODO: Handle data and put it in the html
 
 document.addEventListener('DOMContentLoaded', async () => {
     try {
-        const emailResponse = fetch("http://localhost:8080/account/email", {
+        const emailResponse = await fetch("http://localhost:8080/account", {
             method: 'get',
             headers: {
                 'Authorization': 'Bearer '+ accessToken
             }
-        })
-        if (!(await emailResponse).ok);
+        });
+        if (!emailResponse.ok);
         else {
-            emailElement.innerHTML = (await emailResponse).json().toString();
+            const account = emailResponse.json().toString();
         }
 
 
 
-        const balanceResponse = fetch("http://localhost:8080/account/balance", {
-
-        })
-
+        (document.querySelector(".section")).style.hidden = false;
     } catch (e) {
-        // TODO: Redirect home (something went wrong authenticating)
+        location.replace("error.html");
     }
 });
 
