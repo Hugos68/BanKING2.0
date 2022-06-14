@@ -19,6 +19,10 @@ public class BankAccountService {
         return bankAccountRepository.findByIban(iban);
     }
 
+    public Optional<BankAccount> findByEmail(String email) {
+        return bankAccountRepository.findByEmail(email);
+    }
+
     public BankAccount save(BankAccount bankAccount) {
         return bankAccountRepository.save(bankAccount);
     }
@@ -35,4 +39,7 @@ public class BankAccountService {
         return null;
     }
 
+    public ResponseEntity<?> getBalance(HttpServletRequest request) {
+        return null;
+    }
 }

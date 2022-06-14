@@ -2,7 +2,7 @@ package com.hugos.BanKING.account;
 
 import com.google.gson.Gson;
 import com.hugos.BanKING.appuser.AppUserService;
-import com.hugos.BanKING.authorization.AuthorizationResponse;
+import com.hugos.BanKING.authorization.AuthorizationOutcome;
 import com.hugos.BanKING.bankaccount.BankAccountService;
 import com.hugos.BanKING.authorization.AuthorizationService;
 import com.hugos.BanKING.role.Role;
@@ -34,7 +34,8 @@ public class AccountService {
         return appUserService.getEmail(request);
     }
 
-    public ResponseEntity<?> getBankAccount(HttpServletRequest request) {
+
+    public ResponseEntity<?> getBalance(HttpServletRequest request) {
         ResponseEntity<?> authorizeResponse = authorizeRequest(request);
 
         // If response entity is not null, request was unauthorized
@@ -43,7 +44,7 @@ public class AccountService {
         }
 
         // Execute request once authorized
-        return appUserService.getBankAccount(request);
+        return bankAccountService.getBalance(request);
     }
 
     public ResponseEntity<?> deposit(HttpServletRequest request) {
@@ -85,13 +86,13 @@ public class AccountService {
     private ResponseEntity<?> authorizeRequest(HttpServletRequest request) {
 
         // Authorize access to this resource
-        AuthorizationResponse authorizationResponse = authorizationService.authorize(request);
-        if (!authorizationResponse.isAuthorized() || !authorizationResponse.getRole().equals(Role.USER)) {
+        AuthorizationOutcome authorizationOutcome = authorizationService.authorize(request);
+        if (!authorizationOutcome.isAuthorized() || !authorizationOutcome.getRole().equals(Role.USER)) {
 
             Map<String, String> responseMap = new HashMap<>();
 
-            HttpStatus status= authorizationResponse.getStatus();
-            String message= authorizationResponse.getMessage();
+            HttpStatus status = authorizationOutcome.getStatus();
+            String message = authorizationOutcome.getMessage();
 
             // Create json response body
             responseMap.put("message", message);
@@ -104,4 +105,5 @@ public class AccountService {
         // Return empty response entity if request was authorized
         return null;
     }
+
 }

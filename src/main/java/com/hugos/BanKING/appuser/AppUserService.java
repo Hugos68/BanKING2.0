@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
@@ -35,6 +36,9 @@ public class AppUserService {
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final JwtService jwtService;
 
+    public Optional<AppUser> findByEmail(String email) {
+        return appUserRepository.findByEmail(email);
+    }
 
     public ResponseEntity<?> register(HttpServletRequest request) {
         // Prep response entity
@@ -227,10 +231,24 @@ public class AppUserService {
     }
 
     public ResponseEntity<?> getEmail(HttpServletRequest request) {
-        return null;
-    }
 
-    public ResponseEntity<?> getBankAccount(HttpServletRequest request) {
-        return null;
+        // Prep response entity
+        Map<String, String> responseMap = new HashMap<>();
+        HttpStatus status;
+        String message;
+
+        // Get data from request
+        String email = jwtService.decodeAccessToken(
+            request.getHeader(AUTHORIZATION).substring("Bearer ".length())).subject();
+        status = HttpStatus.OK;
+        message = "Email fetched";
+
+        // Create json response body
+        responseMap.put("email", email);
+        responseMap.put("message", message);
+        String responseBody = new Gson().toJson(responseMap);
+
+        // Respond to request
+        return ResponseEntity.status(status).body(responseBody);
     }
 }

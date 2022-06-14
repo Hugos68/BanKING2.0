@@ -23,10 +23,10 @@ public class AccountController {
         return accountService.getEmail(request);
     }
 
-    @GetMapping(path = "/bankaccount")
+    @GetMapping(path = "/balance")
     public ResponseEntity<?> getBankAccount(HttpServletRequest request) {
         log.info("Endpoint: \"api/account/bankaccount\" was called");
-        return accountService.getBankAccount(request);
+        return accountService.getBalance(request);
     }
 
     @PostMapping(path = "deposit")

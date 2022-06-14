@@ -10,4 +10,6 @@ import java.util.Optional;
 @Transactional(readOnly = true)
 public interface BankAccountRepository extends JpaRepository<BankAccount, Long> {
     Optional<BankAccount> findByIban(String iban);
+
+    Optional<BankAccount> findByEmail(String email);
 }

@@ -6,8 +6,9 @@ import org.springframework.http.HttpStatus;
 
 @Getter
 @AllArgsConstructor
-public class AuthorizationResponse {
+public class AuthorizationOutcome {
     private boolean isAuthorized;
+    private String subject;
     private Role role;
     private HttpStatus status;
     private String message;
