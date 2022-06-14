@@ -2,7 +2,6 @@ package com.hugos.BanKING.jwt;
 
 import com.hugos.BanKING.jwt.tokens.TokenType;
 import lombok.RequiredArgsConstructor;
-import org.apache.tomcat.util.http.parser.Authorization;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;

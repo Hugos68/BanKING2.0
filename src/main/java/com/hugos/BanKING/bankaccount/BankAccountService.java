@@ -1,8 +1,12 @@
 package com.hugos.BanKING.bankaccount;
 
+import com.google.gson.JsonObject;
 import com.hugos.BanKING.appuser.AppUser;
 import com.hugos.BanKING.appuser.AppUserService;
+import com.hugos.BanKING.jwt.JwtServiceHandler;
+import com.hugos.BanKING.jwt.tokens.TokenType;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -41,7 +45,4 @@ public class BankAccountService {
         return null;
     }
 
-    public ResponseEntity<?> getBalance(HttpServletRequest request) {
-        return null;
-    }
 }

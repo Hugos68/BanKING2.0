@@ -1,6 +1,5 @@
 package com.hugos.BanKING.account;
 
-import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.hugos.BanKING.appuser.AppUserService;
 import com.hugos.BanKING.authorization.AuthorizationOutcome;
@@ -8,12 +7,9 @@ import com.hugos.BanKING.bankaccount.BankAccountService;
 import com.hugos.BanKING.authorization.AuthorizationService;
 import com.hugos.BanKING.role.Role;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import javax.servlet.http.HttpServletRequest;
-import java.util.HashMap;
-import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -45,7 +41,7 @@ public class AccountService {
         }
 
         // Execute request once authorized
-        return bankAccountService.getBalance(request);
+        return appUserService.getBalance(request);
     }
 
     public ResponseEntity<?> deposit(HttpServletRequest request) {

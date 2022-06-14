@@ -191,4 +191,19 @@ public class AppUserService {
         // Respond to request
         return ResponseEntity.status(HttpStatus.OK).body(jsonObject.toString());
     }
+
+    public ResponseEntity<?> getBalance(HttpServletRequest request) {
+
+        AppUser appUser = appUserRepository.findByEmail(jwtServiceHandler.getBearerEmail(request, TokenType.ACCESS)).get();
+
+        BankAccount bankAccount = bankAccountService.findByAppUser(appUser).get();
+
+        // Create json response body
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty("balance", bankAccount.getBalance());
+        jsonObject.addProperty("message", "Balance fetched");
+
+        // Respond to request
+        return ResponseEntity.status(HttpStatus.OK).body(jsonObject.toString());
+    }
 }
