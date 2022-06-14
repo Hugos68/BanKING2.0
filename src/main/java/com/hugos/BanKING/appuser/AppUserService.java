@@ -28,8 +28,6 @@ import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 @AllArgsConstructor
 public class AppUserService {
 
-    // TODO: Add business logic for getEmail and getBankAccount
-
     private final AppUserRepository appUserRepository;
     private final BankAccountService bankAccountService;
     private final RequestService requestService;
