@@ -19,7 +19,7 @@ public class AccountService {
     private final BankAccountService bankAccountService;
     private final AuthorizationService authorizationService;
 
-    public ResponseEntity<?> getEmail(HttpServletRequest request) {
+    public ResponseEntity<?> getAccount(HttpServletRequest request) {
         ResponseEntity<?> authorizeResponse = authorizeRequest(request);
 
         // If response entity is not null, request was unauthorized
@@ -28,7 +28,7 @@ public class AccountService {
         }
 
         // Execute request once authorized
-        return appUserService.getEmail(request);
+        return appUserService.getAccount(request);
     }
 
 

@@ -4,12 +4,11 @@ const accessToken = getCookie("access_token");
 
 
 document.addEventListener('DOMContentLoaded', async () => {
-    console.log("test");
     try {
         const emailResponse = fetch("http://localhost:8080/account/email", {
             method: 'get',
             headers: {
-                'Authorization': 'Bearer '+accessToken
+                'Authorization': 'Bearer '+ accessToken
             }
         })
         if (!(await emailResponse).ok);
