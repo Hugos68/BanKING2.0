@@ -1,5 +1,7 @@
 package com.hugos.BanKING.bankaccount;
 
+import com.hugos.BanKING.appuser.AppUser;
+import com.hugos.BanKING.appuser.AppUserService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -19,8 +21,8 @@ public class BankAccountService {
         return bankAccountRepository.findByIban(iban);
     }
 
-    public Optional<BankAccount> findByEmail(String email) {
-        return bankAccountRepository.findByEmail(email);
+    public Optional<BankAccount> findByAppUser(AppUser appUser) {
+        return bankAccountRepository.findByAppUser(appUser);
     }
 
     public BankAccount save(BankAccount bankAccount) {
