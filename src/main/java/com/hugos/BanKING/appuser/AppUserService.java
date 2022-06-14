@@ -5,7 +5,9 @@ import com.google.gson.JsonObject;
 import com.hugos.BanKING.bankaccount.BankAccount;
 import com.hugos.BanKING.bankaccount.BankAccountService;
 import com.hugos.BanKING.jwt.JwtService;
+import com.hugos.BanKING.jwt.JwtServiceHandler;
 import com.hugos.BanKING.jwt.tokens.DecodedRefreshToken;
+import com.hugos.BanKING.jwt.tokens.TokenType;
 import com.hugos.BanKING.role.Role;
 import com.hugos.BanKING.util.EmailValidator;
 import com.hugos.BanKING.util.RequestService;
@@ -35,54 +37,46 @@ public class AppUserService {
     private final RequestService requestService;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final JwtService jwtService;
+    private final JwtServiceHandler jwtServiceHandler;
 
     public Optional<AppUser> findByEmail(String email) {
         return appUserRepository.findByEmail(email);
     }
 
     public ResponseEntity<?> register(HttpServletRequest request) {
-        // Prep response entity
-        Map<String, String> responseMap = new HashMap<>();
-        HttpStatus status;
-        String message;
 
         // Get data from request
         JsonObject body = requestService.getJsonFromRequest(request);
         String email = body.get("email").getAsString().toLowerCase();
         String password = body.get("password").getAsString();
 
+        // Create response object
+        JsonObject jsonObject = new JsonObject();
+
         // Data validation
         if (email.equals("")) {
-            status = HttpStatus.UNPROCESSABLE_ENTITY;
-            message = "Email is missing";
+            jsonObject.addProperty("message", "Email is missing");
+            return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(jsonObject.toString());
         }
         else if (!EmailValidator.validate(email)) {
-            status = HttpStatus.UNPROCESSABLE_ENTITY;
-            message = "Email is invalid";
+            jsonObject.addProperty("message", "Email is invalid");
+            return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(jsonObject.toString());
         }
         else if (appUserRepository.findByEmail(email).isPresent()) {
-            status = HttpStatus.CONFLICT;
-            message = "Email already taken";
+
+            jsonObject.addProperty("message", "Email already taken");
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(jsonObject.toString());
         }
         else if (password==null || password.equals("")) {
-            status = HttpStatus.UNPROCESSABLE_ENTITY;
-            message = "Password is missing";
+
+            jsonObject.addProperty("message", "Password is missing");
+            return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(jsonObject.toString());
         }
-        else if(password.length() < 7) {
-            status = HttpStatus.UNPROCESSABLE_ENTITY;
-            message = "Password is too short";
-        }
-        else {
-            status = HttpStatus.CREATED;
-            message = "User was registered";
+        else if (password.length() < 7) {
+            jsonObject.addProperty("message", "Password is too short");
+            return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(jsonObject.toString());
         }
 
-        // Check if something was wrong, if so, return 400 code
-        if (status != HttpStatus.CREATED) {
-            responseMap.put("message", message);
-            String responseBody = new Gson().toJson(responseMap);
-            return ResponseEntity.status(status).body(responseBody);
-        }
 
         // TODO: Create and save salt for every user (Optional)
 
@@ -111,52 +105,36 @@ public class AppUserService {
         // Log registration
         log.info("User registered: [email: \"{}\", password: \"{}\"]", email, password);
 
-        // Create json response body
-        responseMap.put("message", message);
-        String responseBody = new Gson().toJson(responseMap);
-
-        return ResponseEntity.status(status).body(responseBody);
+        // Respond to request
+        jsonObject.addProperty("message", "User registered");
+        return ResponseEntity.status(HttpStatus.CREATED).body(jsonObject.toString());
     }
     public ResponseEntity<?> authenticate(HttpServletRequest request) {
-
-        // Prep response entity
-        Map<String, String> responseMap = new HashMap<>();
-        HttpStatus status;
-        String message;
 
         // Get data from request
         JsonObject body = requestService.getJsonFromRequest(request);
         String email = body.get("email").getAsString().toLowerCase();
         String password = body.get("password").getAsString();
 
+        // Create response object
+        JsonObject jsonObject = new JsonObject();
+
         // Data validation
         if (email.equals("")) {
-            status = HttpStatus.UNPROCESSABLE_ENTITY;
-            message = "Email is missing";
+            jsonObject.addProperty("message", "Email is missing");
+            return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(jsonObject.toString());
         }
-        // Prevent database from querying if email is not valid
         else if (!EmailValidator.validate(email) || appUserRepository.findByEmail(email).isEmpty()) {
-            status = HttpStatus.CONFLICT;
-            message = "Email not found";
+            jsonObject.addProperty("message", "Email not found");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(jsonObject.toString());
         }
         else if (password==null || password.equals("")) {
-            status = HttpStatus.UNPROCESSABLE_ENTITY;
-            message = "Password is missing";
+            jsonObject.addProperty("message", "Password is missing");
+            return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(jsonObject.toString());
         }
         else if (!bCryptPasswordEncoder.matches(password, appUserRepository.findByEmail(email).get().getPassword())) {
-            status = HttpStatus.BAD_REQUEST;
-            message = "Password is incorrect";
-        }
-        else {
-            status = HttpStatus.OK;
-            message = "User was authenticated";
-        }
-
-        // Check if something was wrong, if so, return 400 code
-        if (status!= HttpStatus.OK) {
-            responseMap.put("message", message);
-            String responseBody = new Gson().toJson(responseMap);
-            return ResponseEntity.status(status).body(responseBody);
+            jsonObject.addProperty("message", "Password is incorrect");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(jsonObject.toString());
         }
 
         // Get jwt pair
@@ -165,25 +143,15 @@ public class AppUserService {
         // Log authentication
         log.info("User authenticated: [email: \"{}\", password: \"{}\"]", email, password);
 
-        // Create json response body
-        responseMap.put("message", message);
-        responseMap.put("access_token", tokenPair.get("access_token"));
-        responseMap.put("refresh_token", tokenPair.get("refresh_token"));
-        String responseBody = new Gson().toJson(responseMap);
-
         // Respond to request
-        return ResponseEntity.status(status).body(responseBody);
+        jsonObject.addProperty("access_token", tokenPair.get("access_token"));
+        jsonObject.addProperty("refresh_token", tokenPair.get("refresh_token"));
+        jsonObject.addProperty("message", "User authenticated");
+        return ResponseEntity.status(HttpStatus.OK).body(jsonObject.toString());
     }
 
 
     public ResponseEntity<?> refreshAccessToken(HttpServletRequest request) {
-
-        // Prep response entity
-        Map<String, String> responseMap = new HashMap<>();
-        HttpStatus status;
-        String message;
-
-        // TODO: Handle exception that gets thrown when no token is submitted (maybe let front end not send it in the first place)
 
         // Get authorization token
         String refreshToken = request.getHeader(AUTHORIZATION).substring("Bearer ".length());
@@ -191,29 +159,15 @@ public class AppUserService {
         // Get decoded token from request
         DecodedRefreshToken decodedRefreshToken = jwtService.decodeRefreshToken(refreshToken);
 
-        // Token validation
-        if (decodedRefreshToken==null) {
-            status = HttpStatus.UNPROCESSABLE_ENTITY;
-            message = "Refresh token is invalid";
-        }
-        else if (decodedRefreshToken.isExpired()) {
-            status = HttpStatus.UNAUTHORIZED;
-            message = "Refresh token has expired";
-        }
-        else if (appUserRepository.findByEmail(decodedRefreshToken.subject()).isEmpty()) {
-            status = HttpStatus.UNPROCESSABLE_ENTITY;
-            message = "Refresh token is invalid";
-        }
-        else {
-            status = HttpStatus.OK;
-            message = "Refresh token was validated";
-        }
+        // Create response object
+        JsonObject jsonObject = new JsonObject();
 
-        // Check if something was wrong, if so, return 400 code
-        if (status!= HttpStatus.OK) {
-            responseMap.put("message", message);
-            String responseBody = new Gson().toJson(responseMap);
-            return ResponseEntity.status(status).body(responseBody);
+        // Token validation
+        if (decodedRefreshToken==null ||
+            decodedRefreshToken.isExpired() ||
+            appUserRepository.findByEmail(decodedRefreshToken.subject()).isEmpty() ) {
+            jsonObject.addProperty("message", "Refresh token is invalid");
+            return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(jsonObject.toString());
         }
 
         // Get token pair (Note: refresh is not used to force authentication after 1 week)
@@ -221,34 +175,20 @@ public class AppUserService {
                 appUserRepository.findByEmail(decodedRefreshToken.subject()).get()
         );
 
-        // Create json response body
-        responseMap.put("message", message);
-        responseMap.put("access_token", tokenPair.get("access_token"));
-        String responseBody = new Gson().toJson(responseMap);
-
         // Respond to request
-        return ResponseEntity.status(status).body(responseBody);
+        jsonObject.addProperty("access_token", tokenPair.get("access_token"));
+        jsonObject.addProperty("message", "Refresh token was validated");
+        return ResponseEntity.status(HttpStatus.OK).body(jsonObject.toString());
     }
 
     public ResponseEntity<?> getEmail(HttpServletRequest request) {
 
-        // Prep response entity
-        Map<String, String> responseMap = new HashMap<>();
-        HttpStatus status;
-        String message;
-
-        // Get data from request
-        String email = jwtService.decodeAccessToken(
-            request.getHeader(AUTHORIZATION).substring("Bearer ".length())).subject();
-        status = HttpStatus.OK;
-        message = "Email fetched";
-
         // Create json response body
-        responseMap.put("email", email);
-        responseMap.put("message", message);
-        String responseBody = new Gson().toJson(responseMap);
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty("email", jwtServiceHandler.getBearerEmail(request, TokenType.ACCESS));
+        jsonObject.addProperty("message", "Email fetched");
 
         // Respond to request
-        return ResponseEntity.status(status).body(responseBody);
+        return ResponseEntity.status(HttpStatus.OK).body(jsonObject.toString());
     }
 }
