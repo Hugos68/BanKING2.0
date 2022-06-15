@@ -83,7 +83,7 @@ public class AccountService {
     private ResponseEntity<?> authorizeRequest(HttpServletRequest request) {
 
         // Authorize access to this resource
-        AuthorizationOutcome authorizationOutcome = authorizationService.authorize(request);
+        AuthorizationOutcome authorizationOutcome = authorizationService.authorizeAccessToken(request);
         if (!authorizationOutcome.isAuthorized() || !authorizationOutcome.getRole().equals(Role.USER)) {
 
             // Create authorization response

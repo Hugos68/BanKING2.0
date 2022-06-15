@@ -1,6 +1,5 @@
 package com.hugos.BanKING.authorization;
 
-import com.hugos.BanKING.appuser.AppUser;
 import com.hugos.BanKING.appuser.AppUserService;
 import com.hugos.BanKING.jwt.JwtService;
 import com.hugos.BanKING.jwt.tokens.DecodedAccessToken;
@@ -17,7 +16,7 @@ public class AuthorizationService {
     private final JwtService jwtService;
     private final AppUserService appUserService;
 
-    public AuthorizationOutcome authorize(HttpServletRequest request) {
+    public AuthorizationOutcome authorizeAccessToken(HttpServletRequest request) {
 
         // Retrieve and decode access token
         String accessToken = request.getHeader(AUTHORIZATION).substring("Bearer ".length());

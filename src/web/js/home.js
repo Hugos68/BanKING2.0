@@ -4,16 +4,30 @@ const signInForm = document.querySelector(".sign-in-form");
 const signUpForm = document.querySelector(".sign-up-form");
 const signInLabel = document.querySelector(".sign-in-feedback");
 const signUpLabel = document.querySelector(".sign-up-feedback");
-const redHex = '#F47174';
-const greenHex = '#228B22';
 const refreshToken = getCookie("refresh_token");
+const greenHex = '#228B22';
+const redHex = '#F47174';
 
+// Page load event
 document.addEventListener("DOMContentLoaded", async () => {
+    await attemptAutoLogin();
+});
 
+// Sign In Event
+signInButton.addEventListener('click', async () => {
+    await signIn();
+});
+
+// Sign Up Event
+signUpButton.addEventListener('click', async () => {
+    await signUp();
+});
+
+
+async function attemptAutoLogin()  {
     try {
-
         // Send refresh token to server to validate it
-        const refreshResponse = await fetch("http://localhost:8080/api/token/access/refresh", {
+        const refreshResponse = await fetch("http://localhost:8080/api/accesstoken", {
             method: 'get',
             headers: {
                 'Authorization': 'Bearer '+ refreshToken
@@ -43,8 +57,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     catch (e) {
         setPageLoggedIn(false);
     }
-});
-
+}
 
 // Get cookie from name, returns null if cookie was not found
 function getCookie(cname) {
@@ -82,9 +95,7 @@ function setPageLoggedIn(boolean) {
     }
 }
 
-
-// Sign In Event
-signInButton.addEventListener('click', async () => {
+async function signIn() {
     const formData = new FormData(signInForm);
 
     // Convert form into object
@@ -101,8 +112,8 @@ signInButton.addEventListener('click', async () => {
     }
 
 
-    const loginResponse = await fetch("http://localhost:8080/api/token/pair",  {
-        method: 'get',
+    const loginResponse = await fetch("http://localhost:8080/api/authentication",  {
+        method: 'post',
         headers: new Headers({
             'content-type': 'application/json'
         }),
@@ -140,10 +151,26 @@ signInButton.addEventListener('click', async () => {
             location.replace("account.html")
         }, 750);
     }
-});
+}
 
-// Sign Up Event
-signUpButton.addEventListener('click', async () => {
+function validateSignIn(jsonObj) {
+
+    const email = jsonObj.email;
+
+    if (email === null || email === "") {
+        return "Missing Email"
+    }
+
+    const password = jsonObj.password;
+
+    if (password === null || password === "") {
+        return "Missing Password"
+    }
+
+    return "OK";
+}
+
+async function signUp() {
     const formData = new FormData(signUpForm);
 
     // Convert form into object
@@ -176,23 +203,6 @@ signUpButton.addEventListener('click', async () => {
         // User is registered here, maybe confetti?
         promptFeedback(signUpLabel, "Registration success!", greenHex);
     }
-});
-
-function validateSignIn(jsonObj) {
-
-    const email = jsonObj.email;
-
-    if (email === null || email === "") {
-        return "Missing Email"
-    }
-
-    const password = jsonObj.password;
-
-    if (password === null || password === "") {
-        return "Missing Password"
-    }
-
-    return "OK";
 }
 
 function validateSignUp(jsonObj, confirmPassword) {
@@ -228,7 +238,6 @@ function validateSignUp(jsonObj, confirmPassword) {
     return "OK";
 }
 
-
 let fading = false;
 function promptFeedback(element, text, color) {
     if (!fading) {
@@ -241,3 +250,4 @@ function promptFeedback(element, text, color) {
         }, 2000);
     }
 }
+

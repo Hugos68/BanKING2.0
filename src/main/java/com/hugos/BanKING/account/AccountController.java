@@ -12,10 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 @RequiredArgsConstructor
 @CrossOrigin
 public class AccountController {
-
     private final AccountService accountService;
-
-    @PostMapping
 
     @GetMapping
     public ResponseEntity<?> getAccount(HttpServletRequest request) {
