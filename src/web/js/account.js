@@ -16,14 +16,12 @@ document.addEventListener('DOMContentLoaded', async () => {
                     'Authorization': 'Bearer '+ accessToken
                 })
         });
-        if (!emailResponse.ok);
+        if (!emailResponse.ok) throw new Error(emailResponse.status + ' ' + emailResponse.statusText);
         else {
             const account = emailResponse.json().toString();
         }
 
 
-
-        (document.querySelector(".section")).style.hidden = false;
     } catch (e) {
         location.replace("error.html");
     }
