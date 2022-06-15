@@ -97,6 +97,7 @@ signInButton.addEventListener('click', async () => {
 
     if (validationResponse!=="OK") {
         promptFeedback(signInLabel, validationResponse, redHex);
+        return;
     }
 
 
@@ -113,6 +114,7 @@ signInButton.addEventListener('click', async () => {
         promptFeedback(signInLabel, (await loginResponse.json())["message"], redHex);
     }
     else {
+        signInForm.reset();
         promptFeedback(signInLabel, "Success, signing in...", greenHex);
 
         // Get token pair from response
@@ -154,6 +156,7 @@ signUpButton.addEventListener('click', async () => {
 
     if (validationResponse!=="OK") {
         promptFeedback(signUpLabel, validationResponse, redHex)
+        return;
     }
 
     const registrationResponse = await fetch("http://localhost:8080/api/registration",  {
@@ -169,6 +172,7 @@ signUpButton.addEventListener('click', async () => {
         promptFeedback(signUpLabel, (await registrationResponse.json())["message"], redHex);
     }
     else {
+        signUpForm.reset();
         // User is registered here, maybe confetti?
         promptFeedback(signUpLabel, "Registration success!", greenHex);
     }

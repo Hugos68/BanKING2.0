@@ -17,7 +17,7 @@ public class AccountController {
 
     @GetMapping
     public ResponseEntity<?> getAccount(HttpServletRequest request) {
-        log.info("Endpoint: \"api/account/email\" was called");
+        log.info("Endpoint: \"api/account\" was called");
         return accountService.getAccount(request);
     }
 

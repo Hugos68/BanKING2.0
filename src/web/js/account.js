@@ -11,9 +11,10 @@ document.addEventListener('DOMContentLoaded', async () => {
     try {
         const emailResponse = await fetch("http://localhost:8080/account", {
             method: 'get',
-            headers: {
-                'Authorization': 'Bearer '+ accessToken
-            }
+            headers: new Headers({
+                    'content-type': 'application/json',
+                    'Authorization': 'Bearer '+ accessToken
+                })
         });
         if (!emailResponse.ok);
         else {
