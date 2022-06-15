@@ -345,6 +345,11 @@ body {
     text-decoration-color: black;
 }
 
+.overview-left > p {
+    font-size: 20px;
+    margin-block: 10px;
+}
+
 /*
 ===============================
             Banking

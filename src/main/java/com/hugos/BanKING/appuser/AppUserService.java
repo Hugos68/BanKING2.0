@@ -191,12 +191,15 @@ public class AppUserService {
         BankAccount bankAccount = bankAccountService.findByAppUser(appUser).get();
 
         // Create json response body
+        JsonObject jsonBank = new JsonObject();
+        jsonBank.addProperty("id", bankAccount.getId());
+        jsonBank.addProperty("iban", bankAccount.getIban());
+        jsonBank.addProperty("balance", bankAccount.getBalance());
+
         JsonObject jsonObject = new JsonObject();
-        jsonObject.addProperty("app_user_id", appUser.getId());
-        jsonObject.addProperty("app_user_email", appUser.getEmail());
-        jsonObject.addProperty("bank_account_id", bankAccount.getId());
-        jsonObject.addProperty("bank_account_iban", bankAccount.getIban());
-        jsonObject.addProperty("bank_account_balance", bankAccount.getBalance());
+        jsonObject.addProperty("id", appUser.getId());
+        jsonObject.addProperty("email", appUser.getEmail());
+        jsonObject.add("bank_account", jsonBank);
         jsonObject.addProperty("message", "Account fetched");
 
         // Return response

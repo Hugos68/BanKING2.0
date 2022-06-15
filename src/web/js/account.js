@@ -7,36 +7,41 @@ const accessToken = getCookie("access_token");
 
 // TODO: Handle data and put it in the html
 
-document.addEventListener('DOMContentLoaded', async () => {
-    try {
-        const emailResponse = await fetch("http://localhost:8080/api/account", {
-            method: 'get',
-            headers: new Headers({
-                    'Access-Control-Allow-Origin': '*',
-                    'content-type': 'application/json',
-                    'Authorization': 'Bearer '+ accessToken
-                })
-        });
-        if (!emailResponse.ok) throw new Error(emailResponse.status + ' ' + emailResponse.statusText);
-        else {
-            const account = await emailResponse.json();
-            emailElement.textContent = account["email"];
-            balanceElement.textContent = account["bank_account_balance"];
-
-            console.log(account["email"]);
-            console.log(account["bank_account_balance"]);
-        }
-
-    } catch (e) {
-
-        //location.replace("error.html");
-    }
-});
-
+await getAccountInfo();
 
 signOutButton.addEventListener('click', async () => {
     await logOut();
 });
+
+async function getAccountInfo() {
+    try {
+        const emailResponse = await fetch("http://localhost:8080/api/account", {
+            method: 'get',
+            headers: new Headers({
+                'content-type': 'application/json',
+                'Authorization': 'Bearer '+ accessToken
+            })
+        });
+        if (!emailResponse.ok) throw new Error(emailResponse.status + ' ' + emailResponse.statusText);
+        else {
+            const accountInfo = await emailResponse.json();
+
+            const formatter = new Intl.NumberFormat('en-US', {
+                style: 'currency',
+                currency: 'EUR',
+                minimumFractionDigits: 2
+            });
+
+            emailElement.textContent = "Email: "+ accountInfo.email;
+            balanceElement.textContent = "Balance: "+ formatter.format(accountInfo.bank_account.balance);
+
+
+        }
+
+    } catch (e) {
+        location.replace("error.html");
+    }
+}
 
 async function logOut() {
 

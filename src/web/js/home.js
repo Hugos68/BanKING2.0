@@ -116,12 +116,12 @@ async function signIn() {
         const accessExpire = new Date(date.getTime() + (15 * 60 * 1000));
 
         // Set refresh token cookie with expire date of 1 year
-        document.cookie = "refresh_token="+tokenPair["refresh_token"]
+        document.cookie = "refresh_token="+tokenPair.refresh_token
             + "; SameSite=lax"
             + "; expires="+refreshExpire.toUTCString()+";";
 
         // Set access token cookie with expire date of session
-        document.cookie = "access_token="+tokenPair["access_token"]
+        document.cookie = "access_token="+tokenPair.access_token
             + "; SameSite=lax"
             + "; expires="+accessExpire.toUTCString()+";";
 
