@@ -18,7 +18,6 @@ public class JwtController {
 
     private final AppUserService appUserService;
 
-    @CrossOrigin
     @GetMapping
     public ResponseEntity<?> refreshToken(HttpServletRequest request) {
         log.info("Endpoint: \"api/refresh-token\" was called");

@@ -9,23 +9,44 @@ const accessToken = getCookie("access_token");
 
 document.addEventListener('DOMContentLoaded', async () => {
     try {
-        const emailResponse = await fetch("http://localhost:8080/account", {
+        const emailResponse = await fetch("http://localhost:8080/api/account", {
             method: 'get',
             headers: new Headers({
-                    'Content-Type': 'application/json',
+                    'Access-Control-Allow-Origin': '*',
+                    'content-type': 'application/json',
                     'Authorization': 'Bearer '+ accessToken
                 })
         });
         if (!emailResponse.ok) throw new Error(emailResponse.status + ' ' + emailResponse.statusText);
         else {
-            const account = emailResponse.json().toString();
+            const account = await emailResponse.json();
+            emailElement.textContent = account["email"];
+            balanceElement.textContent = account["bank_account_balance"];
+
+            console.log(account["email"]);
+            console.log(account["bank_account_balance"]);
         }
 
-
     } catch (e) {
-        location.replace("error.html");
+
+        //location.replace("error.html");
     }
 });
+
+
+signOutButton.addEventListener('click', async () => {
+    await logOut();
+});
+
+async function logOut() {
+
+    // Set tokens to undefine to counter auto-login, set expires to now plus 1 second to expire them
+    document.cookie = "refresh_token=; Max-Age=-99999999;";
+    document.cookie = "access_token=; Max-Age=-99999999;";
+
+    // Replace screen back to home
+    location.replace("home.html");
+}
 
 // Get cookie from name, returns null if cookie was not found
 function getCookie(cname) {
@@ -43,16 +64,6 @@ function getCookie(cname) {
     }
     return "";
 }
-
-signOutButton.addEventListener('click', async () => {
-
-    // Set tokens to undefine to counter auto-login, set expires to now plus 1 second to expire them
-    document.cookie = "refresh_token=; Max-Age=-99999999;";
-    document.cookie = "access_token=; Max-Age=-99999999;";
-
-    // Replace screen back to home
-    location.replace("home.html");
-});
 
 
 

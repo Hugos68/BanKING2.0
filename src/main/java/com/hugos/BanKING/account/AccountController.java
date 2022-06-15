@@ -8,9 +8,8 @@ import javax.servlet.http.HttpServletRequest;
 
 @Slf4j
 @RestController
-@RequestMapping(path = "api/account")
 @RequiredArgsConstructor
-@CrossOrigin
+@RequestMapping(path = "api/account")
 public class AccountController {
     private final AccountService accountService;
 

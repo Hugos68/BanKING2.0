@@ -101,8 +101,10 @@ public class AppUserService {
         // Log registration
         log.info("User registered: [email: \"{}\", password: \"{}\"]", email, password);
 
-        // Respond to request
+        // Create json response body
         jsonObject.addProperty("message", "User registered");
+
+        // Return response
         return ResponseEntity.status(HttpStatus.CREATED).body(jsonObject.toString());
     }
     public ResponseEntity<?> authenticate(HttpServletRequest request) {
@@ -139,10 +141,12 @@ public class AppUserService {
         // Log authentication
         log.info("User authenticated: [email: \"{}\", password: \"{}\"]", email, password);
 
-        // Respond to request
+        // Create json response body
         jsonObject.addProperty("access_token", tokenPair.get("access_token"));
         jsonObject.addProperty("refresh_token", tokenPair.get("refresh_token"));
         jsonObject.addProperty("message", "User authenticated");
+
+        // Return response
         return ResponseEntity.status(HttpStatus.OK).body(jsonObject.toString());
     }
 
@@ -171,9 +175,11 @@ public class AppUserService {
                 appUserRepository.findByEmail(decodedRefreshToken.subject()).get()
         );
 
-        // Respond to request
+        // Create json response body
         jsonObject.addProperty("access_token", tokenPair.get("access_token"));
         jsonObject.addProperty("message", "Refresh token was validated");
+
+        // Return response
         return ResponseEntity.status(HttpStatus.OK).body(jsonObject.toString());
     }
 
@@ -191,9 +197,9 @@ public class AppUserService {
         jsonObject.addProperty("bank_account_id", bankAccount.getId());
         jsonObject.addProperty("bank_account_iban", bankAccount.getIban());
         jsonObject.addProperty("bank_account_balance", bankAccount.getBalance());
-        jsonObject.addProperty("message", "Email fetched");
+        jsonObject.addProperty("message", "Account fetched");
 
-        // Respond to request
+        // Return response
         return ResponseEntity.status(HttpStatus.OK).body(jsonObject.toString());
     }
 
@@ -208,7 +214,7 @@ public class AppUserService {
         jsonObject.addProperty("balance", bankAccount.getBalance());
         jsonObject.addProperty("message", "Balance fetched");
 
-        // Respond to request
+        // Return response
         return ResponseEntity.status(HttpStatus.OK).body(jsonObject.toString());
     }
 }

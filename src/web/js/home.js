@@ -9,9 +9,7 @@ const greenHex = '#228B22';
 const redHex = '#F47174';
 
 // Page load event
-document.addEventListener("DOMContentLoaded", async () => {
-    await attemptAutoLogin();
-});
+await attemptAutoLogin();
 
 // Sign In Event
 signInButton.addEventListener('click', async () => {
@@ -22,7 +20,6 @@ signInButton.addEventListener('click', async () => {
 signUpButton.addEventListener('click', async () => {
     await signUp();
 });
-
 
 async function attemptAutoLogin()  {
     try {
@@ -59,23 +56,6 @@ async function attemptAutoLogin()  {
     }
 }
 
-// Get cookie from name, returns null if cookie was not found
-function getCookie(cname) {
-    let name = cname + "=";
-    let decodedCookie = decodeURIComponent(document.cookie);
-    let ca = decodedCookie.split(';');
-    for (let i = 0; i <ca.length; i++) {
-        let c = ca[i];
-        while (c.charAt(0) === ' ') {
-            c = c.substring(1);
-        }
-        if (c.indexOf(name) === 0) {
-            return c.substring(name.length, c.length);
-        }
-    }
-    return "";
-}
-
 // Manipulate the DOM based on if the user is logged in or not
 function setPageLoggedIn(boolean) {
 
@@ -110,7 +90,6 @@ async function signIn() {
         promptFeedback(signInLabel, validationResponse, redHex);
         return;
     }
-
 
     const loginResponse = await fetch("http://localhost:8080/api/authentication",  {
         method: 'post',
@@ -249,5 +228,22 @@ function promptFeedback(element, text, color) {
             element.classList.remove("feedback-label-fade"); fading=false;
         }, 2000);
     }
+}
+
+// Get cookie from name, returns null if cookie was not found
+function getCookie(cname) {
+    let name = cname + "=";
+    let decodedCookie = decodeURIComponent(document.cookie);
+    let ca = decodedCookie.split(';');
+    for (let i = 0; i <ca.length; i++) {
+        let c = ca[i];
+        while (c.charAt(0) === ' ') {
+            c = c.substring(1);
+        }
+        if (c.indexOf(name) === 0) {
+            return c.substring(name.length, c.length);
+        }
+    }
+    return "";
 }
 
