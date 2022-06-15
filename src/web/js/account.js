@@ -5,8 +5,6 @@ const accessToken = getCookie("access_token");
 
 // TODO: Hide content until all fetches are successful
 
-// TODO: Handle data and put it in the html
-
 await getAccountInfo();
 
 signOutButton.addEventListener('click', async () => {
@@ -34,8 +32,6 @@ async function getAccountInfo() {
 
             emailElement.textContent = "Email: "+ accountInfo.email;
             balanceElement.textContent = "Balance: "+ formatter.format(accountInfo.bank_account.balance);
-
-
         }
 
     } catch (e) {
