@@ -101,8 +101,8 @@ signInButton.addEventListener('click', async () => {
     }
 
 
-    const loginResponse = await fetch("http://localhost:8080/api/authentication",  {
-        method:'POST',
+    const loginResponse = await fetch("http://localhost:8080/api/token/pair",  {
+        method: 'get',
         headers: new Headers({
             'content-type': 'application/json'
         }),
@@ -160,7 +160,7 @@ signUpButton.addEventListener('click', async () => {
     }
 
     const registrationResponse = await fetch("http://localhost:8080/api/registration",  {
-        method:'POST',
+        method: 'post',
         headers: new Headers({
             'Content-Type': 'application/json'
         }),

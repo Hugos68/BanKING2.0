@@ -15,6 +15,8 @@ public class AccountController {
 
     private final AccountService accountService;
 
+    @PostMapping
+
     @GetMapping
     public ResponseEntity<?> getAccount(HttpServletRequest request) {
         log.info("Endpoint: \"api/account\" was called");

@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         const emailResponse = await fetch("http://localhost:8080/account", {
             method: 'get',
             headers: new Headers({
-                    'content-type': 'application/json',
+                    'Content-Type': 'application/json',
                     'Authorization': 'Bearer '+ accessToken
                 })
         });
