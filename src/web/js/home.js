@@ -9,7 +9,10 @@ const greenHex = '#228B22';
 const redHex = '#F47174';
 
 // Page load event
-await attemptAutoLogin();
+if (refreshToken!=="") {
+    await attemptAutoLogin();
+}
+
 
 // Sign In Event
 signInButton.addEventListener('click', async () => {
@@ -30,22 +33,20 @@ async function attemptAutoLogin()  {
                 'Authorization': 'Bearer '+ refreshToken
             }
         });
-        if (!refreshResponse.ok) {
-            setPageLoggedIn(false)
-        }
+        if (!refreshResponse.ok) setPageLoggedIn(false);
         else {
 
             // Get token pair from response
             const tokenPair = await refreshResponse.json();
 
-            // Create expire date (1 year from now)
+            // Create expire dates for tokens
             const date = new Date();
-            const expireDate = new Date(date.getMinutes()+15);
+            const accessExpire = new Date(date.getTime() + (15 * 60 * 1000));
 
-            // Set access token cookie in session
-            document.cookie = "access_token="+tokenPair["access_token"]
+            // Set access token cookie with expire date of session
+            document.cookie = "access_token="+tokenPair.access_token
                 + "; SameSite=lax"
-                + "; expires="+expireDate.toUTCString()+";";
+                + "; expires="+accessExpire.toUTCString()+";";
 
             // Set login page to true
             setPageLoggedIn(true)

@@ -4,7 +4,6 @@ import com.hugos.BanKING.appuser.AppUserService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,7 +19,7 @@ public class JwtController {
 
     @GetMapping
     public ResponseEntity<?> refreshToken(HttpServletRequest request) {
-        log.info("Endpoint: \"api/refresh-token\" was called");
+        log.info("Endpoint: \"api/accesstoken\" was called");
         return appUserService.refreshAccessToken(request);
     }
 
