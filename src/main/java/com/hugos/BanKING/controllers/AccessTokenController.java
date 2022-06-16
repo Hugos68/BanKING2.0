@@ -1,6 +1,7 @@
 package com.hugos.BanKING.controllers;
 
 import com.hugos.BanKING.services.AppUserService;
+import com.hugos.BanKING.services.JwtService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -15,12 +16,12 @@ import javax.servlet.http.HttpServletRequest;
 @AllArgsConstructor
 public class AccessTokenController {
 
-    private final AppUserService appUserService;
+    private final JwtService jwtService;
 
     @GetMapping
     public ResponseEntity<?> refreshToken(HttpServletRequest request) {
         log.info("Endpoint: \"api/accesstoken\" was called");
-        return appUserService.refreshAccessToken(request);
+        return jwtService.refreshAccessToken(request);
     }
 
 }

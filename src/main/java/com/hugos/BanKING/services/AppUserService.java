@@ -3,6 +3,7 @@ package com.hugos.BanKING.services;
 import com.google.gson.JsonObject;
 import com.hugos.BanKING.models.AppUser;
 import com.hugos.BanKING.models.BankAccount;
+import com.hugos.BanKING.models.DecodedAccessToken;
 import com.hugos.BanKING.repositories.BankAccountRepository;
 import com.hugos.BanKING.models.DecodedRefreshToken;
 import com.hugos.BanKING.enums.TokenType;
@@ -27,12 +28,10 @@ import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 public class AppUserService {
 
     private final AppUserRepository appUserRepository;
-    private final BankAccountService bankAccountService;
     private final BankAccountRepository bankAccountRepository;
     private final RequestService requestService;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final JwtService jwtService;
-    private final JwtServiceHandler jwtServiceHandler;
 
     public Optional<AppUser> findByEmail(String email) {
         return appUserRepository.findByEmail(email);
@@ -149,48 +148,21 @@ public class AppUserService {
         return ResponseEntity.status(HttpStatus.OK).body(jsonObject.toString());
     }
 
-
-    public ResponseEntity<?> refreshAccessToken(HttpServletRequest request) {
-
-        // Retrieve and decode access token
-        String refreshToken;
-        try {
-            refreshToken = request.getHeader(AUTHORIZATION).substring("Bearer ".length());
-        } catch (Exception exception) {
-            refreshToken = null;
-        }
-
-        // Get decoded token from request
-        DecodedRefreshToken decodedRefreshToken = jwtService.decodeRefreshToken(refreshToken);
-
-        // Create response object
-        JsonObject jsonObject = new JsonObject();
-
-        // Token validation
-        if (decodedRefreshToken==null ||
-            decodedRefreshToken.isExpired() ||
-            appUserRepository.findByEmail(decodedRefreshToken.subject()).isEmpty() ) {
-            jsonObject.addProperty("message", "Refresh token is invalid");
-            return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(jsonObject.toString());
-        }
-
-        // Get token pair (Note: refresh is not used to force authentication after 1 week)
-        Map<String,String> tokenPair = jwtService.createAccessRefreshTokenPair(
-                appUserRepository.findByEmail(decodedRefreshToken.subject()).get()
-        );
-
-        // Create json response body
-        jsonObject.addProperty("access_token", tokenPair.get("access_token"));
-        jsonObject.addProperty("message", "Refresh token was validated");
-
-        // Return response
-        return ResponseEntity.status(HttpStatus.OK).body(jsonObject.toString());
-    }
-
     public ResponseEntity<?> getAccount(HttpServletRequest request) {
 
+        // Retrieve and decode access token
+        String accessToken;
+        try {
+            accessToken = request.getHeader(AUTHORIZATION).substring("Bearer ".length());
+        } catch (Exception exception) {
+            accessToken = null;
+        }
+
+        DecodedAccessToken decodedAccessToken = jwtService.decodeAccessToken(accessToken);
+
         AppUser appUser = appUserRepository.findByEmail(
-            jwtServiceHandler.getBearerEmail(request, TokenType.ACCESS)).get();
+            decodedAccessToken.subject()
+        ).get();
 
         BankAccount bankAccount = bankAccountRepository.findByAppUser(appUser).get();
 
