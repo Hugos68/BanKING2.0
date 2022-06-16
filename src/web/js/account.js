@@ -2,7 +2,6 @@ const signOutButton = document.querySelector(".sign-out-button");
 const emailElement = document.querySelector(".email");
 const balanceElement = document.querySelector(".balance");
 const refreshToken = getCookie("refresh_token");
-let accessToken = getCookie("access_token");
 
 // TODO: Hide content until all fetches are successful
 
@@ -14,6 +13,11 @@ signOutButton.addEventListener('click', async () => {
 });
 
 async function getAccountInfo() {
+
+    // Get access token from cookie
+    const accessToken = getCookie("access_token");
+
+    // Fetch account info with access token
     try {
         const accountInfoResponse = await fetch("http://localhost:8080/api/account", {
             method: 'get',
@@ -37,6 +41,8 @@ async function getAccountInfo() {
         }
 
     } catch (e) {
+
+        // Prevent fetches from looping by catching a second fetch fail
         if (refreshTried) {
             await logOut();
             location.replace("error.html");
@@ -72,14 +78,14 @@ async function refreshAccessToken() {
     if (!refreshAccessResponse.ok);
     else {
         // Get and set access token from response
-        accessToken =  (await refreshAccessResponse.json()).access_token;
+        const accessTokenFetched = (await refreshAccessResponse.json()).access_token;
 
         // Create expire dates for tokens
         const date = new Date();
         const accessExpire = new Date(date.getTime() + (15 * 60 * 1000));
 
         // Set access token cookie with expire date of session
-        document.cookie = "access_token="+accessToken
+        document.cookie = "access_token="+accessTokenFetched
             + "; SameSite=lax"
             + "; expires="+accessExpire.toUTCString()+";";
     }
