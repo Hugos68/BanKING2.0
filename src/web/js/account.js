@@ -41,9 +41,8 @@ async function getAccountInfo() {
         }
 
     } catch (e) {
-
         // Prevent fetches from looping by catching a second fetch fail
-        if (refreshTried) {
+        if (refreshTried || refreshToken==="") {
             await logOut();
             location.replace("error.html");
         }
