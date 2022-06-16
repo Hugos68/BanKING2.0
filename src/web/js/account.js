@@ -71,19 +71,8 @@ async function refreshAccessToken() {
     });
     if (!refreshAccessResponse.ok);
     else {
-        // Get access token from response
+        // Get and set access token from response
         accessToken =  (await refreshAccessResponse.json()).access_token;
-
-        // // Create expire date (1 year from now)
-        // const date = new Date();
-        // const expireDate = new Date(date.getMinutes()+15);
-        //
-        // // TODO Fix cookie not getting set correctly
-        //
-        // // Set access token cookie with expire date of session
-        // document.cookie = "access_token="+accessTokenFetched
-        //     + "; SameSite=lax"
-        //     + "; expires="+expireDate.toUTCString()+";";
     }
 }
 
