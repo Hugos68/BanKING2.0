@@ -11,87 +11,9 @@ const withdrawForm = document.querySelector(".withdraw-form");
 const withdrawFeedback = document.querySelector(".withdraw-feedback");
 const emailElement = document.querySelector(".email");
 const balanceElement = document.querySelector(".balance");
+import {greenHex, redHex, getCookie, promptFeedback} from "./home";
+
 const refreshToken = getCookie("refresh_token");
-const greenHex = '#228B22';
-const redHex = '#F47174';
-
-
-// Hide content until account info is retrieved
-contentBlocks.forEach((element) => {
-    element.classList.add("display-none")
-});
-
-let refreshAttempted = false;
-await getAccountInfo();
-
-contentBlocks.forEach((element) => {
-    element.classList.remove("display-none")
-});
-
-
-depositButton.addEventListener('click', async () => {
-    await deposit();
-});
-
-transferButton.addEventListener('click', async () => {
-    await transfer();
-});
-
-withdrawButton.addEventListener('click', async () => {
-    await withdraw();
-});
-
-signOutButton.addEventListener('click', async () => {
-    await logOut(false);
-});
-
-
-async function getAccountInfo() {
-
-    await validateTokens();
-    try {
-        // Fetch account info with access token
-        const accountInfoResponse = await fetch("http://localhost:8080/api/account", {
-            method: 'get',
-            headers: new Headers({
-                'content-type': 'application/json',
-                'Authorization': 'Bearer '+ getCookie("access_token")
-            })
-        });
-        if (!accountInfoResponse.ok) throw new Error(accountInfoResponse.status + ' ' + accountInfoResponse.statusText);
-
-        const accountInfo = await accountInfoResponse.json();
-        const formatter = new Intl.NumberFormat('en-US', {
-            style: 'currency',
-            currency: 'EUR',
-            minimumFractionDigits: 2
-        });
-
-        emailElement.textContent = "Email: "+ accountInfo.email;
-        balanceElement.textContent = "Balance: "+ formatter.format(accountInfo.bank_account.balance);
-    } catch (e) {
-        await validateTokens();
-    }
-
-}
-
-async function validateTokens() {
-
-    if (getCookie("refresh_token")==="") {
-        logOut(true);
-        return;
-    }
-
-    if (getCookie("access_token")==="" && !refreshAttempted) {
-        refreshAttempted=true;
-        await refreshAccessToken();
-        await validateTokens();
-    }
-    else if (getCookie("access_token")==="") {
-        logOut(true);
-    }
-
-}
 
 async function refreshAccessToken() {
 
@@ -123,7 +45,67 @@ async function refreshAccessToken() {
 
 }
 
+let refreshAttempted = false;
+async function validateTokens() {
+    // If refresh token is absent -> log user out
+    if (getCookie("refresh_token")==="") {
+        logOut(true);
+        return;
+    }
 
+    // If access token is absent -> refresh the access token and try again
+    // If access token is absent AND refresh was attempted -> log user out
+    if (getCookie("access_token")==="" && !refreshAttempted) {
+        refreshAttempted=true;
+        await refreshAccessToken();
+        await validateTokens();
+    }
+    else if (getCookie("access_token")==="") {
+        logOut(true);
+    }
+}
+
+async function getAccountInfo() {
+
+    await validateTokens();
+    try {
+        // Fetch account info with access token
+        const accountInfoResponse = await fetch("http://localhost:8080/api/account", {
+            method: 'get',
+            headers: new Headers({
+                'content-type': 'application/json',
+                'Authorization': 'Bearer '+ getCookie("access_token")
+            })
+        });
+        if (!accountInfoResponse.ok) throw new Error(accountInfoResponse.status + ' ' + accountInfoResponse.statusText);
+
+        const accountInfo = await accountInfoResponse.json();
+        const formatter = new Intl.NumberFormat('en-US', {
+            style: 'currency',
+            currency: 'EUR',
+            minimumFractionDigits: 2
+        });
+
+        emailElement.textContent = "Email: "+ accountInfo.email;
+        balanceElement.textContent = "Balance: "+ formatter.format(accountInfo.bank_account.balance);
+    } catch (e) {
+        await validateTokens();
+    }
+
+}
+
+function validateAmount(amount) {
+
+    // Check if amount is a valid positive integer
+    if(amount < 0.01) {
+        return "Invalid amount"
+    }
+    if (amount > 1000) {
+        return "Max is 1.000";
+    }
+
+    return "OK";
+}
 
 async function deposit() {
     const formData = new FormData(depositForm);
@@ -166,12 +148,7 @@ async function deposit() {
     }
 }
 
-
-
-
-
 async function transfer() {
-
 
 }
 
@@ -217,32 +194,6 @@ async function withdraw() {
 
 }
 
-function validateAmount(amount) {
-
-    // Check if amount is a valid positive integer
-    if(amount < 0.01) {
-        return "Invalid amount"
-    }
-    if (amount > 1000) {
-        return "Max is 1.000";
-    }
-
-    return "OK";
-}
-
-let fading = false;
-function promptFeedback(element, text, color) {
-    if (!fading) {
-        fading = true;
-        element.innerText = text;
-        element.style.color = color;
-        element.classList.add("feedback-label-fade");
-        setTimeout(async () => {
-            element.classList.remove("feedback-label-fade"); fading=false;
-        }, 2000);
-    }
-}
-
 function logOut(errorCausedLogout) {
 
     // Set tokens to undefine to counter auto-login, set expires to now plus 1 second to expire them
@@ -257,25 +208,31 @@ function logOut(errorCausedLogout) {
         // Replace screen back to home
         location.replace("home.html");
     }
-
 }
 
-// Get cookie from name, returns null if cookie was not found
-function getCookie(cname) {
-    let name = cname + "=";
-    let decodedCookie = decodeURIComponent(document.cookie);
-    let ca = decodedCookie.split(';');
-    for (let i = 0; i <ca.length; i++) {
-        let c = ca[i];
-        while (c.charAt(0) === ' ') {
-            c = c.substring(1);
-        }
-        if (c.indexOf(name) === 0) {
-            return c.substring(name.length, c.length);
-        }
-    }
-    return "";
-}
+// Hide content until account info is retrieved
+contentBlocks.forEach((element) => {
+    element.classList.add("display-none")
+});
 
+await getAccountInfo();
 
+contentBlocks.forEach((element) => {
+    element.classList.remove("display-none")
+});
 
+depositButton.addEventListener('click', async () => {
+    await deposit();
+});
+
+transferButton.addEventListener('click', async () => {
+    await transfer();
+});
+
+withdrawButton.addEventListener('click', async () => {
+    await withdraw();
+});
+
+signOutButton.addEventListener('click', async () => {
+    await logOut(false);
+});
