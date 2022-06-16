@@ -73,6 +73,15 @@ async function refreshAccessToken() {
     else {
         // Get and set access token from response
         accessToken =  (await refreshAccessResponse.json()).access_token;
+
+        // Create expire dates for tokens
+        const date = new Date();
+        const accessExpire = new Date(date.getTime() + (15 * 60 * 1000));
+
+        // Set access token cookie with expire date of session
+        document.cookie = "access_token="+accessToken
+            + "; SameSite=lax"
+            + "; expires="+accessExpire.toUTCString()+";";
     }
 }
 

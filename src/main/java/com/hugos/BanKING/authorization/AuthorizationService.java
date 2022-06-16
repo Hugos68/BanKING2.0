@@ -19,7 +19,13 @@ public class AuthorizationService {
     public AuthorizationOutcome authorizeAccessToken(HttpServletRequest request) {
 
         // Retrieve and decode access token
-        String accessToken = request.getHeader(AUTHORIZATION).substring("Bearer ".length());
+        String accessToken;
+        try {
+            accessToken = request.getHeader(AUTHORIZATION).substring("Bearer ".length());
+        } catch (Exception exception) {
+            accessToken = null;
+        }
+
         DecodedAccessToken decodedAccessToken = jwtService.decodeAccessToken(accessToken);
 
         // Create outcome object based on token properties

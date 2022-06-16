@@ -153,8 +153,13 @@ public class AppUserService {
 
     public ResponseEntity<?> refreshAccessToken(HttpServletRequest request) {
 
-        // Get authorization token
-        String refreshToken = request.getHeader(AUTHORIZATION).substring("Bearer ".length());
+        // Retrieve and decode access token
+        String refreshToken;
+        try {
+            refreshToken = request.getHeader(AUTHORIZATION).substring("Bearer ".length());
+        } catch (Exception exception) {
+            refreshToken = null;
+        }
 
         // Get decoded token from request
         DecodedRefreshToken decodedRefreshToken = jwtService.decodeRefreshToken(refreshToken);
