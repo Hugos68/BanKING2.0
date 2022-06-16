@@ -1,7 +1,6 @@
 package com.hugos.BanKING.services;
 
 import com.google.gson.JsonObject;
-import com.hugos.BanKING.enums.TokenType;
 import com.hugos.BanKING.models.AppUser;
 import com.hugos.BanKING.models.DecodedAccessToken;
 import com.hugos.BanKING.models.DecodedRefreshToken;
@@ -157,7 +156,5 @@ public class JwtService {
         }
         return claims;
     }
-
-
 }
 

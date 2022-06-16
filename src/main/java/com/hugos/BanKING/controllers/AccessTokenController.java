@@ -1,6 +1,5 @@
 package com.hugos.BanKING.controllers;
 
-import com.hugos.BanKING.services.AppUserService;
 import com.hugos.BanKING.services.JwtService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

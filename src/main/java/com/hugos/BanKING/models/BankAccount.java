@@ -1,14 +1,14 @@
 package com.hugos.BanKING.models;
 
-
-import com.hugos.BanKING.models.AppUser;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 
 @Getter
+@Setter
 @Entity(name = "bankaccount")
 @NoArgsConstructor
 @AllArgsConstructor
