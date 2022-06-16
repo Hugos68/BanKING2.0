@@ -1,4 +1,4 @@
-package com.hugos.BanKING.services;
+package com.hugos.BanKING.util;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

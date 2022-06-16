@@ -1,4 +1,4 @@
-package com.hugos.BanKING.services;
+package com.hugos.BanKING.util;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.util.stream.Collectors;
 
 @Service
-public class RequestService {
+public class RequestUtility {
 
     // Returns null if parse fails
     public JsonObject getJsonFromRequest(HttpServletRequest request) {

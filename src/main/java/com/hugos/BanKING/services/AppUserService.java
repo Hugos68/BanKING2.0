@@ -5,10 +5,10 @@ import com.hugos.BanKING.models.AppUser;
 import com.hugos.BanKING.models.BankAccount;
 import com.hugos.BanKING.models.DecodedAccessToken;
 import com.hugos.BanKING.repositories.BankAccountRepository;
-import com.hugos.BanKING.models.DecodedRefreshToken;
-import com.hugos.BanKING.enums.TokenType;
 import com.hugos.BanKING.repositories.AppUserRepository;
 import com.hugos.BanKING.enums.Role;
+import com.hugos.BanKING.util.EmailValidator;
+import com.hugos.BanKING.util.RequestUtility;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -29,7 +29,7 @@ public class AppUserService {
 
     private final AppUserRepository appUserRepository;
     private final BankAccountRepository bankAccountRepository;
-    private final RequestService requestService;
+    private final RequestUtility requestUtility;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final JwtService jwtService;
 
@@ -40,7 +40,7 @@ public class AppUserService {
     public ResponseEntity<?> register(HttpServletRequest request) {
 
         // Get data from request
-        JsonObject body = requestService.getJsonFromRequest(request);
+        JsonObject body = requestUtility.getJsonFromRequest(request);
         String email = body.get("email").getAsString().toLowerCase();
         String password = body.get("password").getAsString();
 
@@ -108,7 +108,7 @@ public class AppUserService {
     public ResponseEntity<?> authenticate(HttpServletRequest request) {
 
         // Get data from request
-        JsonObject body = requestService.getJsonFromRequest(request);
+        JsonObject body = requestUtility.getJsonFromRequest(request);
         String email = body.get("email").getAsString().toLowerCase();
         String password = body.get("password").getAsString();
 
