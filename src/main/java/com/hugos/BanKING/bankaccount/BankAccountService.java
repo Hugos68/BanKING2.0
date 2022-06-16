@@ -5,6 +5,7 @@ import com.hugos.BanKING.appuser.AppUser;
 import com.hugos.BanKING.appuser.AppUserService;
 import com.hugos.BanKING.jwt.JwtServiceHandler;
 import com.hugos.BanKING.jwt.tokens.TokenType;
+import com.hugos.BanKING.util.RequestService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,19 +21,6 @@ public class BankAccountService {
     // TODO: Add business logic for deposit, withdraw and transfer
 
     private final BankAccountRepository bankAccountRepository;
-
-    public Optional<BankAccount> findByIban(String iban) {
-        return bankAccountRepository.findByIban(iban);
-    }
-
-    public Optional<BankAccount> findByAppUser(AppUser appUser) {
-        return bankAccountRepository.findByAppUser(appUser);
-    }
-
-    public BankAccount save(BankAccount bankAccount) {
-        return bankAccountRepository.save(bankAccount);
-    }
-
     public ResponseEntity<?> deposit(HttpServletRequest request) {
         return null;
     }

@@ -6,6 +6,7 @@ import com.hugos.BanKING.authorization.AuthorizationOutcome;
 import com.hugos.BanKING.bankaccount.BankAccountService;
 import com.hugos.BanKING.authorization.AuthorizationService;
 import com.hugos.BanKING.role.Role;
+import com.hugos.BanKING.util.RequestService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -29,19 +30,6 @@ public class AccountService {
 
         // Execute request once authorized
         return appUserService.getAccount(request);
-    }
-
-
-    public ResponseEntity<?> getBalance(HttpServletRequest request) {
-        ResponseEntity<?> authorizeResponse = authorizeRequest(request);
-
-        // If response entity is not null, request was unauthorized
-        if (authorizeResponse!=null) {
-            return authorizeResponse;
-        }
-
-        // Execute request once authorized
-        return appUserService.getBalance(request);
     }
 
     public ResponseEntity<?> deposit(HttpServletRequest request) {

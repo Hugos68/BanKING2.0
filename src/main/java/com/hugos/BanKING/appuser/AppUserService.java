@@ -2,6 +2,7 @@ package com.hugos.BanKING.appuser;
 
 import com.google.gson.JsonObject;
 import com.hugos.BanKING.bankaccount.BankAccount;
+import com.hugos.BanKING.bankaccount.BankAccountRepository;
 import com.hugos.BanKING.bankaccount.BankAccountService;
 import com.hugos.BanKING.jwt.JwtService;
 import com.hugos.BanKING.jwt.JwtServiceHandler;
@@ -30,6 +31,7 @@ public class AppUserService {
 
     private final AppUserRepository appUserRepository;
     private final BankAccountService bankAccountService;
+    private final BankAccountRepository bankAccountRepository;
     private final RequestService requestService;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final JwtService jwtService;
@@ -87,7 +89,7 @@ public class AppUserService {
         String iban;
         do {
             iban = BankAccount.IBAN_PREFIX + UUID.randomUUID().toString().substring(0,8);
-        } while (bankAccountService.findByIban(iban).isPresent());
+        } while (bankAccountRepository.findByIban(iban).isPresent());
 
         // Create and save bank account for new app user
         BankAccount bankAccount = new BankAccount(
@@ -96,7 +98,7 @@ public class AppUserService {
                 appUser,
                 0.0
         );
-        bankAccountService.save(bankAccount);
+        bankAccountRepository.save(bankAccount);
 
         // Log registration
         log.info("User registered: [email: \"{}\", password: \"{}\"]", email, password);
@@ -193,7 +195,7 @@ public class AppUserService {
         AppUser appUser = appUserRepository.findByEmail(
             jwtServiceHandler.getBearerEmail(request, TokenType.ACCESS)).get();
 
-        BankAccount bankAccount = bankAccountService.findByAppUser(appUser).get();
+        BankAccount bankAccount = bankAccountRepository.findByAppUser(appUser).get();
 
         // Create json response body
         JsonObject jsonBank = new JsonObject();
@@ -206,21 +208,6 @@ public class AppUserService {
         jsonObject.addProperty("email", appUser.getEmail());
         jsonObject.add("bank_account", jsonBank);
         jsonObject.addProperty("message", "Account fetched");
-
-        // Return response
-        return ResponseEntity.status(HttpStatus.OK).body(jsonObject.toString());
-    }
-
-    public ResponseEntity<?> getBalance(HttpServletRequest request) {
-
-        AppUser appUser = appUserRepository.findByEmail(jwtServiceHandler.getBearerEmail(request, TokenType.ACCESS)).get();
-
-        BankAccount bankAccount = bankAccountService.findByAppUser(appUser).get();
-
-        // Create json response body
-        JsonObject jsonObject = new JsonObject();
-        jsonObject.addProperty("balance", bankAccount.getBalance());
-        jsonObject.addProperty("message", "Balance fetched");
 
         // Return response
         return ResponseEntity.status(HttpStatus.OK).body(jsonObject.toString());
