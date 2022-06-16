@@ -13,7 +13,6 @@ if (refreshToken!=="") {
     await attemptAutoLogin();
 }
 
-
 // Sign In Event
 signInButton.addEventListener('click', async () => {
     await signIn();

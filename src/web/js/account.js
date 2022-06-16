@@ -1,67 +1,90 @@
+const contentBlocks = document.querySelectorAll(".section-block");
 const signOutButton = document.querySelector(".sign-out-button");
+const depositButton = document.querySelector(".deposit-button");
+const depositForm = document.querySelector(".deposit-form");
+const transferButton = document.querySelector(".transfer-button");
+const transferForm = document.querySelector(".transfer-form");
+const withdrawButton = document.querySelector(".withdraw-button");
+const withdrawForm = document.querySelector(".withdraw-form");
 const emailElement = document.querySelector(".email");
 const balanceElement = document.querySelector(".balance");
 const refreshToken = getCookie("refresh_token");
 
-// TODO: Hide content until all fetches are successful
 
-let refreshTried = false;
+// Hide content until account info is retrieved
+contentBlocks.forEach((element) => {
+    element.classList.add("display-none")
+});
+
+let refreshAttempted = false;
 await getAccountInfo();
+
+contentBlocks.forEach((element) => {
+    element.classList.remove("display-none")
+});
+
+
+depositButton.addEventListener('click', async () => {
+    await deposit();
+});
+
+transferButton.addEventListener('click', async () => {
+    await transfer();
+});
+
+withdrawButton.addEventListener('click', async () => {
+    await withdraw();
+});
 
 signOutButton.addEventListener('click', async () => {
     await logOut();
 });
 
+
+
 async function getAccountInfo() {
 
-    // Get access token from cookie
-    const accessToken = getCookie("access_token");
+    await validateTokens();
 
     // Fetch account info with access token
-    try {
-        const accountInfoResponse = await fetch("http://localhost:8080/api/account", {
-            method: 'get',
-            headers: new Headers({
-                'content-type': 'application/json',
-                'Authorization': 'Bearer '+ accessToken
-            })
+    const accountInfoResponse = await fetch("http://localhost:8080/api/account", {
+        method: 'get',
+        headers: new Headers({
+            'content-type': 'application/json',
+            'Authorization': 'Bearer '+ getCookie("access_token")
+        })
+    });
+    if (!accountInfoResponse.ok) throw new Error(accountInfoResponse.status + ' ' + accountInfoResponse.statusText);
+    else {
+        const accountInfo = await accountInfoResponse.json();
+
+        const formatter = new Intl.NumberFormat('en-US', {
+            style: 'currency',
+            currency: 'EUR',
+            minimumFractionDigits: 2
         });
-        if (!accountInfoResponse.ok) throw new Error(accountInfoResponse.status + ' ' + accountInfoResponse.statusText);
-        else {
-            const accountInfo = await accountInfoResponse.json();
 
-            const formatter = new Intl.NumberFormat('en-US', {
-                style: 'currency',
-                currency: 'EUR',
-                minimumFractionDigits: 2
-            });
-
-            emailElement.textContent = "Email: "+ accountInfo.email;
-            balanceElement.textContent = "Balance: "+ formatter.format(accountInfo.bank_account.balance);
-        }
-
-    } catch (e) {
-        // Prevent fetches from looping by catching a second fetch fail
-        if (refreshTried || refreshToken==="") {
-            await logOut();
-            location.replace("error.html");
-        }
-        else {
-            refreshTried=true;
-            await refreshAccessToken();
-            await getAccountInfo();
-        }
+        emailElement.textContent = "Email: "+ accountInfo.email;
+        balanceElement.textContent = "Balance: "+ formatter.format(accountInfo.bank_account.balance);
     }
 }
 
-async function logOut() {
+async function validateTokens() {
 
-    // Set tokens to undefine to counter auto-login, set expires to now plus 1 second to expire them
-    document.cookie = "refresh_token=; Max-Age=-99999999;";
-    document.cookie = "access_token=; Max-Age=-99999999;";
+    if (getCookie("refresh_token")==="") {
+        logOut();
+        return;
+    }
 
-    // Replace screen back to home
-    location.replace("home.html");
+    if (getCookie("access_token")==="" && !refreshAttempted) {
+        refreshAttempted=true;
+        await refreshAccessToken();
+        await validateTokens();
+    }
+    else if (getCookie("access_token")==="") {
+        logOut();
+    }
+
 }
 
 async function refreshAccessToken() {
@@ -88,6 +111,78 @@ async function refreshAccessToken() {
             + "; SameSite=lax"
             + "; expires="+accessExpire.toUTCString()+";";
     }
+}
+
+
+
+async function deposit() {
+    const formData = new FormData(depositForm);
+
+    // Convert form into object
+    const jsonObj = ["amount"].reduce((res, key) => {
+        res[key] = formData.get(key);
+        return res;
+    },{});
+
+    try {
+        const depositResponse = await fetch("http://localhost:8080/api/account/deposit", {
+            method: 'post',
+            headers: new Headers({
+                'content-type': 'application/json',
+                'Authorization': 'Bearer '+ getCookie("access_token")
+            })
+        })
+
+    } catch(e) {
+
+    }
+}
+
+async function transfer() {
+    const formData = new FormData(transferForm);
+
+    // Convert form into object
+    const jsonObj = ["amount"].reduce((res, key) => {
+        res[key] = formData.get(key);
+        return res;
+    },{});
+
+    try {
+        const transferResponse = await fetch("http://localhost:8080/api/account/transfer")
+    } catch(e) {
+
+    }
+
+}
+
+async function withdraw() {
+    const formData = new FormData(withdrawForm);
+
+    // Convert form into object
+    const jsonObj = ["amount"].reduce((res, key) => {
+        res[key] = formData.get(key);
+        return res;
+    },{});
+
+    try {
+        const withdrawResponse = fetch("http://localhost:8080/api/account/withdraw")
+    } catch(e) {
+
+    }
+
+}
+
+
+
+
+function logOut() {
+
+    // Set tokens to undefine to counter auto-login, set expires to now plus 1 second to expire them
+    document.cookie = "refresh_token=; Max-Age=-99999999;";
+    document.cookie = "access_token=; Max-Age=-99999999;";
+
+    // Replace screen back to home
+    location.replace("error.html");
 }
 
 // Get cookie from name, returns null if cookie was not found
