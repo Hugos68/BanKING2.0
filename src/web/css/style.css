@@ -137,6 +137,16 @@ body {
     box-shadow: 0 0 15px;
 }
 
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type=number]{
+    -moz-appearance: textfield;
+}
+
 .input-label-combination {
     display: flex;
     flex-direction: column;

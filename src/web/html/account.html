@@ -45,7 +45,7 @@
                         <p class="page-title">Deposit</p>
                         <div class="input-label-combination">
                             <label class="deposit-label" for="deposit-amount">Amount</label>
-                            <input class="general-input" id="deposit-amount" type="text" name="amount">
+                            <input class="general-input" id="deposit-amount" type="number" name="amount">
                         </div>
                         <div class="feedback-label deposit-feedback"></div>
                         <button class="general-button deposit-button" type="button">Deposit</button>
@@ -60,7 +60,7 @@
                         </div>
                         <div class="input-label-combination">
                             <label class="transfer-label" for="transfer-amount">Amount</label>
-                            <input class="general-input" id="transfer-amount" type="text" name="amount">
+                            <input class="general-input" id="transfer-amount" type="number" name="amount">
                         </div>
                         <div class="feedback-label transfer-feedback"></div>
                         <button class="general-button transfer-button" type="button">Transfer</button>
@@ -71,8 +71,8 @@
                     <form class="withdraw-form general-form">
                         <p class="page-title">Withdraw</p>
                         <div class="input-label-combination">
-                            <label class="deposit-label" for="withdraw-amount">Amount</label>
-                            <input class="general-input" id="withdraw-amount" type="text" name="amount">
+                            <label class="withdraw-label" for="withdraw-amount">Amount</label>
+                            <input class="general-input" id="withdraw-amount" type="number" min="0.01" name="amount">
                         </div>
                         <div class="feedback-label withdraw-feedback"></div>
                         <button class="general-button withdraw-button" type="button">Withdraw</button>
