@@ -17,7 +17,7 @@ During several classes of Web Development we learned how to build a full stack a
 
 ## Technologies
 BanKING 2.0 uses several technology's to ensure Security and User Experience is at best.
-To ensure our users security are all passwords **Hashed** and **Salted**.
+To ensure our users security are all passwords **Hashed** and **Salted** with BCrypt.
 
 ### **Hash:** 
 A Hash is a function that takes in any input and computes a nearly random fixed set of characters that look like a random mess. Our users passwords are hashed using BCrypt which is one of the most secure hasing algorithms as of 2022. This means that anyone with access to our database will not be able to use any of the passwords to access any accounts because hashing is 1 way only.
