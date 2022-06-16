@@ -37,10 +37,9 @@ async function getAccountInfo() {
         }
 
     } catch (e) {
-        console.log(refreshTried);
         if (refreshTried) {
-            //await logOut();
-            //location.replace("error.html");
+            await logOut();
+            location.replace("error.html");
         }
         else {
             refreshTried=true;

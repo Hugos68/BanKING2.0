@@ -336,7 +336,7 @@ body {
 
 .overview-left {
     max-width: 425px;
-
+    animation: slide-right 1s alternate;
 }
 
 .overview-left > .page-title{
@@ -350,6 +350,10 @@ body {
     margin-block: 10px;
 }
 
+.overview-right {
+    animation: slide-left 1s alternate;
+}
+
 /*
 ===============================
             Banking
@@ -358,15 +362,18 @@ body {
 
 .banking > .section-block {
     width: 150px;
+    margin-inline: 100px;
     height: 400px;
 }
 
 .banking-left {
     margin-top: 350px;
+    animation: slide-right 1s alternate;
 }
 
 .banking-right {
     margin-top: 350px;
+    animation: slide-left 1s alternate;
 }
 
 /*
@@ -378,6 +385,14 @@ body {
 .transactions > .section-block {
     width: 150px;
     margin-top: 75px;
+}
+
+.transactions-left {
+    animation: slide-right 1s alternate;
+}
+
+.transactions-right {
+    animation: slide-left 1s alternate;
 }
 
 
