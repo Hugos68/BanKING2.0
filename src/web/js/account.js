@@ -2,7 +2,7 @@ const signOutButton = document.querySelector(".sign-out-button");
 const emailElement = document.querySelector(".email");
 const balanceElement = document.querySelector(".balance");
 const refreshToken = getCookie("refresh_token");
-const accessToken = getCookie("access_token");
+let accessToken = getCookie("access_token");
 
 // TODO: Hide content until all fetches are successful
 
@@ -72,18 +72,18 @@ async function refreshAccessToken() {
     if (!refreshAccessResponse.ok);
     else {
         // Get access token from response
-        const accessToken = (await refreshAccessResponse.json()).access_token;
+        accessToken =  (await refreshAccessResponse.json()).access_token;
 
-        // Create expire date (1 year from now)
-        const date = new Date();
-        const expireDate = new Date(date.getMinutes()+15);
-
-        // TODO Fix cookie not getting set correctly
-
-        // Set access token cookie with expire date of session
-        document.cookie = "access_token="+accessToken
-            + "; SameSite=lax"
-            + "; expires="+expireDate.toUTCString()+";";
+        // // Create expire date (1 year from now)
+        // const date = new Date();
+        // const expireDate = new Date(date.getMinutes()+15);
+        //
+        // // TODO Fix cookie not getting set correctly
+        //
+        // // Set access token cookie with expire date of session
+        // document.cookie = "access_token="+accessTokenFetched
+        //     + "; SameSite=lax"
+        //     + "; expires="+expireDate.toUTCString()+";";
     }
 }
 
