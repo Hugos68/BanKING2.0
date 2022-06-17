@@ -37,7 +37,13 @@ async function attemptAutoLogin()  {
                 'Authorization': 'Bearer '+ refreshToken
             }
         });
-        if (!refreshResponse.ok) setPageLoggedIn(false);
+        if (!refreshResponse.ok) {
+
+            // Delete leftover access_token
+            document.cookie = "refresh_token=; Max-Age=-99999999;";
+            document.cookie = "access_token=; Max-Age=-99999999;";
+            setPageLoggedIn(false);
+        }
         else {
 
             // Get token pair from response
@@ -124,7 +130,6 @@ async function signIn() {
             promptFeedback(signInLabel, (await signInResponse.json())["message"], redHex);
             return;
         }
-
         // Reset form
         signInForm.reset();
 
@@ -133,7 +138,6 @@ async function signIn() {
 
         // Get token pair from response
         const tokenPair = await signInResponse.json();
-
         setTokenPairCookies(tokenPair);
 
         // Redirect to account page
@@ -230,9 +234,7 @@ async function signUp() {
 
 // Page load event
 location.href="#home";
-if (refreshToken!=="") {
-    await attemptAutoLogin();
-}
+await attemptAutoLogin();
 
 // Sign In Event
 signInButton.addEventListener('click', async () => {
