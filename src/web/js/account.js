@@ -16,6 +16,7 @@ import {greenHex, redHex, getCookie, promptFeedback} from "./util.js";
 
 const refreshToken = getCookie("refresh_token");
 
+// Refresh the access token using the refresh token in the cookies
 async function refreshAccessToken() {
 
     try {
@@ -46,8 +47,8 @@ async function refreshAccessToken() {
 
 }
 
-let refreshAttempted = false;
-async function validateTokens() {
+// Validate tokens and act accordingly
+async function validateTokens(refreshAttempted) {
     // If refresh token is absent -> log user out
     if (getCookie("refresh_token")==="") {
         logOut(true);
@@ -66,9 +67,15 @@ async function validateTokens() {
     }
 }
 
+// Sync tokens will validate tokens and give a false refresh attempt
+async function syncTokens() {
+    const refreshAttempted = false;
+    await validateTokens(refreshAttempted);
+}
+
 async function getAccountInfo() {
 
-    await validateTokens();
+    await syncTokens();
     try {
         // Fetch account info with access token
         const accountInfoResponse = await fetch("http://localhost:8080/api/account", {
@@ -137,6 +144,15 @@ async function deposit() {
 
         if (!depositResponse.ok) {
 
+            // Get error message
+            const message = (await depositResponse.json())["message"]
+
+            // If access token expired -> request for a new one
+            if (message==="Access token is invalid") {
+                await syncTokens();
+                await deposit();
+                return;
+            }
             // Prompt server response formatted to be user friendly
             promptFeedback(depositFeedback, (await depositResponse.json())["message"], redHex);
             throw new Error(depositResponse.status + ' ' + depositResponse.statusText);
@@ -183,8 +199,18 @@ async function withdraw() {
 
         if (!withdrawResponse.ok) {
 
+            // Get error message
+            const message = (await withdrawResponse.json())["message"]
+
+            // If access token expired -> request for a new one
+            if (message==="Access token is invalid") {
+                await syncTokens();
+                await withdraw();
+                return;
+            }
+
             // Prompt server response formatted to be user friendly
-            promptFeedback(withdrawFeedback, (await withdrawResponse.json())["message"], redHex);
+            promptFeedback(withdrawFeedback, message, redHex);
             throw new Error(withdrawResponse.status + ' ' + withdrawResponse.statusText);
         }
 
