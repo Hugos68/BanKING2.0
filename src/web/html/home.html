@@ -13,30 +13,16 @@
                 <img class="logo banking-icon" loading="lazy" src="../resources/logo.svg"
                      onclick="location.href='home.html'">
                 <nav class="nav">
-                    <a class="nav-item nav-home"
-                       onclick="document.getElementById('home').scrollIntoView({behavior: 'smooth'})">
-                        Home
-                    </a>
-                    <a class="nav-item nav-about"
-                       onclick="document.getElementById('about').scrollIntoView({behavior: 'smooth'})">
-                        About
-                    </a>
-                    <a class="nav-item nav-sign-in"
-                       onclick="document.getElementById('sign-in').scrollIntoView({behavior: 'smooth'})">
-                        Sign-in
-                    </a>
-                    <a class="nav-item nav-sign-up"
-                       onclick="document.getElementById('sign-up').scrollIntoView({behavior: 'smooth'})">
-                        Sign-up
-                    </a>
-                    <a class="nav-item nav-account display-none" href="account.html">
-                        Account
-                    </a>
+                    <a class="nav-item nav-home" href="#home">Home</a>
+                    <a class="nav-item nav-about" href="#about">About</a>
+                    <a class="nav-item nav-sign-in" href="#sign-in">Sign-in</a>
+                    <a class="nav-item nav-sign-up" href="#sign-up">Sign-up</a>
+                    <a class="nav-item nav-account display-none" href="account.html">Account</a>
                 </nav>
-                <img class="logo jwt-icon" loading="lazy" src="../resources/jwt.svg"
-                        onclick="location.href='https://jwt.io/'">
+                <a href="https://jwt.io/">
+                    <img class="logo jwt-icon" loading="lazy" src="../resources/jwt.svg">
+                </a>
             </header>
-
             <section class="section home home-page-section" id="home">
                 <div class="section-block home-left">
                     <h1 class="page-title">BanKING</h1>
