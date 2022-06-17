@@ -11,7 +11,8 @@ const withdrawForm = document.querySelector(".withdraw-form");
 const withdrawFeedback = document.querySelector(".withdraw-feedback");
 const emailElement = document.querySelector(".email");
 const balanceElement = document.querySelector(".balance");
-import {greenHex, redHex, getCookie, promptFeedback} from "./home";
+
+import {greenHex, redHex, getCookie, promptFeedback} from "./util.js";
 
 const refreshToken = getCookie("refresh_token");
 

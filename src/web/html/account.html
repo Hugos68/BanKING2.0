@@ -3,27 +3,21 @@
 <head>
     <meta charset="UTF-8" name="viewport" content=initial-scale=1.0">
     <title>Account</title>
+    <script type="module" src="../js/util.js"></script>
     <script type="module" src="../js/account.js"></script>
     <link rel="stylesheet" href="../css/style.css">
 </head>
     <body onload="location.href='#overview'">
         <div class="page-wrapper">
             <header class="header">
-                <img class="logo banking-icon" loading="lazy" src="../resources/logo.svg"
-                     onclick="location.href='home.html'">
+                <a href="home.html">
+                    <img class="logo banking-icon" loading="lazy" src="../resources/logo.svg">
+                </a>
+
                 <nav class="nav">
-                    <a class="nav-item nav-overview"
-                       onclick="document.getElementById('overview').scrollIntoView({behavior: 'smooth'})">
-                        Overview
-                    </a>
-                    <a class="nav-item nav-banking"
-                       onclick="document.getElementById('banking').scrollIntoView({behavior: 'smooth'})">
-                        Banking
-                    </a>
-                    <a class="nav-item nav-transactions"
-                       onclick="document.getElementById('transactions').scrollIntoView({behavior: 'smooth'})">
-                        Transactions
-                    </a>
+                    <a class="nav-item nav-overview" href="#overview">Overview</a>
+                    <a class="nav-item nav-banking" href="#banking">Banking</a>
+                    <a class="nav-item nav-transactions" href="#transactions">Transactions</a>
                 </nav>
                 <button class="general-button sign-out-button">Sign out</button>
             </header>

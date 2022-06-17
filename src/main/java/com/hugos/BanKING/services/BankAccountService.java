@@ -22,7 +22,7 @@ import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 @AllArgsConstructor
 public class BankAccountService {
 
-    // TODO: Add business logic for deposit, withdraw and transfer
+    // TODO: Add business logic for transfer
 
     private final BankAccountRepository bankAccountRepository;
     private final AppUserRepository appUserRepository;
