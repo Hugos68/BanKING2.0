@@ -392,24 +392,27 @@ input[type=number]{
 ===============================
  */
 
-.transactions > transactions-left {
-    animation: slide-right 1s alternate;
-}
-
-.transactions > right {
+.transactions {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 0;
     animation: slide-left 1s alternate;
 }
 
-
-
-.transaction-list {
+.transaction-table {
+    text-align: left;
+    padding-inline: 25px;
+    margin-top: 50px;
     background-color: #62e7fc;
     overflow-x: hidden;
     overflow-y: scroll;
+    width: 50vw;
     height: 325px;
-    width: 600px;
+    max-width: 50vw;
     max-height: 325px;
-    max-width: 600px;
+    border-radius: 10px;
+    box-shadow: 0 0 25px;
 }
 
 
@@ -556,6 +559,9 @@ input[type=number]{
     }
     .banking > .section-block {
         margin-top: 25px;
+    }
+    .transactions {
+        flex-direction: column;
     }
 
 }

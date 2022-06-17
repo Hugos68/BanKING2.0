@@ -12,7 +12,7 @@ const withdrawFeedback = document.querySelector(".withdraw-feedback");
 const emailElement = document.querySelector(".email");
 const ibanElement = document.querySelector(".iban");
 const balanceElement = document.querySelector(".balance");
-const transactionUl = document.querySelector(".transaction-list");
+const transactionTable = document.querySelector(".transaction-table");
 
 import {greenHex, redHex, getCookie, promptFeedback} from "./util.js";
 
@@ -113,28 +113,21 @@ async function getTransactions() {
         await getTransactions();
         return;
     }
-    // const transactionObj = (await transactionsResponse.json()).transactions;
-    //
-    // const transactionList = Object.values(transactionObj);
-    //
-    //
-    // // TODO: Get all items from list and format properly
-    //
-    // transactionList.forEach(transaction => {
-    //     let transactionListing = document.createElement("ul");
-    //
-    //     transaction.forEach(item => {
-    //         let li = document.createElement("li");
-    //         li.innerText=item.id
-    //             +" "+item.type
-    //             +" "+item.iban_from
-    //             +" "+item.iban_to
-    //             +" "+item.amount
-    //             +" "+item.date_time;
-    //         transactionListing.appendChild(li);
-    //     });
-    //     transactionUl.appendChild(transactionListing);
-    // });
+    const transactionObj = (await transactionsResponse.json()).transactions;
+
+
+    const transactionList = Object.values(transactionObj);
+
+    // Create table rows for transactions
+    transactionList.forEach(item => {
+        const tr = document.createElement("tr");
+        for (let value in item) {
+            const td = document.createElement("td");
+            td.innerText = item[value];
+            tr.appendChild(td);
+        }
+        transactionTable.appendChild(tr);
+    });
 }
 
 async function loadAccountContent() {
