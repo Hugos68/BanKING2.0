@@ -2,6 +2,8 @@ package com.hugos.BanKING.models;
 
 import com.hugos.BanKING.enums.TransactionType;
 import lombok.*;
+import org.hibernate.annotations.Cascade;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
@@ -24,6 +26,7 @@ public class Transaction {
 
     @ManyToOne
     private BankAccount toBankAccount;
+
     private Double amount;
     private LocalDateTime dateTime;
 

@@ -257,6 +257,31 @@ function logOut(errorCausedLogout) {
     }
 }
 
+async function deleteAccount() {
+    const deleteAccountResponse = await fetch("http://localhost:8080/api/account", {
+        method: 'delete',
+        headers: new Headers({
+            'content-type': 'application/json',
+            'Authorization': 'Bearer '+ getCookie("access_token")
+        }),
+    });
+    if (!deleteAccountResponse.ok) {
+
+        // Get error message
+        const message = (await deleteAccountResponse.json())["message"]
+
+        // If access token expired -> request for a new one
+        if (message==="Access token is invalid") {
+            await syncTokens();
+            await deleteAccount();
+            return;
+        }
+    }
+    logOut(false);
+}
+
+
+
 // Hide content until account info is retrieved
 contentBlocks.forEach((element) => {
     element.classList.add("display-none")
@@ -292,6 +317,5 @@ signOutButton.addEventListener('click', async () => {
 });
 
 deleteAccountButton.addEventListener('click', async () => {
-    // TODO: Add delete account option
-    await logOut(false);
+    await deleteAccount();
 });

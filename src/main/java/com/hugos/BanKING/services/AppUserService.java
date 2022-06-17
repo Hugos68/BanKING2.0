@@ -198,6 +198,9 @@ public class AppUserService {
             decodedAccessToken.subject()
         ).get();
 
+        bankAccountRepository.delete(
+            bankAccountRepository.findByAppUser(appUser).get()
+        );
         appUserRepository.delete(appUser);
 
         // Create json response body
