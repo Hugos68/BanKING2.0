@@ -1,7 +1,6 @@
 package com.hugos.BanKING.services;
 
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
+import com.google.gson.*;
 import com.hugos.BanKING.enums.TransactionType;
 import com.hugos.BanKING.models.AppUser;
 import com.hugos.BanKING.models.BankAccount;
@@ -286,18 +285,20 @@ public class BankAccountService {
                 appUserRepository.findByEmail(decodedAccessToken.subject()).get()
         ).get();
 
-
-        JsonObject transactionsObject = new JsonObject();
+        // Get json object from relevant transactions
+        JsonObject transactionObject = new JsonObject();
         List<Transaction> transactionList = transactionRepository.findAll();
         transactionList.forEach((transaction) -> {
-            if (bankAccount==transaction.getFromBankAccount() && bankAccount==transaction.getToBankAccount()) {
-                transactionsObject.add("transaction"+transaction.getId(), JsonParser.parseString(transaction.toString()));
+            if (bankAccount!=transaction.getFromBankAccount() && bankAccount!=transaction.getToBankAccount()) {
+                transactionList.remove(transaction);
+                return;
             }
+            transactionObject.addProperty("transaction "+transaction.getId(), transaction.toString());
         });
 
         // Create json response body
         jsonObject.addProperty("message", "Transactions retrieved");
-        jsonObject.add("transactions", transactionsObject);
+        jsonObject.add("transactions", transactionObject);
 
         // Return response
         return ResponseEntity.status(HttpStatus.OK).body(jsonObject.toString());
