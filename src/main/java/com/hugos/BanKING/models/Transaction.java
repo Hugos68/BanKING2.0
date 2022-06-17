@@ -1,14 +1,15 @@
 package com.hugos.BanKING.models;
 
 import com.hugos.BanKING.enums.TransactionType;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Getter
+@Setter
 @Entity(name = "transaction")
+@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 public class Transaction {

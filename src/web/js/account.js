@@ -108,6 +108,18 @@ function validateAmount(amount) {
     return "OK";
 }
 
+function scrollOverviewRefresh() {
+    // Scroll to overview
+    setTimeout(() => {
+        document.querySelector("#overview").scrollIntoView({
+            behavior: 'smooth'
+        });
+        setTimeout(() => {
+            location.reload();
+        }, 500);
+    }, 500);
+}
+
 async function deposit() {
     const formData = new FormData(depositForm);
 
@@ -143,7 +155,8 @@ async function deposit() {
         }
 
         promptFeedback(depositFeedback, "Amount Deposited!", greenHex);
-        location.reload();
+
+        scrollOverviewRefresh();
     } catch (e) {
         console.error(e);
     }
@@ -188,7 +201,8 @@ async function withdraw() {
         }
 
         promptFeedback(withdrawFeedback, "Amount Withdrawn!", greenHex);
-        location.reload();
+
+        scrollOverviewRefresh();
     } catch (e) {
         console.error(e);
     }

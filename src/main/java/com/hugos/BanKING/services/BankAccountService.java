@@ -1,6 +1,7 @@
 package com.hugos.BanKING.services;
 
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.hugos.BanKING.enums.TransactionType;
 import com.hugos.BanKING.models.AppUser;
 import com.hugos.BanKING.models.BankAccount;
@@ -20,6 +21,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
@@ -260,6 +262,42 @@ public class BankAccountService {
 
         // Create json response body
         jsonObject.addProperty("message", "Amount transferred");
+
+        // Return response
+        return ResponseEntity.status(HttpStatus.OK).body(jsonObject.toString());
+    }
+
+    public ResponseEntity<?> getAllTransactions(HttpServletRequest request) {
+
+        // Create response object
+        JsonObject jsonObject = new JsonObject();
+
+        // Retrieve and decode access token
+        String accessToken;
+        try {
+            accessToken = request.getHeader(AUTHORIZATION).substring("Bearer ".length());
+        } catch (Exception exception) {
+            accessToken = null;
+        }
+
+        DecodedAccessToken decodedAccessToken = jwtService.decodeAccessToken(accessToken);
+
+        BankAccount bankAccount = bankAccountRepository.findByAppUser(
+                appUserRepository.findByEmail(decodedAccessToken.subject()).get()
+        ).get();
+
+
+        JsonObject transactionsObject = new JsonObject();
+        List<Transaction> transactionList = transactionRepository.findAll();
+        transactionList.forEach((transaction) -> {
+            if (bankAccount==transaction.getFromBankAccount() && bankAccount==transaction.getToBankAccount()) {
+                transactionsObject.add("transaction"+transaction.getId(), JsonParser.parseString(transaction.toString()));
+            }
+        });
+
+        // Create json response body
+        jsonObject.addProperty("message", "Transactions retrieved");
+        jsonObject.add("transactions", transactionsObject);
 
         // Return response
         return ResponseEntity.status(HttpStatus.OK).body(jsonObject.toString());

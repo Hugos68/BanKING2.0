@@ -37,4 +37,10 @@ public class AccountController {
         log.info("Endpoint: \"api/account/transfer\" was called");
         return accountService.transfer(request);
     }
+
+    @GetMapping(path = "transactions")
+    public ResponseEntity<?> getAllTransactions(HttpServletRequest request) {
+        log.info("Endpoint: \"api/account/transaction\" was called");
+        return accountService.getAllTransactions(request);
+    }
 }

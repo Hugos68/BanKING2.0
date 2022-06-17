@@ -64,6 +64,19 @@ public class AccountService {
         return bankAccountService.transfer(request);
     }
 
+    public ResponseEntity<?> getAllTransactions(HttpServletRequest request) {
+
+        ResponseEntity<?> authorizeResponse = authorizeRequest(request);
+
+        // If response entity is not null, request was unauthorized
+        if (authorizeResponse!=null) {
+            return authorizeResponse;
+        }
+
+        // Execute request once authorized
+        return bankAccountService.getAllTransactions(request);
+    }
+
     private ResponseEntity<?> authorizeRequest(HttpServletRequest request) {
 
         // Authorize access to this resource
@@ -79,5 +92,4 @@ public class AccountService {
         // Return empty response entity if request was authorized
         return null;
     }
-
 }
