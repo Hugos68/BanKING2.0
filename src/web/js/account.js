@@ -189,6 +189,7 @@ async function deposit() {
         promptFeedback(depositFeedback, (await depositResponse.json())["message"], redHex);
         throw new Error(depositResponse.status + ' ' + depositResponse.statusText);
     }
+    depositForm.reset();
     promptFeedback(depositFeedback, "Amount Deposited!", greenHex);
     location.reload();
 }
@@ -238,6 +239,7 @@ async function withdraw() {
         promptFeedback(withdrawFeedback, message, redHex);
         throw new Error(withdrawResponse.status + ' ' + withdrawResponse.statusText);
     }
+    withdrawForm.reset();
     promptFeedback(withdrawFeedback, "Amount Withdrawn!", greenHex);
     location.reload();
 }

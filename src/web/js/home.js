@@ -223,7 +223,7 @@ async function signUp() {
             document.querySelector("#sign-in").scrollIntoView({
                 behavior: 'smooth'
             });
-        }, 750);
+        }, 500);
 
     } catch (e) {
         console.error(e);

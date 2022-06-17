@@ -20,6 +20,12 @@ public class AccountController {
         return accountService.getAccount(request);
     }
 
+    @DeleteMapping
+    public ResponseEntity<?> deleteAccount(HttpServletRequest request) {
+        log.info("Endpoint: \"api/account\" was called");
+        return accountService.deleteAccount(request);
+    }
+
     @PostMapping(path = "deposit")
     public ResponseEntity<?> deposit(HttpServletRequest request) {
         log.info("Endpoint: \"api/account/deposit\" was called");

@@ -181,4 +181,30 @@ public class AppUserService {
         // Return response
         return ResponseEntity.status(HttpStatus.OK).body(jsonObject.toString());
     }
+
+    public ResponseEntity<?> deleteAccount(HttpServletRequest request) {
+
+        // Retrieve and decode access token
+        String accessToken;
+        try {
+            accessToken = request.getHeader(AUTHORIZATION).substring("Bearer ".length());
+        } catch (Exception exception) {
+            accessToken = null;
+        }
+
+        DecodedAccessToken decodedAccessToken = jwtService.decodeAccessToken(accessToken);
+
+        AppUser appUser = appUserRepository.findByEmail(
+            decodedAccessToken.subject()
+        ).get();
+
+        appUserRepository.delete(appUser);
+
+        // Create json response body
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty("message", "Account deleted");
+
+        // Return response
+        return ResponseEntity.status(HttpStatus.OK).body(jsonObject.toString());
+    }
 }

@@ -28,6 +28,18 @@ public class AccountService {
         return appUserService.getAccount(request);
     }
 
+    public ResponseEntity<?> deleteAccount(HttpServletRequest request) {
+        ResponseEntity<?> authorizeResponse = authorizeRequest(request);
+
+        // If response entity is not null, request was unauthorized
+        if (authorizeResponse!=null) {
+            return authorizeResponse;
+        }
+
+        // Execute request once authorized
+        return appUserService.deleteAccount(request);
+    }
+
     public ResponseEntity<?> deposit(HttpServletRequest request) {
         ResponseEntity<?> authorizeResponse = authorizeRequest(request);
 
