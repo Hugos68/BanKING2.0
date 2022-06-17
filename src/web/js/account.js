@@ -29,7 +29,9 @@ async function refreshAccessToken() {
                 'Authorization': 'Bearer '+ refreshToken
             })
         });
-        if (!refreshAccessResponse.ok) throw new Error(refreshAccessResponse.status + ' ' + refreshAccessResponse.statusText);
+
+        // If access token refresh fails, log user out
+        if (!refreshAccessResponse.ok) logOut(true);
 
         // Get and set access token from response
         const accessTokenFetched = (await refreshAccessResponse.json()).access_token;
@@ -127,6 +129,7 @@ async function getTransactions() {
 
         let i = 0;
         transactionList.forEach(item => {
+            let transactionListing = document.createElement("ul");
             let li = document.createElement("li");
             li.innerText=item.id
                 +" "+item.type
@@ -135,7 +138,8 @@ async function getTransactions() {
                 +" "+item.amount
                 +" "+item.date_time;
 
-            transactionUl.appendChild(li);
+            li.appendChild(transactionListing);
+            transactionUl.appendChild(transactionListing);
         });
 
     } catch (e) {
