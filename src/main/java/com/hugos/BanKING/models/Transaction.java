@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Getter
 @Entity(name = "transaction")
@@ -24,4 +25,5 @@ public class Transaction {
     @ManyToOne
     private BankAccount toBankAccount;
     private Double amount;
+    private LocalDateTime dateTime;
 }

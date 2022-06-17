@@ -18,6 +18,8 @@ import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
@@ -94,7 +96,8 @@ public class BankAccountService {
             TransactionType.DEPOSIT,
             null,
             bankAccount,
-            amount
+            amount,
+            LocalDateTime.now()
         );
         transactionRepository.save(transaction);
 
@@ -159,7 +162,8 @@ public class BankAccountService {
             TransactionType.WITHDRAW,
             bankAccount,
             null,
-            amount
+            amount,
+            LocalDateTime.now()
         );
         transactionRepository.save(transaction);
 
@@ -249,7 +253,8 @@ public class BankAccountService {
             TransactionType.TRANSFER,
             senderBankAccount,
             receiverBankAccount,
-            amount
+            amount,
+            LocalDateTime.now()
         );
         transactionRepository.save(transaction);
 
