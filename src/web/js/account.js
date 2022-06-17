@@ -10,6 +10,7 @@ const withdrawButton = document.querySelector(".withdraw-button");
 const withdrawForm = document.querySelector(".withdraw-form");
 const withdrawFeedback = document.querySelector(".withdraw-feedback");
 const emailElement = document.querySelector(".email");
+const ibanElement = document.querySelector(".iban");
 const balanceElement = document.querySelector(".balance");
 const transactionUl = document.querySelector(".transaction-list");
 
@@ -93,6 +94,7 @@ async function getAccountInfo() {
 
     // Set account info elements to the fetched variables
     emailElement.textContent = "Email: "+ accountInfo.email;
+    ibanElement.textContent = "IBAN: "+ accountInfo.bank_account.iban;
     balanceElement.textContent = "Balance: "+ formatter.format(accountInfo.bank_account.balance);
 }
 
