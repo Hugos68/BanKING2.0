@@ -93,7 +93,7 @@ public class BankAccountService {
             null,
             TransactionType.DEPOSIT,
             null,
-            bankAccount.getIban(),
+            bankAccount,
             amount
         );
         transactionRepository.save(transaction);
@@ -157,7 +157,7 @@ public class BankAccountService {
         Transaction transaction = new Transaction(
             null,
             TransactionType.DEPOSIT,
-            bankAccount.getIban(),
+            bankAccount,
             null,
             amount
         );
@@ -247,8 +247,8 @@ public class BankAccountService {
         Transaction transaction = new Transaction(
             null,
             TransactionType.TRANSFER,
-            senderBankAccount.getIban(),
-            receiverIban,
+            senderBankAccount,
+            receiverBankAccount,
             amount
         );
         transactionRepository.save(transaction);

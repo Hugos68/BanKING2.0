@@ -19,7 +19,15 @@ public class Transaction {
 
     @Enumerated(EnumType.STRING)
     private TransactionType type;
-    private String from;
-    private String to;
+
+    // TODO: Fix bank accounts getting registered in database
+    @ManyToOne
+    @JoinColumn(insertable = false, name = "bankaccount_id")
+    private BankAccount from;
+
+    @ManyToOne
+    @JoinColumn(insertable = false, name = "bankaccount_id")
+    private BankAccount to;
+
     private Double amount;
 }
