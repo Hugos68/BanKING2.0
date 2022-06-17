@@ -4,7 +4,6 @@ import com.hugos.BanKING.enums.TransactionType;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
@@ -20,8 +19,10 @@ public class Transaction {
 
     @Enumerated(EnumType.STRING)
     private TransactionType type;
+
     @ManyToOne
     private BankAccount fromBankAccount;
+
     @ManyToOne
     private BankAccount toBankAccount;
     private Double amount;
