@@ -50,13 +50,14 @@ async function refreshAccessToken() {
 
 // Validate tokens and act accordingly
 async function validateTokens(refreshAttempted) {
+
     // If refresh token is absent -> log user out
     if (getCookie("refresh_token")==="") {
         logOut(true);
     }
 
     // If access token is absent -> refresh the access token and try again
-    else if (getCookie("access_token")==="" && !refreshAttempted) {
+    else if (!refreshAttempted) {
         await refreshAccessToken();
 
         // Set refresh attempted to true to avoid infinite refresh access token loop
@@ -74,15 +75,10 @@ async function validateTokens(refreshAttempted) {
 
 // Sync tokens will validate tokens and give a false refresh attempt
 async function syncTokens() {
-    const refreshAttempted = false;
-    await validateTokens(refreshAttempted);
+    await validateTokens(false);
 }
 
 async function getAccountInfo() {
-
-    if (getCookie("access_token")==="") {
-        await syncTokens();
-    }
     try {
         // Fetch account info with access token
         const accountInfoResponse = await fetch("http://localhost:8080/api/account", {
@@ -104,7 +100,8 @@ async function getAccountInfo() {
         emailElement.textContent = "Email: "+ accountInfo.email;
         balanceElement.textContent = "Balance: "+ formatter.format(accountInfo.bank_account.balance);
     } catch (e) {
-        await validateTokens();
+        await syncTokens();
+        await getAccountInfo();
     }
 }
 
@@ -118,11 +115,7 @@ async function getTransactions() {
                 'Authorization': 'Bearer '+ getCookie("access_token")
             })
         });
-        if (!transactionsResponse.ok) {
-            await syncTokens();
-            await getTransactions();
-            throw new Error(transactionsResponse.status+" "+transactionsResponse.statusText);
-        }
+        if (!transactionsResponse.ok) throw new Error(transactionsResponse.status + ' ' + transactionsResponse.statusText);
 
         const transactionObj = (await transactionsResponse.json()).transactions;
 
@@ -145,12 +138,18 @@ async function getTransactions() {
             transactionUl.appendChild(li);
         });
 
-
-
     } catch (e) {
-        console.error(e);
+        await syncTokens();
+        await getTransactions();
     }
+}
 
+async function loadAccountContent() {
+    if (getCookie("access_token")==="") {
+        await syncTokens();
+    }
+    await getAccountInfo();
+    await getTransactions();
 }
 
 function validateAmount(amount) {
@@ -297,8 +296,7 @@ contentBlocks.forEach((element) => {
 
 // Page load event
 location.href="#overview";
-await getAccountInfo();
-await getTransactions();
+await loadAccountContent();
 
 
 contentBlocks.forEach((element) => {
