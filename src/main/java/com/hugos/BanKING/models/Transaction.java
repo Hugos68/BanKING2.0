@@ -19,15 +19,9 @@ public class Transaction {
 
     @Enumerated(EnumType.STRING)
     private TransactionType type;
-
-    // TODO: Fix bank accounts getting registered in database
     @ManyToOne
-    @JoinColumn(insertable = false, name = "bankaccount_id")
-    private BankAccount from;
-
+    private BankAccount fromBankAccount;
     @ManyToOne
-    @JoinColumn(insertable = false, name = "bankaccount_id")
-    private BankAccount to;
-
+    private BankAccount toBankAccount;
     private Double amount;
 }

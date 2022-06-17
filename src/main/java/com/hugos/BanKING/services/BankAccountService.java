@@ -156,7 +156,7 @@ public class BankAccountService {
         // Log transaction
         Transaction transaction = new Transaction(
             null,
-            TransactionType.DEPOSIT,
+            TransactionType.WITHDRAW,
             bankAccount,
             null,
             amount
