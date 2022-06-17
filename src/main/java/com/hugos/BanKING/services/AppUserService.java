@@ -84,7 +84,7 @@ public class AppUserService {
         // Create unique iban for app user
         String iban;
         do {
-            iban = BankAccount.IBAN_PREFIX + UUID.randomUUID().toString().substring(0,8);
+            iban = BankAccount.IBAN_PREFIX + " "+UUID.randomUUID().toString().substring(0,8);
         } while (bankAccountRepository.findByIban(iban).isPresent());
 
         // Create and save bank account for new app user

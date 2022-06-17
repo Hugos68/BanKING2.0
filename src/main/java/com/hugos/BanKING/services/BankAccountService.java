@@ -286,19 +286,40 @@ public class BankAccountService {
         ).get();
 
         // Get json object from relevant transactions
-        JsonObject transactionObject = new JsonObject();
+        JsonObject transactionsObject = new JsonObject();
         List<Transaction> transactionList = transactionRepository.findAll();
         transactionList.forEach((transaction) -> {
             if (bankAccount!=transaction.getFromBankAccount() && bankAccount!=transaction.getToBankAccount()) {
                 transactionList.remove(transaction);
                 return;
             }
-            transactionObject.addProperty("transaction_"+transaction.getId(), transaction.toString());
+            JsonObject transactionObject = new JsonObject();
+            String ibanFrom;
+            if (transaction.getFromBankAccount()==null) {
+                ibanFrom="unknown";
+            }
+            else {
+                ibanFrom = transaction.getFromBankAccount().getIban();
+            }
+            String ibanTo;
+            if (transaction.getToBankAccount()==null) {
+                ibanTo = "unknown";
+            }
+            else {
+                ibanTo = transaction.getToBankAccount().getIban();
+            }
+            transactionObject.addProperty("id", transaction.getId());
+            transactionObject.addProperty("type", transaction.getType().name());
+            transactionObject.addProperty("iban_from", ibanFrom);
+            transactionObject.addProperty("iban_to", ibanTo);
+            transactionObject.addProperty("amount", transaction.getAmount());
+            transactionObject.addProperty("date_time", transaction.getDateTime().toString());
+            transactionsObject.add("transaction_"+transaction.getId(), transactionObject);
         });
 
         // Create json response body
         jsonObject.addProperty("message", "Transactions retrieved");
-        jsonObject.add("transactions", transactionObject);
+        jsonObject.add("transactions", transactionsObject);
 
         // Return response
         return ResponseEntity.status(HttpStatus.OK).body(jsonObject.toString());

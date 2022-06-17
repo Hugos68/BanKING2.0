@@ -128,6 +128,8 @@ async function getTransactions() {
 
         const transactionList = Object.values(transactionObj);
 
+        console.log(transactionList)
+
         // TODO: Get all items from list and format properly
 
         transactionList.forEach(item => {
