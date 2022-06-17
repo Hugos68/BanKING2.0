@@ -392,11 +392,11 @@ input[type=number]{
 ===============================
  */
 
-.transactions {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+.transactions > transactions-left {
+    animation: slide-right 1s alternate;
+}
+
+.transactions > right {
     animation: slide-left 1s alternate;
 }
 
@@ -406,8 +406,10 @@ input[type=number]{
     background-color: #62e7fc;
     overflow-x: hidden;
     overflow-y: scroll;
-    max-height: 400px;
-    max-width: 40vw;
+    height: 325px;
+    width: 600px;
+    max-height: 325px;
+    max-width: 600px;
 }
 
 

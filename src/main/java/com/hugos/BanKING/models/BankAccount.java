@@ -21,7 +21,6 @@ public class BankAccount {
     private String iban;
 
     @OneToOne
-    @JoinColumn(name = "appuser_id")
     private AppUser appUser;
     private Double balance;
 }
