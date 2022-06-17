@@ -10,9 +10,9 @@ import {greenHex, redHex, getCookie, promptFeedback} from "./util.js";
 const refreshToken = getCookie("refresh_token");
 
 // Manipulate the DOM based on if the user is logged in or not
-function setPageLoggedIn(boolean) {
+function setPageLoggedIn(loggedIn) {
 
-    if (boolean) {
+    if (loggedIn) {
         document.querySelector(".sign-in").classList.add("display-none");
         document.querySelector(".sign-up").classList.add("display-none");
         document.querySelector(".nav-sign-in").classList.add("display-none");
@@ -77,7 +77,7 @@ function validateSignIn(jsonObj) {
 
     return "OK";
 }
-function setTokenPairCookies(tokenpair) {
+function setTokenPairCookies(tokenPair) {
 
     // Create expire dates for tokens
     const date = new Date();
@@ -112,24 +112,24 @@ async function signIn() {
     }
 
     try {
-        const loginResponse = await fetch("http://localhost:8080/api/authentication",  {
+        const signInResponse = await fetch("http://localhost:8080/api/authentication",  {
             method: 'post',
             headers: new Headers({
                 'content-type': 'application/json'
             }),
             body: JSON.stringify(jsonObj)
         });
-        if (!loginResponse.ok) {
+        if (!signInResponse.ok) {
 
             // Prompt server response formatted to be user friendly
-            promptFeedback(signInLabel, (await loginResponse.json())["message"], redHex);
+            promptFeedback(signInLabel, (await signInResponse.json())["message"], redHex);
         }
 
         signInForm.reset();
         promptFeedback(signInLabel, "Success, signing in...", greenHex);
 
         // Get token pair from response
-        const tokenPair = await loginResponse.json();
+        const tokenPair = await signInResponse.json();
 
         setTokenPairCookies(tokenPair);
 
@@ -191,26 +191,31 @@ async function signUp() {
         return;
     }
     try {
-        const registrationResponse = await fetch("http://localhost:8080/api/registration",  {
+        const signUpResponse = await fetch("http://localhost:8080/api/registration",  {
             method: 'post',
             headers: new Headers({
                 'Content-Type': 'application/json'
             }),
             body: JSON.stringify(jsonObj)
         });
-        if (!registrationResponse.ok) {
+        if (!signUpResponse.ok) {
 
             // Prompt server response formatted to be user friendly
-            promptFeedback(signUpLabel, (await registrationResponse.json())["message"], redHex);
+            promptFeedback(signUpLabel, (await signUpResponse.json())["message"], redHex);
             return;
         }
 
         signUpForm.reset();
         // User is registered here, maybe confetti?
         promptFeedback(signUpLabel, "Registration success!", greenHex);
-        document.querySelector("#home").scrollIntoView({
-            behavior: 'smooth'
-        });
+
+        // Scroll to sing in section after 0.75 second so feedback message is readable
+        setTimeout(() => {
+            document.querySelector("#sign-in").scrollIntoView({
+                behavior: 'smooth'
+            });
+        }, 750);
+
     } catch (e) {
         console.error(e);
     }
@@ -219,6 +224,7 @@ async function signUp() {
 
 
 // Page load event
+location.href="#home";
 if (refreshToken!=="") {
     await attemptAutoLogin();
 }

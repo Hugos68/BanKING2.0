@@ -202,7 +202,7 @@ function logOut(errorCausedLogout) {
     document.cookie = "access_token=; Max-Age=-99999999;";
 
     if (errorCausedLogout) {
-        // Replace screen to error if an error occcured
+        // Replace screen to error if an error occurred
         location.replace("error.html");
     }
     else {
@@ -216,6 +216,8 @@ contentBlocks.forEach((element) => {
     element.classList.add("display-none")
 });
 
+// Page load event
+location.href="#home";
 await getAccountInfo();
 
 contentBlocks.forEach((element) => {
