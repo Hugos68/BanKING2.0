@@ -293,7 +293,7 @@ public class BankAccountService {
                 transactionList.remove(transaction);
                 return;
             }
-            transactionObject.addProperty("transaction "+transaction.getId(), transaction.toString());
+            transactionObject.addProperty("transaction_id="+transaction.getId(), transaction.toString());
         });
 
         // Create json response body
