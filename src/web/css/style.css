@@ -400,19 +400,47 @@ input[type=number]{
     animation: slide-left 1s alternate;
 }
 
-.transaction-table {
-    text-align: left;
-    padding-inline: 25px;
+.transactions-middle {
     margin-top: 50px;
-    background-color: #62e7fc;
-    overflow-x: hidden;
-    overflow-y: scroll;
     width: 50vw;
     height: 325px;
     max-width: 50vw;
     max-height: 325px;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+}
+
+.transaction-table {
+    padding: 25px;
+    display: block;
+    flex-direction: column;
+    text-align: left;
+    background-color: #a9f1fc;
+    overflow: scroll;
     border-radius: 10px;
     box-shadow: 0 0 25px;
+}
+
+.transaction-table > th {
+    max-height: 25px;
+    width: available;
+}
+
+.transaction-table > tr {
+    max-height: 25px;
+    border-radius: 10px;
+}
+
+tr:nth-child(even) {
+    background-color: #90e4fc;
+}
+
+.delete-account-button {
+    margin-top: 75px;
+    border-color: red;
+    width: 150px;
+    max-width: 150px;
 }
 
 
