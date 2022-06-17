@@ -398,11 +398,17 @@ input[type=number]{
 }
 
 .transactions-left {
+    max-height: 300px;
+    border: black solid 2px;
     animation: slide-right 1s alternate;
 }
 
 .transactions-right {
     animation: slide-left 1s alternate;
+}
+
+.transaction-list {
+
 }
 
 

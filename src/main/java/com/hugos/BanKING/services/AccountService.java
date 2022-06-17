@@ -65,7 +65,6 @@ public class AccountService {
     }
 
     public ResponseEntity<?> getAllTransactions(HttpServletRequest request) {
-
         ResponseEntity<?> authorizeResponse = authorizeRequest(request);
 
         // If response entity is not null, request was unauthorized

@@ -11,6 +11,7 @@ const withdrawForm = document.querySelector(".withdraw-form");
 const withdrawFeedback = document.querySelector(".withdraw-feedback");
 const emailElement = document.querySelector(".email");
 const balanceElement = document.querySelector(".balance");
+const transactionUl = document.querySelector(".transaction-list");
 
 import {greenHex, redHex, getCookie, promptFeedback} from "./util.js";
 
@@ -104,6 +105,43 @@ async function getAccountInfo() {
         balanceElement.textContent = "Balance: "+ formatter.format(accountInfo.bank_account.balance);
     } catch (e) {
         await validateTokens();
+    }
+}
+
+async function getTransactions() {
+
+    try {
+        const transactionsResponse = await fetch("http://localhost:8080/api/account/transactions",{
+            method: 'get',
+            headers: new Headers({
+                'content-type': 'application/json',
+                'Authorization': 'Bearer '+ getCookie("access_token")
+            })
+        });
+        if (!transactionsResponse.ok) {
+            await syncTokens();
+            await getTransactions();
+            throw new Error(transactionsResponse.status+" "+transactionsResponse.statusText);
+        }
+
+        const transactionObj = (await transactionsResponse.json()).transactions;
+
+        const transactionList = Object.values(transactionObj);
+
+        // TODO: Get all items from list and format properly
+
+        transactionList.forEach(item => {
+            let li = document.createElement("li");
+
+            li.innerText=item.id;
+
+            transactionUl.appendChild(li);
+        });
+
+
+
+    } catch (e) {
+        console.error(e);
     }
 
 }
@@ -253,6 +291,7 @@ contentBlocks.forEach((element) => {
 // Page load event
 location.href="#overview";
 await getAccountInfo();
+await getTransactions();
 
 
 contentBlocks.forEach((element) => {
