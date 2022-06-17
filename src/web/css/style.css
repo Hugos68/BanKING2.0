@@ -364,6 +364,15 @@ input[type=number]{
     animation: slide-left 1s alternate;
 }
 
+.iban {
+    cursor: pointer;
+    transition: transform 0.1s ease-in-out;
+}
+
+.iban:active {
+    transform: scale(98%);
+}
+
 /*
 ===============================
             Banking
@@ -417,7 +426,7 @@ input[type=number]{
     flex-direction: column;
     text-align: left;
     background-color: #a9f1fc;
-    overflow: scroll;
+    overflow: auto;
     border-radius: 10px;
     box-shadow: 0 0 25px;
 }

@@ -1,5 +1,6 @@
 const contentBlocks = document.querySelectorAll(".section-block");
 const signOutButton = document.querySelector(".sign-out-button");
+const deleteAccountButton = document.querySelector(".delete-account-button");
 const depositButton = document.querySelector(".deposit-button");
 const depositForm = document.querySelector(".deposit-form");
 const depositFeedback = document.querySelector(".deposit-feedback");
@@ -13,6 +14,7 @@ const emailElement = document.querySelector(".email");
 const ibanElement = document.querySelector(".iban");
 const balanceElement = document.querySelector(".balance");
 const transactionTable = document.querySelector(".transaction-table");
+let iban;
 
 import {greenHex, redHex, getCookie, promptFeedback} from "./util.js";
 
@@ -91,10 +93,11 @@ async function getAccountInfo() {
         currency: 'EUR',
         minimumFractionDigits: 2
     });
+    iban = accountInfo.bank_account.iban;
 
     // Set account info elements to the fetched variables
     emailElement.textContent = "Email: "+ accountInfo.email;
-    ibanElement.textContent = "IBAN: "+ accountInfo.bank_account.iban;
+    ibanElement.textContent = "IBAN: "+ iban;
     balanceElement.textContent = "Balance: "+ formatter.format(accountInfo.bank_account.balance);
 }
 
@@ -266,6 +269,10 @@ contentBlocks.forEach((element) => {
     element.classList.remove("display-none")
 });
 
+ibanElement.addEventListener('click', () => {
+    navigator.clipboard.writeText(iban.toString());
+});
+
 depositButton.addEventListener('click', async () => {
     await deposit();
 });
@@ -279,5 +286,10 @@ withdrawButton.addEventListener('click', async () => {
 });
 
 signOutButton.addEventListener('click', async () => {
+    await logOut(false);
+});
+
+deleteAccountButton.addEventListener('click', async () => {
+    // TODO: Add delete account option
     await logOut(false);
 });
