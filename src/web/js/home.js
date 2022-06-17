@@ -110,7 +110,6 @@ async function signIn() {
         promptFeedback(signInLabel, validationResponse, redHex);
         return;
     }
-
     try {
         const signInResponse = await fetch("http://localhost:8080/api/authentication",  {
             method: 'post',
@@ -123,9 +122,13 @@ async function signIn() {
 
             // Prompt server response formatted to be user friendly
             promptFeedback(signInLabel, (await signInResponse.json())["message"], redHex);
+            return;
         }
 
+        // Reset form
         signInForm.reset();
+
+        // Prompt a success message
         promptFeedback(signInLabel, "Success, signing in...", greenHex);
 
         // Get token pair from response
@@ -205,8 +208,10 @@ async function signUp() {
             return;
         }
 
+        // Reset form
         signUpForm.reset();
-        // User is registered here, maybe confetti?
+
+        // Prompt a success message
         promptFeedback(signUpLabel, "Registration success!", greenHex);
 
         // Scroll to sing in section after 0.75 second so feedback message is readable

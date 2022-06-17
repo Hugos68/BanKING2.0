@@ -132,9 +132,9 @@ async function getTransactions() {
 
         // TODO: Get all items from list and format properly
 
+        let i = 0;
         transactionList.forEach(item => {
             let li = document.createElement("li");
-
             li.innerText=item.id;
 
             transactionUl.appendChild(li);

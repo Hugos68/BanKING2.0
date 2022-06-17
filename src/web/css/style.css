@@ -392,23 +392,22 @@ input[type=number]{
 ===============================
  */
 
-.transactions > .section-block {
-    width: 150px;
-    margin-top: 75px;
-}
-
-.transactions-left {
-    max-height: 300px;
-    border: black solid 2px;
-    animation: slide-right 1s alternate;
-}
-
-.transactions-right {
+.transactions {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
     animation: slide-left 1s alternate;
 }
 
-.transaction-list {
 
+
+.transaction-list {
+    background-color: #62e7fc;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    max-height: 400px;
+    max-width: 40vw;
 }
 
 
