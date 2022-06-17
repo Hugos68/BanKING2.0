@@ -52,11 +52,10 @@ async function validateTokens(refreshAttempted) {
     // If refresh token is absent -> log user out
     if (getCookie("refresh_token")==="") {
         logOut(true);
-        return;
     }
 
     // If access token is absent -> refresh the access token and try again
-    if (getCookie("access_token")==="" && !refreshAttempted) {
+    else if (getCookie("access_token")==="" && !refreshAttempted) {
         await refreshAccessToken();
 
         // Set refresh attempted to true to avoid infinite refresh access token loop
@@ -65,8 +64,9 @@ async function validateTokens(refreshAttempted) {
         // Once access token was refreshed attempt it again
         await validateTokens(refreshAttempted);
     }
+
     // If refresh was attempted -> log user out
-    else {
+    else if (getCookie("access_token")===""){
         logOut(true);
     }
 }
@@ -79,7 +79,9 @@ async function syncTokens() {
 
 async function getAccountInfo() {
 
-    await syncTokens();
+    if (getCookie("access_token")==="") {
+        await syncTokens();
+    }
     try {
         // Fetch account info with access token
         const accountInfoResponse = await fetch("http://localhost:8080/api/account", {
@@ -251,6 +253,7 @@ contentBlocks.forEach((element) => {
 // Page load event
 location.href="#overview";
 await getAccountInfo();
+
 
 contentBlocks.forEach((element) => {
     element.classList.remove("display-none")
