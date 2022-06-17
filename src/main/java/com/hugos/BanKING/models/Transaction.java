@@ -19,7 +19,7 @@ public class Transaction {
 
     @Enumerated(EnumType.STRING)
     private TransactionType type;
-    private String  ibanFrom;
-    private String ibanTo;
+    private String from;
+    private String to;
     private Double amount;
 }
