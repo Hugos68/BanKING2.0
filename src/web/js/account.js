@@ -57,9 +57,13 @@ async function validateTokens(refreshAttempted) {
 
     // If access token is absent -> refresh the access token and try again
     if (getCookie("access_token")==="" && !refreshAttempted) {
-        refreshAttempted=true;
         await refreshAccessToken();
-        await validateTokens();
+
+        // Set refresh attempted to true to avoid infinite refresh access token loop
+        refreshAttempted=true;
+
+        // Once access token was refreshed attempt it again
+        await validateTokens(refreshAttempted);
     }
     // If refresh was attempted -> log user out
     else {
