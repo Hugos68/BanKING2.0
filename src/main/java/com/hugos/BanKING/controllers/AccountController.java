@@ -26,19 +26,19 @@ public class AccountController {
         return accountService.deleteAccount(request);
     }
 
-    @PostMapping(path = "deposit")
+    @PutMapping(path = "deposit")
     public ResponseEntity<?> deposit(HttpServletRequest request) {
         log.info("Endpoint: \"api/account/deposit\" was called");
         return accountService.deposit(request);
     }
 
-    @PostMapping(path = "withdraw")
+    @PutMapping(path = "withdraw")
     public ResponseEntity<?> withdraw(HttpServletRequest request) {
         log.info("Endpoint: \"api/account/withdraw\" was called");
         return accountService.withdraw(request);
     }
 
-    @PostMapping(path = "transfer")
+    @PutMapping(path = "transfer")
     public ResponseEntity<?> transfer(HttpServletRequest request) {
         log.info("Endpoint: \"api/account/transfer\" was called");
         return accountService.transfer(request);

@@ -166,7 +166,7 @@ async function deposit() {
 
     // Post deposit request
     const depositResponse = await fetch("http://localhost:8080/api/account/deposit", {
-        method: 'post',
+        method: 'put',
         headers: new Headers({
             'content-type': 'application/json',
             'Authorization': 'Bearer '+ getCookie("access_token")
@@ -195,7 +195,49 @@ async function deposit() {
 }
 
 async function transfer() {
+    const formData = new FormData(transferForm);
 
+    // Convert form into object
+    const jsonObj = ["iban", "amount"].reduce((res, key) => {
+        res[key] = formData.get(key);
+        return res;
+    },{});
+
+    // Validate user input (For user experience)
+    const validationResponse = validateAmount(jsonObj.amount);
+    if (validationResponse!=="OK") {
+        promptFeedback(transferFeedback, validationResponse, redHex);
+        return;
+    }
+
+    // Post withdraw request
+    const transferResponse = await fetch("http://localhost:8080/api/account/transfer", {
+        method: 'put',
+        headers: new Headers({
+            'content-type': 'application/json',
+            'Authorization': 'Bearer '+ getCookie("access_token")
+        }),
+        body: JSON.stringify(jsonObj)
+    })
+    if (!transferResponse.ok) {
+
+        // Get error message
+        const message = (await transferResponse.json())["message"]
+
+        // If access token expired -> request for a new one
+        if (message==="Access token is invalid") {
+            await syncTokens();
+            await withdraw();
+            return;
+        }
+
+        // Prompt server response formatted to be user friendly
+        promptFeedback(transferFeedback, message, redHex);
+        throw new Error(transferFeedback.status + ' ' + transferFeedback.statusText);
+    }
+    transferForm.reset();
+    promptFeedback(transferFeedback, "Amount Withdrawn!", greenHex);
+    location.reload();
 }
 
 async function withdraw() {
@@ -216,7 +258,7 @@ async function withdraw() {
 
     // Post withdraw request
     const withdrawResponse = await fetch("http://localhost:8080/api/account/withdraw", {
-        method: 'post',
+        method: 'put',
         headers: new Headers({
             'content-type': 'application/json',
             'Authorization': 'Bearer '+ getCookie("access_token")
