@@ -2,30 +2,24 @@ package com.hugos.BanKING.services;
 
 import com.google.gson.*;
 import com.hugos.BanKING.enums.TransactionType;
-import com.hugos.BanKING.models.AppUser;
 import com.hugos.BanKING.models.BankAccount;
 import com.hugos.BanKING.models.DecodedAccessToken;
 import com.hugos.BanKING.models.Transaction;
 import com.hugos.BanKING.repositories.AppUserRepository;
 import com.hugos.BanKING.repositories.BankAccountRepository;
 import com.hugos.BanKING.repositories.TransactionRepository;
-import com.hugos.BanKING.util.RequestUtility;
-import io.jsonwebtoken.Jwt;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-
 import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
-import static org.springframework.http.HttpHeaders.AUTHORIZATION;
-
 @Service
+@Slf4j
 @AllArgsConstructor
 public class BankAccountService {
 
@@ -34,26 +28,17 @@ public class BankAccountService {
     private final TransactionRepository transactionRepository;
     private final BankAccountRepository bankAccountRepository;
     private final AppUserRepository appUserRepository;
-    private final RequestUtility requestUtility;
-    private final JwtService jwtService;
+    private final RequestService requestService;
 
     public ResponseEntity<?> deposit(HttpServletRequest request) {
 
         // Create response object
         JsonObject jsonObject = new JsonObject();
 
-        // Retrieve and decode access token
-        String accessToken;
-        try {
-            accessToken = request.getHeader(AUTHORIZATION).substring("Bearer ".length());
-        } catch (Exception exception) {
-            accessToken = null;
-        }
-
-        DecodedAccessToken decodedAccessToken = jwtService.decodeAccessToken(accessToken);
+        DecodedAccessToken decodedAccessToken = requestService.getDecodedAccessTokenFromRequest(request);
 
         // Get data from request
-        JsonObject body = requestUtility.getJsonFromRequest(request);
+        JsonObject body = requestService.getJsonFromRequest(request);
         double amount;
         try {
             amount = Double.parseDouble(body.get("amount").toString().replace("\"", ""));
@@ -102,6 +87,9 @@ public class BankAccountService {
         );
         transactionRepository.save(transaction);
 
+        // Log deposit
+        log.info("User \"{}\" deposited {}", decodedAccessToken.subject(), amount);
+
         // Create json response body
         jsonObject.addProperty("message", "Amount deposited");
 
@@ -114,18 +102,10 @@ public class BankAccountService {
         // Create response object
         JsonObject jsonObject = new JsonObject();
 
-        // Retrieve and decode access token
-        String accessToken;
-        try {
-            accessToken = request.getHeader(AUTHORIZATION).substring("Bearer ".length());
-        } catch (Exception exception) {
-            accessToken = null;
-        }
-
-        DecodedAccessToken decodedAccessToken = jwtService.decodeAccessToken(accessToken);
+        DecodedAccessToken decodedAccessToken = requestService.getDecodedAccessTokenFromRequest(request);
 
         // Get data from request
-        JsonObject body = requestUtility.getJsonFromRequest(request);
+        JsonObject body = requestService.getJsonFromRequest(request);
         double amount;
         try {
             amount = Double.parseDouble(body.get("amount").toString().replace("\"", ""));
@@ -168,6 +148,9 @@ public class BankAccountService {
         );
         transactionRepository.save(transaction);
 
+        // Log withdrawal
+        log.info("User \"{}\" withdrew {}", decodedAccessToken.subject(), amount);
+
         // Create json response body
         jsonObject.addProperty("message", "Amount withdrawn");
 
@@ -180,18 +163,10 @@ public class BankAccountService {
         // Create response object
         JsonObject jsonObject = new JsonObject();
 
-        // Retrieve and decode access token
-        String accessToken;
-        try {
-            accessToken = request.getHeader(AUTHORIZATION).substring("Bearer ".length());
-        } catch (Exception exception) {
-            accessToken = null;
-        }
-
-        DecodedAccessToken decodedAccessToken = jwtService.decodeAccessToken(accessToken);
+        DecodedAccessToken decodedAccessToken = requestService.getDecodedAccessTokenFromRequest(request);
 
         // Get data from request
-        JsonObject body = requestUtility.getJsonFromRequest(request);
+        JsonObject body = requestService.getJsonFromRequest(request);
         String receiverIban = body.get("iban").toString();
         double amount;
         try {
@@ -228,7 +203,6 @@ public class BankAccountService {
         ).get();
 
         // Get require info from accounts
-        String senderIban = senderBankAccount.getIban();
         double senderBalance = senderBankAccount.getBalance();
         double receiverBalance = receiverBankAccount.getBalance();
 
@@ -271,15 +245,7 @@ public class BankAccountService {
         // Create response object
         JsonObject jsonObject = new JsonObject();
 
-        // Retrieve and decode access token
-        String accessToken;
-        try {
-            accessToken = request.getHeader(AUTHORIZATION).substring("Bearer ".length());
-        } catch (Exception exception) {
-            accessToken = null;
-        }
-
-        DecodedAccessToken decodedAccessToken = jwtService.decodeAccessToken(accessToken);
+        DecodedAccessToken decodedAccessToken = requestService.getDecodedAccessTokenFromRequest(request);
 
         BankAccount bankAccount = bankAccountRepository.findByAppUser(
                 appUserRepository.findByEmail(decodedAccessToken.subject()).get()
@@ -316,6 +282,10 @@ public class BankAccountService {
             transactionObject.addProperty("date_time", transaction.getDateTime().toString());
             transactionsObject.add("transaction_"+transaction.getId(), transactionObject);
         });
+
+        // Log fetch
+        log.info("Transactions from user \"{}\" were fetched", decodedAccessToken.subject());
+
 
         // Create json response body
         jsonObject.addProperty("message", "Transactions retrieved");

@@ -8,7 +8,6 @@ import com.hugos.BanKING.repositories.BankAccountRepository;
 import com.hugos.BanKING.repositories.AppUserRepository;
 import com.hugos.BanKING.enums.Role;
 import com.hugos.BanKING.util.EmailValidator;
-import com.hugos.BanKING.util.RequestUtility;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -20,8 +19,6 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
-import static org.springframework.http.HttpHeaders.AUTHORIZATION;
-
 @Slf4j
 @Service
 @AllArgsConstructor
@@ -29,7 +26,7 @@ public class AppUserService {
 
     private final AppUserRepository appUserRepository;
     private final BankAccountRepository bankAccountRepository;
-    private final RequestUtility requestUtility;
+    private final RequestService requestService;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final JwtService jwtService;
 
@@ -40,7 +37,7 @@ public class AppUserService {
     public ResponseEntity<?> register(HttpServletRequest request) {
 
         // Get data from request
-        JsonObject body = requestUtility.getJsonFromRequest(request);
+        JsonObject body = requestService.getJsonFromRequest(request);
         String email = body.get("email").getAsString().toLowerCase();
         String password = body.get("password").getAsString();
 
@@ -108,7 +105,7 @@ public class AppUserService {
     public ResponseEntity<?> authenticate(HttpServletRequest request) {
 
         // Get data from request
-        JsonObject body = requestUtility.getJsonFromRequest(request);
+        JsonObject body = requestService.getJsonFromRequest(request);
         String email = body.get("email").getAsString().toLowerCase();
         String password = body.get("password").getAsString();
 
@@ -150,21 +147,16 @@ public class AppUserService {
 
     public ResponseEntity<?> getAccount(HttpServletRequest request) {
 
-        // Retrieve and decode access token
-        String accessToken;
-        try {
-            accessToken = request.getHeader(AUTHORIZATION).substring("Bearer ".length());
-        } catch (Exception exception) {
-            accessToken = null;
-        }
-
-        DecodedAccessToken decodedAccessToken = jwtService.decodeAccessToken(accessToken);
+        DecodedAccessToken decodedAccessToken = requestService.getDecodedAccessTokenFromRequest(request);
 
         AppUser appUser = appUserRepository.findByEmail(
             decodedAccessToken.subject()
         ).get();
 
         BankAccount bankAccount = bankAccountRepository.findByAppUser(appUser).get();
+
+        // Log fetch
+        log.info("Account from user \"{}\" was fetched", appUser.getEmail());
 
         // Create json response body
         JsonObject jsonBank = new JsonObject();
@@ -184,15 +176,7 @@ public class AppUserService {
 
     public ResponseEntity<?> deleteAccount(HttpServletRequest request) {
 
-        // Retrieve and decode access token
-        String accessToken;
-        try {
-            accessToken = request.getHeader(AUTHORIZATION).substring("Bearer ".length());
-        } catch (Exception exception) {
-            accessToken = null;
-        }
-
-        DecodedAccessToken decodedAccessToken = jwtService.decodeAccessToken(accessToken);
+        DecodedAccessToken decodedAccessToken = requestService.getDecodedAccessTokenFromRequest(request);
 
         AppUser appUser = appUserRepository.findByEmail(
             decodedAccessToken.subject()
@@ -203,6 +187,9 @@ public class AppUserService {
         );
         appUserRepository.delete(appUser);
 
+        // Log deletion
+        log.info("Account from \"{}\" was deleted", appUser.getEmail());
+
         // Create json response body
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty("message", "Account deleted");
@@ -210,4 +197,7 @@ public class AppUserService {
         // Return response
         return ResponseEntity.status(HttpStatus.OK).body(jsonObject.toString());
     }
+
+
+
 }
