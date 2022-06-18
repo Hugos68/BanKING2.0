@@ -1,5 +1,6 @@
 package com.hugos.BanKING.controllers;
 
+import com.hugos.BanKING.enums.TransactionType;
 import com.hugos.BanKING.services.AccountService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -26,22 +27,10 @@ public class AccountController {
         return accountService.deleteAccount(request);
     }
 
-    @PutMapping(path = "deposit")
-    public ResponseEntity<?> deposit(HttpServletRequest request) {
-        log.info("Endpoint: \"api/account/deposit\" was called");
-        return accountService.deposit(request);
-    }
-
-    @PutMapping(path = "withdraw")
-    public ResponseEntity<?> withdraw(HttpServletRequest request) {
-        log.info("Endpoint: \"api/account/withdraw\" was called");
-        return accountService.withdraw(request);
-    }
-
-    @PutMapping(path = "transfer")
-    public ResponseEntity<?> transfer(HttpServletRequest request) {
-        log.info("Endpoint: \"api/account/transfer\" was called");
-        return accountService.transfer(request);
+    @PostMapping(path = "transaction")
+    public ResponseEntity<?> createTransaction(HttpServletRequest request, @RequestParam String type) {
+        log.info("Endpoint: \"api/transaction\" was called");
+        return accountService.createTransaction(request, type);
     }
 
     @GetMapping(path = "transactions")

@@ -165,8 +165,8 @@ async function deposit() {
     }
 
     // Post deposit request
-    const depositResponse = await fetch("http://localhost:8080/api/account/deposit", {
-        method: 'put',
+    const depositResponse = await fetch("http://localhost:8080/api/account/transaction?type=DEPOSIT", {
+        method: 'post',
         headers: new Headers({
             'content-type': 'application/json',
             'Authorization': 'Bearer '+ getCookie("access_token")
@@ -211,8 +211,8 @@ async function transfer() {
     }
 
     // Post withdraw request
-    const transferResponse = await fetch("http://localhost:8080/api/account/transfer", {
-        method: 'put',
+    const transferResponse = await fetch("http://localhost:8080/api/account/transaction?type=TRANSFER", {
+        method: 'post',
         headers: new Headers({
             'content-type': 'application/json',
             'Authorization': 'Bearer '+ getCookie("access_token")
@@ -257,8 +257,8 @@ async function withdraw() {
     }
 
     // Post withdraw request
-    const withdrawResponse = await fetch("http://localhost:8080/api/account/withdraw", {
-        method: 'put',
+    const withdrawResponse = await fetch("http://localhost:8080/api/account/transaction?type=WITHDRAW", {
+        method: 'post',
         headers: new Headers({
             'content-type': 'application/json',
             'Authorization': 'Bearer '+ getCookie("access_token")

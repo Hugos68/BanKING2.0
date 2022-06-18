@@ -1,6 +1,7 @@
 package com.hugos.BanKING.services;
 
 import com.google.gson.JsonObject;
+import com.hugos.BanKING.enums.TransactionType;
 import com.hugos.BanKING.models.AuthorizationOutcome;
 import com.hugos.BanKING.enums.Role;
 import lombok.RequiredArgsConstructor;
@@ -39,7 +40,7 @@ public class AccountService {
         return appUserService.deleteAccount(request);
     }
 
-    public ResponseEntity<?> deposit(HttpServletRequest request) {
+    public ResponseEntity<?> createTransaction(HttpServletRequest request, String type) {
         ResponseEntity<?> authorizeResponse = authorizeRequest(request);
 
         // If response entity is not null, request was unauthorized
@@ -48,31 +49,16 @@ public class AccountService {
         }
 
         // Execute request once authorized
-        return bankAccountService.deposit(request);
-    }
-
-    public ResponseEntity<?> withdraw(HttpServletRequest request) {
-        ResponseEntity<?> authorizeResponse = authorizeRequest(request);
-
-        // If response entity is not null, request was unauthorized
-        if (authorizeResponse!=null) {
-            return authorizeResponse;
+        if (type.equals(TransactionType.DEPOSIT.name())) {
+            return bankAccountService.deposit(request);
         }
-
-        // Execute request once authorized
-        return bankAccountService.withdraw(request);
-    }
-
-    public ResponseEntity<?> transfer(HttpServletRequest request) {
-        ResponseEntity<?> authorizeResponse = authorizeRequest(request);
-
-        // If response entity is not null, request was unauthorized
-        if (authorizeResponse!=null) {
-            return authorizeResponse;
+        if (type.equals(TransactionType.TRANSFER.name())) {
+            return bankAccountService.transfer(request);
         }
-
-        // Execute request once authorized
-        return bankAccountService.transfer(request);
+        if (type.equals(TransactionType.WITHDRAW.name())) {
+            return bankAccountService.withdraw(request);
+        }
+        return null;
     }
 
     public ResponseEntity<?> getAllTransactions(HttpServletRequest request) {
@@ -102,4 +88,5 @@ public class AccountService {
         // Return empty response entity if request was authorized
         return null;
     }
+
 }
