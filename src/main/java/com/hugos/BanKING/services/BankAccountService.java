@@ -23,8 +23,6 @@ import java.util.Optional;
 @AllArgsConstructor
 public class BankAccountService {
 
-    // TODO: Add business logic for transfer
-
     private final TransactionRepository transactionRepository;
     private final BankAccountRepository bankAccountRepository;
     private final AppUserRepository appUserRepository;
@@ -232,6 +230,9 @@ public class BankAccountService {
             LocalDateTime.now()
         );
         transactionRepository.save(transaction);
+
+        // Log withdrawal
+        log.info("User \"{}\" transferred {} to {}", decodedAccessToken.subject(), amount, receiverIban);
 
         // Create json response body
         jsonObject.addProperty("message", "Amount transferred");
