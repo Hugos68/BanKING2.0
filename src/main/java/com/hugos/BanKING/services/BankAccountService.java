@@ -91,7 +91,7 @@ public class BankAccountService {
         jsonObject.addProperty("message", "Amount deposited");
 
         // Return response
-        return ResponseEntity.status(HttpStatus.OK).body(jsonObject.toString());
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(jsonObject.toString());
     }
 
     public ResponseEntity<?> transfer(HttpServletRequest request) {
@@ -184,7 +184,7 @@ public class BankAccountService {
         jsonObject.addProperty("message", "Amount transferred");
 
         // Return response
-        return ResponseEntity.status(HttpStatus.OK).body(jsonObject.toString());
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(jsonObject.toString());
     }
 
     public ResponseEntity<?> withdraw(HttpServletRequest request) {
@@ -244,7 +244,7 @@ public class BankAccountService {
         jsonObject.addProperty("message", "Amount withdrawn");
 
         // Return response
-        return ResponseEntity.status(HttpStatus.OK).body(jsonObject.toString());
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(jsonObject.toString());
     }
 
     public ResponseEntity<?> getAllTransactions(HttpServletRequest request) {

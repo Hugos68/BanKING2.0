@@ -30,10 +30,6 @@ public class AppUserService {
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final JwtService jwtService;
 
-    public Optional<AppUser> findByEmail(String email) {
-        return appUserRepository.findByEmail(email);
-    }
-
     public ResponseEntity<?> register(HttpServletRequest request) {
 
         // Get data from request
@@ -204,6 +200,6 @@ public class AppUserService {
         jsonObject.addProperty("message", "Account deleted");
 
         // Return response
-        return ResponseEntity.status(HttpStatus.OK).body(jsonObject.toString());
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(jsonObject.toString());
     }
 }

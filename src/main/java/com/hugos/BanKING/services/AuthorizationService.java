@@ -2,6 +2,7 @@ package com.hugos.BanKING.services;
 
 import com.hugos.BanKING.models.AuthorizationOutcome;
 import com.hugos.BanKING.models.DecodedAccessToken;
+import com.hugos.BanKING.repositories.AppUserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import javax.servlet.http.HttpServletRequest;
@@ -13,7 +14,7 @@ import static org.springframework.http.HttpStatus.UNAUTHORIZED;
 @RequiredArgsConstructor
 public class AuthorizationService {
     private final JwtService jwtService;
-    private final AppUserService appUserService;
+    private final AppUserRepository appUserRepository;
 
     public AuthorizationOutcome authorizeAccessToken(HttpServletRequest request) {
 
@@ -46,7 +47,7 @@ public class AuthorizationService {
                 "Access token is invalid"
             );
         }
-        if (appUserService.findByEmail(decodedAccessToken.subject()).isEmpty()) {
+        if (appUserRepository.findByEmail(decodedAccessToken.subject()).isEmpty()) {
             return new AuthorizationOutcome(
                 false,
                 decodedAccessToken.subject(),
