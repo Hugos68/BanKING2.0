@@ -4,9 +4,11 @@ import com.google.gson.JsonObject;
 import com.hugos.BanKING.models.AppUser;
 import com.hugos.BanKING.models.BankAccount;
 import com.hugos.BanKING.models.DecodedAccessToken;
+import com.hugos.BanKING.models.Transaction;
 import com.hugos.BanKING.repositories.BankAccountRepository;
 import com.hugos.BanKING.repositories.AppUserRepository;
 import com.hugos.BanKING.enums.Role;
+import com.hugos.BanKING.repositories.TransactionRepository;
 import com.hugos.BanKING.util.EmailValidator;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -15,9 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import javax.servlet.http.HttpServletRequest;
-import java.util.Map;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 @Slf4j
 @Service
@@ -26,6 +26,7 @@ public class AppUserService {
 
     private final AppUserRepository appUserRepository;
     private final BankAccountRepository bankAccountRepository;
+    private final TransactionRepository transactionRepository;
     private final RequestService requestService;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final JwtService jwtService;
@@ -156,7 +157,7 @@ public class AppUserService {
         BankAccount bankAccount = bankAccountRepository.findByAppUser(appUser).get();
 
         // Log fetch
-        log.info("Account from user \"{}\" was fetched", appUser.getEmail());
+        log.info("Account of user: \"{}\" was fetched", appUser.getEmail());
 
         // Create json response body
         JsonObject jsonBank = new JsonObject();
@@ -178,17 +179,26 @@ public class AppUserService {
 
         DecodedAccessToken decodedAccessToken = requestService.getDecodedAccessTokenFromRequest(request);
 
-        AppUser appUser = appUserRepository.findByEmail(
-            decodedAccessToken.subject()
-        ).get();
+        AppUser appUser = appUserRepository.findByEmail(decodedAccessToken.subject()).get();
 
-        bankAccountRepository.delete(
-            bankAccountRepository.findByAppUser(appUser).get()
-        );
+        BankAccount bankAccount = bankAccountRepository.findByAppUser(appUser).get();
+
+        // Delete all transactions that involved the to be deleted user
+        List<Transaction> list = transactionRepository.findAll();
+        list.forEach(transaction -> {
+            if (transaction.getToBankAccount()==bankAccount || transaction.getFromBankAccount()==bankAccount) {
+                transactionRepository.delete(transaction);
+            }
+        });
+
+        // Delete bank account from user
+        bankAccountRepository.delete(bankAccount);
+
+        // Delete user
         appUserRepository.delete(appUser);
 
         // Log deletion
-        log.info("Account from \"{}\" was deleted", appUser.getEmail());
+        log.info("Account of user: \"{}\" was deleted", appUser.getEmail());
 
         // Create json response body
         JsonObject jsonObject = new JsonObject();
