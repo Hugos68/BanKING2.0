@@ -49,16 +49,7 @@ public class AccountService {
         }
 
         // Execute request once authorized
-        if (type.equals(TransactionType.DEPOSIT.name())) {
-            return bankAccountService.deposit(request);
-        }
-        if (type.equals(TransactionType.TRANSFER.name())) {
-            return bankAccountService.transfer(request);
-        }
-        if (type.equals(TransactionType.WITHDRAW.name())) {
-            return bankAccountService.withdraw(request);
-        }
-        return null;
+        return bankAccountService.createTransaction(request, type);
     }
 
     public ResponseEntity<?> getAllTransactions(HttpServletRequest request) {

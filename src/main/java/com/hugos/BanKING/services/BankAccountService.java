@@ -27,6 +27,27 @@ public class BankAccountService {
     private final AppUserRepository appUserRepository;
     private final RequestService requestService;
 
+
+    public ResponseEntity<?> createTransaction(HttpServletRequest request, String type) {
+
+        // Execute request once authorized
+        if (type.equals(TransactionType.DEPOSIT.name())) {
+            return deposit(request);
+        }
+        if (type.equals(TransactionType.TRANSFER.name())) {
+            return transfer(request);
+        }
+        if (type.equals(TransactionType.WITHDRAW.name())) {
+            return withdraw(request);
+        }
+
+        // Create json response body
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty("message", "Unknown transaction type");
+
+        // Return response
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(jsonObject.toString());
+    }
     public ResponseEntity<?> deposit(HttpServletRequest request) {
 
         // Create response object
