@@ -236,7 +236,7 @@ async function transfer() {
         throw new Error(transferFeedback.status + ' ' + transferFeedback.statusText);
     }
     transferForm.reset();
-    promptFeedback(transferFeedback, "Amount Withdrawn!", greenHex);
+    promptFeedback(transferFeedback, "Amount Transferred!", greenHex);
     location.reload();
 }
 
