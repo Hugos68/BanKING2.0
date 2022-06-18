@@ -3,19 +3,16 @@ package com.hugos.BanKING.services;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.hugos.BanKING.models.DecodedAccessToken;
-import com.hugos.BanKING.services.JwtService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.stream.Collectors;
-
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 
 @Service
 @RequiredArgsConstructor
 public class RequestService {
-
     private final JwtService jwtService;
 
     // Returns null if parse fails
@@ -40,6 +37,4 @@ public class RequestService {
         }
         return jwtService.decodeAccessToken(accessToken);
     }
-
-
 }

@@ -23,7 +23,6 @@ import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 @Service
 @AllArgsConstructor
 public class JwtService {
-
     // Generate key with secret
     private final String API_SECRET = "kjlfds4124ho4h1l24hl1l1gkj41h4k1u4h12l";
     private final byte[] encoded = API_SECRET.getBytes(StandardCharsets.UTF_8);

@@ -22,7 +22,6 @@ import java.util.Optional;
 @Slf4j
 @AllArgsConstructor
 public class BankAccountService {
-
     private final TransactionRepository transactionRepository;
     private final BankAccountRepository bankAccountRepository;
     private final AppUserRepository appUserRepository;
@@ -99,7 +98,6 @@ public class BankAccountService {
 
         // Create response object
         JsonObject jsonObject = new JsonObject();
-
         DecodedAccessToken decodedAccessToken = requestService.getDecodedAccessTokenFromRequest(request);
 
         // Get data from request
@@ -176,7 +174,6 @@ public class BankAccountService {
             // Return response
             return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(jsonObject.toString());
         }
-
 
         // Check if bank account with that iban exists
         Optional<BankAccount> receiverOptional = bankAccountRepository.findByIban(
@@ -295,5 +292,4 @@ public class BankAccountService {
         // Return response
         return ResponseEntity.status(HttpStatus.OK).body(jsonObject.toString());
     }
-
 }
