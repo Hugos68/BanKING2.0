@@ -46,7 +46,7 @@ public class BankAccountService {
         jsonObject.addProperty("message", "Unknown transaction type");
 
         // Return response
-        return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(jsonObject.toString());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(jsonObject.toString());
     }
     public ResponseEntity<?> deposit(HttpServletRequest request) {
 
