@@ -11,7 +11,6 @@ import javax.servlet.http.HttpServletRequest;
 @Service
 @RequiredArgsConstructor
 public class AccountService {
-
     private final AppUserService appUserService;
     private final BankAccountService bankAccountService;
     private final AuthorizationService authorizationService;

@@ -1,6 +1,5 @@
 package com.hugos.BanKING.controllers;
 
-
 import com.hugos.BanKING.services.AppUserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -15,7 +14,6 @@ import javax.servlet.http.HttpServletRequest;
 @RequiredArgsConstructor
 @RequestMapping(path = "/api/authentication")
 public class AuthenticationController {
-
     private final AppUserService appUserService;
 
     @PostMapping
@@ -23,5 +21,4 @@ public class AuthenticationController {
         log.info("Endpoint: \"api/authentication\" was called");
         return appUserService.authenticate(request);
     }
-
 }

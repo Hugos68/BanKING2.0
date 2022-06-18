@@ -12,7 +12,6 @@ import javax.servlet.http.HttpServletRequest;
 @RequestMapping(path = "/api/registration")
 @AllArgsConstructor
 public class RegistrationController {
-
     private final AppUserService appUserService;
 
     @CrossOrigin

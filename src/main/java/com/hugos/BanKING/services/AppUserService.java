@@ -23,7 +23,6 @@ import java.util.*;
 @Service
 @AllArgsConstructor
 public class AppUserService {
-
     private final AppUserRepository appUserRepository;
     private final BankAccountRepository bankAccountRepository;
     private final TransactionRepository transactionRepository;
@@ -207,7 +206,4 @@ public class AppUserService {
         // Return response
         return ResponseEntity.status(HttpStatus.OK).body(jsonObject.toString());
     }
-
-
-
 }

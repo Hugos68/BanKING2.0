@@ -2,8 +2,6 @@ package com.hugos.BanKING.models;
 
 import com.hugos.BanKING.enums.TransactionType;
 import lombok.*;
-import org.hibernate.annotations.Cascade;
-
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
@@ -13,7 +11,6 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Transaction {
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -29,5 +26,4 @@ public class Transaction {
 
     private Double amount;
     private LocalDateTime dateTime;
-
 }

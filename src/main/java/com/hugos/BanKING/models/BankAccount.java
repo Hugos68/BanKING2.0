@@ -1,10 +1,7 @@
 package com.hugos.BanKING.models;
 
 import lombok.*;
-import org.hibernate.annotations.Cascade;
-
 import javax.persistence.*;
-import java.util.List;
 
 @Getter
 @Setter
@@ -13,7 +10,6 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class BankAccount {
-
     public static final String IBAN_PREFIX = "KING BACC";
 
     @Id

@@ -14,7 +14,6 @@ import javax.servlet.http.HttpServletRequest;
 @RequestMapping(path = "/api/accesstoken")
 @AllArgsConstructor
 public class AccessTokenController {
-
     private final JwtService jwtService;
 
     @GetMapping
@@ -22,5 +21,4 @@ public class AccessTokenController {
         log.info("Endpoint: \"api/accesstoken\" was called");
         return jwtService.refreshAccessToken(request);
     }
-
 }
