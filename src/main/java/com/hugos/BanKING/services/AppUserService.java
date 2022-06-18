@@ -157,7 +157,7 @@ public class AppUserService {
         BankAccount bankAccount = bankAccountRepository.findByAppUser(appUser).get();
 
         // Log fetch
-        log.info("Account of user: \"{}\" was fetched", appUser.getEmail());
+        log.info("Account from user: \"{}\" was fetched", appUser.getEmail());
 
         // Create json response body
         JsonObject jsonBank = new JsonObject();
@@ -198,7 +198,7 @@ public class AppUserService {
         appUserRepository.delete(appUser);
 
         // Log deletion
-        log.info("Account of user: \"{}\" was deleted", appUser.getEmail());
+        log.info("Account from user: \"{}\" was deleted", appUser.getEmail());
 
         // Create json response body
         JsonObject jsonObject = new JsonObject();
