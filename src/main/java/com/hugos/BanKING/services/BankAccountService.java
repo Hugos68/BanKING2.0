@@ -263,14 +263,14 @@ public class BankAccountService {
             JsonObject transactionObject = new JsonObject();
             String ibanFrom;
             if (transaction.getFromBankAccount()==null) {
-                ibanFrom="unknown";
+                ibanFrom="unknown source";
             }
             else {
                 ibanFrom = transaction.getFromBankAccount().getIban();
             }
             String ibanTo;
             if (transaction.getToBankAccount()==null) {
-                ibanTo = "unknown";
+                ibanTo = "unknown source";
             }
             else {
                 ibanTo = transaction.getToBankAccount().getIban();
