@@ -220,7 +220,7 @@ public class BankAccountService {
         receiverBankAccount.setBalance(receiverBalance+amount);
         bankAccountRepository.save(receiverBankAccount);
 
-        // Log transaction
+        // Save transaction in database
         Transaction transaction = new Transaction(
             null,
             TransactionType.TRANSFER,
