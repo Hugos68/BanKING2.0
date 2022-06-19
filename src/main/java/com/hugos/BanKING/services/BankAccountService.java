@@ -94,7 +94,7 @@ public class BankAccountService {
         bankAccount.setBalance(balance+amount);
         bankAccountRepository.save(bankAccount);
 
-        // Log transaction
+        // Create and save transaction
         Transaction transaction = new Transaction(
             null,
             TransactionType.DEPOSIT,
@@ -187,7 +187,7 @@ public class BankAccountService {
         receiverBankAccount.setBalance(receiverBalance+amount);
         bankAccountRepository.save(receiverBankAccount);
 
-        // Save transaction in database
+        // Create and save transaction
         Transaction transaction = new Transaction(
             null,
             TransactionType.TRANSFER,
@@ -247,7 +247,7 @@ public class BankAccountService {
         bankAccount.setBalance(balance-amount);
         bankAccountRepository.save(bankAccount);
 
-        // Log transaction
+        // Create and save transaction
         Transaction transaction = new Transaction(
             null,
             TransactionType.WITHDRAW,
