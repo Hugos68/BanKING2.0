@@ -14,6 +14,7 @@ const emailElement = document.querySelector(".email");
 const ibanElement = document.querySelector(".iban");
 const balanceElement = document.querySelector(".balance");
 const transactionTable = document.querySelector(".transaction-table");
+const transactionTableHeader = transactionTable.children[0];
 let iban;
 
 import {greenHex, redHex, getCookie, promptFeedback} from "./util.js";
@@ -121,8 +122,9 @@ async function getTransactions() {
 
     const transactionList = Object.values(transactionObj);
 
-    // Remove existing rows to prevent duplicates
-    transactionTable.replaceChildren()
+    // Replace all children with header to reset table
+    transactionTable.replaceChildren(transactionTableHeader);
+
     // Create table rows for transactions
     transactionList.forEach(item => {
         const tr = document.createElement("tr");
