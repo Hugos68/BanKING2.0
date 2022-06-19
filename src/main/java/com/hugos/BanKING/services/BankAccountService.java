@@ -282,9 +282,8 @@ public class BankAccountService {
         // Get json object from relevant transactions
         JsonObject transactionsObject = new JsonObject();
         List<Transaction> transactionList = transactionRepository.findAll();
-        transactionList.forEach((transaction) -> {
+        transactionList.forEach(transaction -> {
             if (bankAccount!=transaction.getFromBankAccount() && bankAccount!=transaction.getToBankAccount()) {
-                transactionList.remove(transaction);
                 return;
             }
             JsonObject transactionObject = new JsonObject();
