@@ -1,10 +1,9 @@
-package com.hugos.BanKING.models;
+package com.hugos.BanKING.entities;
 
 import com.hugos.BanKING.enums.Role;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
 

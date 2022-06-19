@@ -2,7 +2,7 @@ package com.hugos.BanKING.services;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.hugos.BanKING.models.DecodedAccessToken;
+import com.hugos.BanKING.helpobjects.DecodedAccessToken;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import javax.servlet.http.HttpServletRequest;

@@ -1,8 +1,7 @@
 package com.hugos.BanKING.services;
 
 import com.google.gson.JsonObject;
-import com.hugos.BanKING.enums.TransactionType;
-import com.hugos.BanKING.models.AuthorizationOutcome;
+import com.hugos.BanKING.helpobjects.AuthorizationOutcome;
 import com.hugos.BanKING.enums.Role;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

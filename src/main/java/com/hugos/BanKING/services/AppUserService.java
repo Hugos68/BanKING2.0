@@ -1,10 +1,10 @@
 package com.hugos.BanKING.services;
 
 import com.google.gson.JsonObject;
-import com.hugos.BanKING.models.AppUser;
-import com.hugos.BanKING.models.BankAccount;
-import com.hugos.BanKING.models.DecodedAccessToken;
-import com.hugos.BanKING.models.Transaction;
+import com.hugos.BanKING.entities.AppUser;
+import com.hugos.BanKING.entities.BankAccount;
+import com.hugos.BanKING.helpobjects.DecodedAccessToken;
+import com.hugos.BanKING.entities.Transaction;
 import com.hugos.BanKING.repositories.BankAccountRepository;
 import com.hugos.BanKING.repositories.AppUserRepository;
 import com.hugos.BanKING.enums.Role;

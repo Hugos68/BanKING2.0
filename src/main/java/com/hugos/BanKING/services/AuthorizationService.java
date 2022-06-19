@@ -1,7 +1,7 @@
 package com.hugos.BanKING.services;
 
-import com.hugos.BanKING.models.AuthorizationOutcome;
-import com.hugos.BanKING.models.DecodedAccessToken;
+import com.hugos.BanKING.helpobjects.AuthorizationOutcome;
+import com.hugos.BanKING.helpobjects.DecodedAccessToken;
 import com.hugos.BanKING.repositories.AppUserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

@@ -1,4 +1,4 @@
-package com.hugos.BanKING.models;
+package com.hugos.BanKING.helpobjects;
 
 import java.util.Date;
 
