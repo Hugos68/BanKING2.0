@@ -121,6 +121,8 @@ async function getTransactions() {
 
     const transactionList = Object.values(transactionObj);
 
+    // Remove existing rows to prevent duplicates
+    transactionTable.replaceChildren()
     // Create table rows for transactions
     transactionList.forEach(item => {
         const tr = document.createElement("tr");
@@ -191,7 +193,17 @@ async function deposit() {
     }
     depositForm.reset();
     promptFeedback(depositFeedback, "Amount Deposited!", greenHex);
-    location.reload();
+
+    // Refresh account data
+    await getAccountInfo();
+    await getTransactions();
+
+    // Scroll to overview after 0.5s
+    setTimeout(() => {
+        document.querySelector("#overview").scrollIntoView({
+            behavior: 'smooth'
+        });
+    }, 500);
 }
 
 async function transfer() {
@@ -237,7 +249,17 @@ async function transfer() {
     }
     transferForm.reset();
     promptFeedback(transferFeedback, "Amount Transferred!", greenHex);
-    location.reload();
+
+    // Refresh account data
+    await getAccountInfo();
+    await getTransactions();
+
+    // Scroll to overview after 0.5s
+    setTimeout(() => {
+        document.querySelector("#overview").scrollIntoView({
+            behavior: 'smooth'
+        });
+    }, 500);
 }
 
 async function withdraw() {
@@ -283,7 +305,17 @@ async function withdraw() {
     }
     withdrawForm.reset();
     promptFeedback(withdrawFeedback, "Amount Withdrawn!", greenHex);
-    location.reload();
+
+    // Refresh account data
+    await getAccountInfo();
+    await getTransactions();
+
+    // Scroll to overview after 0.5s
+    setTimeout(() => {
+        document.querySelector("#overview").scrollIntoView({
+            behavior: 'smooth'
+        });
+    }, 500);
 }
 
 function logOut(errorCausedLogout) {

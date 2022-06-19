@@ -17,7 +17,7 @@ public class AccessTokenController {
     private final JwtService jwtService;
 
     @GetMapping
-    public ResponseEntity<?> refreshToken(HttpServletRequest request) {
+    public ResponseEntity<?> getAccessToken(HttpServletRequest request) {
         log.info("Endpoint: \"api/accesstoken\" was called");
         return jwtService.refreshAccessToken(request);
     }

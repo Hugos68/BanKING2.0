@@ -14,9 +14,8 @@ import javax.servlet.http.HttpServletRequest;
 public class RegistrationController {
     private final AppUserService appUserService;
 
-    @CrossOrigin
     @PostMapping
-    public ResponseEntity<?> register(HttpServletRequest request) {
+    public ResponseEntity<?> postRegistration(HttpServletRequest request) {
         log.info("Endpoint: \"api/registration\" was called");
         return appUserService.register(request);
     }

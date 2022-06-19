@@ -17,7 +17,7 @@ public class AuthenticationController {
     private final AppUserService appUserService;
 
     @PostMapping
-    public ResponseEntity<?> authenticate(HttpServletRequest request) {
+    public ResponseEntity<?> postAuthentication(HttpServletRequest request) {
         log.info("Endpoint: \"api/authentication\" was called");
         return appUserService.authenticate(request);
     }
