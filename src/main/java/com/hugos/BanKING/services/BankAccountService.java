@@ -27,7 +27,6 @@ public class BankAccountService {
     private final AppUserRepository appUserRepository;
     private final RequestService requestService;
 
-
     public ResponseEntity<?> createTransaction(HttpServletRequest request, String type) {
 
         // Execute request once authorized
@@ -267,7 +266,6 @@ public class BankAccountService {
         // Return response
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body(jsonObject.toString());
     }
-
     public ResponseEntity<?> getAllTransactions(HttpServletRequest request) {
 
         // Create response object
