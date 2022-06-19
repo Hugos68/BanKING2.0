@@ -179,12 +179,8 @@ public class AppUserService {
         BankAccount bankAccount = bankAccountRepository.findByAppUser(appUser).get();
 
         // Delete all transactions that involved the to be deleted user
-        List<Transaction> list = transactionRepository.findAll();
-        list.forEach(transaction -> {
-            if (transaction.getToBankAccount()==bankAccount || transaction.getFromBankAccount()==bankAccount) {
-                transactionRepository.delete(transaction);
-            }
-        });
+        transactionRepository.deleteAllByFromBankAccount(bankAccount);
+        transactionRepository.deleteAllByToBankAccount(bankAccount);
 
         // Delete bank account from user
         bankAccountRepository.delete(bankAccount);
