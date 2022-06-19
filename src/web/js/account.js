@@ -113,9 +113,17 @@ async function getTransactions() {
         })
     });
     if (!transactionsResponse.ok) {
-        await syncTokens();
-        await getTransactions();
-        return;
+
+        // Get error message
+        const message = (await transactionsResponse.json())["message"]
+
+        // If access token expired -> request for a new one
+        if (message==="Access token is invalid") {
+            await syncTokens();
+            await withdraw();
+            return;
+        }
+        await logOut(true);
     }
     const transactionObj = (await transactionsResponse.json()).transactions;
 
