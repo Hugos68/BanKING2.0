@@ -13,6 +13,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
+
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -29,9 +31,6 @@ public class BankAccountService {
 
     public ResponseEntity<?> deposit(HttpServletRequest request) {
 
-        // Create response object
-        JsonObject jsonObject = new JsonObject();
-
         DecodedAccessToken decodedAccessToken = requestService.getDecodedAccessTokenFromRequest(request);
 
         // Get data from request
@@ -40,11 +39,7 @@ public class BankAccountService {
         try {
             amount = Double.parseDouble(body.get("amount").toString().replace("\"", ""));
         } catch (Exception e) {
-            // Create json response body
-            jsonObject.addProperty("message", "Invalid amount");
-
-            // Return response
-            return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(jsonObject.toString());
+            throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "Invalid amount");
         }
 
         BankAccount bankAccount = bankAccountRepository.findByAppUser(
@@ -54,19 +49,11 @@ public class BankAccountService {
         double balance = bankAccount.getBalance();
 
         if (amount > 1000) {
-            // Create json response body
-            jsonObject.addProperty("message", "Transfer limit reached");
-
-            // Return response
-            return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(jsonObject.toString());
+            throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "Transfer limit reached");
         }
 
         if (amount < 0.01) {
-            // Create json response body
-            jsonObject.addProperty("message", "Invalid amount");
-
-            // Return response
-            return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(jsonObject.toString());
+            throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "Invalid amount");
         }
 
         // Subtract amount from bank account
@@ -88,6 +75,7 @@ public class BankAccountService {
         log.info("User \"{}\" deposited {}", decodedAccessToken.subject(), amount);
 
         // Create json response body
+        JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty("message", "Amount deposited");
 
         // Return response
@@ -95,9 +83,6 @@ public class BankAccountService {
     }
 
     public ResponseEntity<?> transfer(HttpServletRequest request) {
-
-        // Create response object
-        JsonObject jsonObject = new JsonObject();
 
         DecodedAccessToken decodedAccessToken = requestService.getDecodedAccessTokenFromRequest(request);
 
@@ -108,23 +93,16 @@ public class BankAccountService {
         try {
             amount = Double.parseDouble(body.get("amount").toString().replace("\"", ""));
         } catch (Exception e) {
-            // Create json response body
-            jsonObject.addProperty("message", "Invalid amount");
-
-            // Return response
-            return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(jsonObject.toString());
+            throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "Invalid amount");
         }
 
         // Check if bank account with that iban exists
         Optional<BankAccount> receiverOptional = bankAccountRepository.findByIban(
             receiverIban
         );
-        if (receiverOptional.isEmpty()) {
-            // Create json response body
-            jsonObject.addProperty("message", "Iban does not exist");
 
-            // Return response
-            return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(jsonObject.toString());
+        if (receiverOptional.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "Iban does not exist");
         }
 
         // Get receiver bank account
@@ -139,11 +117,7 @@ public class BankAccountService {
 
 
         if(receiverBankAccount==senderBankAccount) {
-            // Create json response body
-            jsonObject.addProperty("message", "Cannot transfer to yourself");
-
-            // Return response
-            return ResponseEntity.status(HttpStatus.CONFLICT).body(jsonObject.toString());
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Cannot transfer to yourself");
         }
 
         // Get require info from accounts
@@ -151,11 +125,7 @@ public class BankAccountService {
         double receiverBalance = receiverBankAccount.getBalance();
 
         if (senderBalance - amount < 0) {
-            // Create json response body
-            jsonObject.addProperty("message", "Insufficient balance");
-
-            // Return response
-            return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(jsonObject.toString());
+            throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "Insufficient balance");
         }
 
         // Subtract amount from sender bank account
@@ -181,6 +151,7 @@ public class BankAccountService {
         log.info("User \"{}\" transferred {} to {}", decodedAccessToken.subject(), amount, receiverIban);
 
         // Create json response body
+        JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty("message", "Amount transferred");
 
         // Return response
@@ -189,8 +160,6 @@ public class BankAccountService {
 
     public ResponseEntity<?> withdraw(HttpServletRequest request) {
 
-        // Create response object
-        JsonObject jsonObject = new JsonObject();
         DecodedAccessToken decodedAccessToken = requestService.getDecodedAccessTokenFromRequest(request);
 
         // Get data from request
@@ -199,11 +168,7 @@ public class BankAccountService {
         try {
             amount = Double.parseDouble(body.get("amount").toString().replace("\"", ""));
         } catch (Exception e) {
-            // Create json response body
-            jsonObject.addProperty("message", "Invalid amount");
-
-            // Return response
-            return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(jsonObject.toString());
+            throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "Invalid amount");
         }
 
         BankAccount bankAccount = bankAccountRepository.findByAppUser(
@@ -215,11 +180,7 @@ public class BankAccountService {
         double balance = bankAccount.getBalance();
 
         if (balance - amount < 0) {
-            // Create json response body
-            jsonObject.addProperty("message", "Insufficient balance");
-
-            // Return response
-            return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(jsonObject.toString());
+            throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "Insufficient balance");
         }
 
         // Subtract amount from bank account
@@ -241,6 +202,7 @@ public class BankAccountService {
         log.info("User \"{}\" withdrew {}", decodedAccessToken.subject(), amount);
 
         // Create json response body
+        JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty("message", "Amount withdrawn");
 
         // Return response

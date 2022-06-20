@@ -16,6 +16,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
+
 import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 
@@ -37,33 +39,22 @@ public class AppUserService {
         String email = body.get("email").getAsString().toLowerCase();
         String password = body.get("password").getAsString();
 
-        // Create response object
-        JsonObject jsonObject = new JsonObject();
-
         // Data validation
         if (email.equals("")) {
-            jsonObject.addProperty("message", "Email is missing");
-            return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(jsonObject.toString());
+            throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "Email is missing");
         }
         else if (!EmailValidator.validate(email)) {
-            jsonObject.addProperty("message", "Email is invalid");
-            return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(jsonObject.toString());
+            throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "Email is invalid");
         }
         else if (appUserRepository.findByEmail(email).isPresent()) {
-
-            jsonObject.addProperty("message", "Email already taken");
-            return ResponseEntity.status(HttpStatus.CONFLICT).body(jsonObject.toString());
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Email already taken");
         }
         else if (password==null || password.equals("")) {
-
-            jsonObject.addProperty("message", "Password is missing");
-            return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(jsonObject.toString());
+            throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "Password is missing");
         }
         else if (password.length() < 7) {
-            jsonObject.addProperty("message", "Password is too short");
-            return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(jsonObject.toString());
+            throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "Password is too short");
         }
-
 
         // TODO: Create and save salt for every user (Optional)
 
@@ -93,6 +84,7 @@ public class AppUserService {
         log.info("User registered: [email: \"{}\", password: \"{}\"]", email, password);
 
         // Create json response body
+        JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty("message", "User registered");
 
         // Return response
@@ -105,25 +97,18 @@ public class AppUserService {
         String email = body.get("email").getAsString().toLowerCase();
         String password = body.get("password").getAsString();
 
-        // Create response object
-        JsonObject jsonObject = new JsonObject();
-
         // Data validation
         if (email.equals("")) {
-            jsonObject.addProperty("message", "Email is missing");
-            return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(jsonObject.toString());
+            throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "Email is missing");
         }
         else if (!EmailValidator.validate(email) || appUserRepository.findByEmail(email).isEmpty()) {
-            jsonObject.addProperty("message", "Email not found");
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(jsonObject.toString());
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Email not found");
         }
         else if (password==null || password.equals("")) {
-            jsonObject.addProperty("message", "Password is missing");
-            return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(jsonObject.toString());
+            throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "Password is missing");
         }
         else if (!bCryptPasswordEncoder.matches(password, appUserRepository.findByEmail(email).get().getPassword())) {
-            jsonObject.addProperty("message", "Password is incorrect");
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(jsonObject.toString());
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Password is incorrect");
         }
 
         // Get jwt pair
@@ -133,6 +118,7 @@ public class AppUserService {
         log.info("User authenticated: [email: \"{}\", password: \"{}\"]", email, password);
 
         // Create json response body
+        JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty("access_token", tokenPair.get("access_token"));
         jsonObject.addProperty("refresh_token", tokenPair.get("refresh_token"));
         jsonObject.addProperty("message", "User authenticated");

@@ -12,6 +12,8 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
+
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 import javax.servlet.http.HttpServletRequest;
@@ -125,8 +127,7 @@ public class JwtService {
         if (decodedRefreshToken==null ||
             decodedRefreshToken.isExpired() ||
             appUserRepository.findByEmail(decodedRefreshToken.subject()).isEmpty() ) {
-            jsonObject.addProperty("message", "Refresh token is invalid");
-            return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(jsonObject.toString());
+            throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "Refresh token is invalid");
         }
 
         // Get token pair (Note: refresh is not used to force authentication after 1 week)
