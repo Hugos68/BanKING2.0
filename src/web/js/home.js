@@ -5,7 +5,7 @@ const signUpForm = document.querySelector(".sign-up-form");
 const signInLabel = document.querySelector(".sign-in-feedback");
 const signUpLabel = document.querySelector(".sign-up-feedback");
 
-import {greenHex, redHex, getCookie, promptFeedback} from "./util.js";
+import {greenHex, redHex, getCookie, parseJwt, promptFeedback} from "./util.js";
 
 const refreshToken = getCookie("refresh_token");
 
@@ -31,7 +31,7 @@ function setPageLoggedIn(loggedIn) {
 async function attemptAutoLogin()  {
     try {
         // Send refresh token to server to validate it
-        const refreshResponse = await fetch("http://localhost:8080/api/access-token", {
+        const refreshResponse = await fetch("http://localhost:8080/api/access-tokens", {
             method: 'get',
             headers: {
                 'Authorization': 'Bearer '+ refreshToken
@@ -117,7 +117,7 @@ async function signIn() {
         return;
     }
     try {
-        const signInResponse = await fetch("http://localhost:8080/api/app-user/authentication",  {
+        const signInResponse = await fetch("http://localhost:8080/api/app-users/authentication",  {
             method: 'post',
             headers: new Headers({
                 'content-type': 'application/json'
@@ -196,7 +196,7 @@ async function signUp() {
         return;
     }
     try {
-        const signUpResponse = await fetch("http://localhost:8080/api/app-user",  {
+        const signUpResponse = await fetch("http://localhost:8080/api/app-users",  {
             method: 'post',
             headers: new Headers({
                 'Content-Type': 'application/json'

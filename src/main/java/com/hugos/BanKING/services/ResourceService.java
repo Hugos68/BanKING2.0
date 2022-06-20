@@ -4,6 +4,7 @@ import com.hugos.BanKING.enums.Role;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+
 import javax.servlet.http.HttpServletRequest;
 
 // This class is here to make sure any user trying to access a resource actually has access to that resource
@@ -18,23 +19,23 @@ public class ResourceService {
     private final RequestService requestService;
     private final TransactionService transactionService;
 
-    public ResponseEntity<?> getAppUser(HttpServletRequest request) {
+    public ResponseEntity<?> getAppUser(HttpServletRequest request, String email) {
         requestService.authorizeRequest(request, Role.USER);
-        return appUserService.getAppUser(request);
+        return appUserService.getAppUser(request, email);
     }
 
     public ResponseEntity<?> createAppUser(HttpServletRequest request) {
-        return appUserService.createAccount(request);
+        return appUserService.createAppUser(request);
     }
 
-    public ResponseEntity<?> updateAppUser(HttpServletRequest request) {
+    public ResponseEntity<?> updateAppUser(HttpServletRequest request, String email) {
         requestService.authorizeRequest(request, Role.USER);
         return appUserService.updateAppUser(request);
     }
 
-    public ResponseEntity<?> deleteAppUser(HttpServletRequest request) {
+    public ResponseEntity<?> deleteAppUser(HttpServletRequest request, String email) {
         requestService.authorizeRequest(request, Role.USER);
-        return appUserService.deleteAppUser(request);
+        return appUserService.deleteAppUser(request, email);
     }
 
     public ResponseEntity<?> authenticateAppUser(HttpServletRequest request) {
@@ -46,22 +47,23 @@ public class ResourceService {
         return transactionService.createTransaction(request, type);
     }
 
-    public ResponseEntity<?> getTransactions(HttpServletRequest request) {
+    public ResponseEntity<?> getTransactions(HttpServletRequest request, String email) {
         requestService.authorizeRequest(request, Role.USER);
-        return transactionService.getTransactions(request);
+        return transactionService.getTransactions(request, email);
     }
 
-    public ResponseEntity<?> updateTransaction(HttpServletRequest request) {
-        requestService.authorizeRequest(request, Role.ADMIN);
-        return transactionService.updateTransaction(request);
+    public ResponseEntity<?> updateTransaction(HttpServletRequest request, String email) {
+        requestService.authorizeRequest(request, Role.USER);
+        return transactionService.updateTransaction(request, email);
     }
 
-    public ResponseEntity<?> deleteTransactions(HttpServletRequest request) {
+    public ResponseEntity<?> deleteTransactions(HttpServletRequest request, String email) {
         requestService.authorizeRequest(request, Role.USER);
-        return transactionService.deleteAllTransactions(request);
+        return transactionService.deleteTransactions(request, email);
     }
 
     public ResponseEntity<?> refreshAccessToken(HttpServletRequest request) {
         return tokenService.refreshAccessToken(request);
     }
+
 }

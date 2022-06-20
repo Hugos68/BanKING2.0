@@ -9,31 +9,32 @@ import javax.servlet.http.HttpServletRequest;
 
 @Slf4j
 @RestController
-@RequestMapping(path = "/api/transaction")
+@RequestMapping(path = "/api/transactions")
 @AllArgsConstructor
 public class TransactionController {
     private final ResourceService resourceService;
 
     @PostMapping
     public ResponseEntity<?> createTransaction(HttpServletRequest request, @RequestParam String type) {
-        log.info("Endpoint: POST \"api/transaction\" was called");
+        log.info("Endpoint: POST \"api/transactions\" was called");
         return resourceService.createTransaction(request, type);
     }
 
-    @GetMapping
-    public ResponseEntity<?> getTransactions(HttpServletRequest request) {
-        log.info("Endpoint: GET \"api/transaction\" was called");
-        return resourceService.getTransactions(request);
+    @GetMapping(path = "/app-users/{email}")
+    public ResponseEntity<?> getTransactions(HttpServletRequest request, @PathVariable String email) {
+        log.info("Endpoint: GET \"api/transactions/app-users/{}\" was called", email);
+        return resourceService.getTransactions(request, email);
     }
 
-    @PutMapping ResponseEntity<?> updateTransaction(HttpServletRequest request) {
-        log.info("Endpoint: PUT \"api/transaction\" was called");
-        return resourceService.updateTransaction(request);
+    @PutMapping(path = "/{email}")
+    public ResponseEntity<?> updateTransaction(HttpServletRequest request, @PathVariable String email) {
+        log.info("Endpoint: GET \"api/transactions/{}\" was called", email);
+        return resourceService.updateTransaction(request, email);
     }
 
-    @DeleteMapping
-    public ResponseEntity<?> deleteTransactions(HttpServletRequest request) {
-        log.info("Endpoint: DELETE \"api/transaction\" was called");
-        return resourceService.deleteTransactions(request);
+    @DeleteMapping(path = "/user/{email}")
+    public ResponseEntity<?> deleteTransactions(HttpServletRequest request, @PathVariable String email) {
+        log.info("Endpoint: DELETE \"api/transactions/app-users/{}\" was called", email);
+        return resourceService.deleteTransactions(request, email);
     }
 }

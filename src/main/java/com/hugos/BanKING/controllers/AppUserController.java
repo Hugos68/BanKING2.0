@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(path = "api/app-user")
+@RequestMapping(path = "api/app-users")
 public class AppUserController {
     private final ResourceService resourceService;
 
@@ -20,29 +20,27 @@ public class AppUserController {
         return resourceService.createAppUser(request);
     }
 
-    @GetMapping
-    public ResponseEntity<?> getAppUser(HttpServletRequest request) {
-        log.info("Endpoint: GET \"api/app-user\" was called");
-        return resourceService.getAppUser(request);
+    @GetMapping(path = "/{email}")
+    public ResponseEntity<?> getAppUser(HttpServletRequest request, @PathVariable String email) {
+        log.info("Endpoint: GET \"api/app-users/{}\" was called", email);
+        return resourceService.getAppUser(request, email);
     }
 
-    @PutMapping
-    public ResponseEntity<?> updateAppUser(HttpServletRequest request) {
-        log.info("Endpoint: PUT \"api/app-user\" was called");
-        return resourceService.updateAppUser(request);
+    @PutMapping(path = "/{email}")
+    public ResponseEntity<?> updateAppUser(HttpServletRequest request, @PathVariable String email) {
+        log.info("Endpoint: PUT \"api/app-users/{}\" was called", email);
+        return resourceService.updateAppUser(request, email);
     }
 
-    @DeleteMapping
-    public ResponseEntity<?> deleteAppUser(HttpServletRequest request) {
-        log.info("Endpoint: DELETE \"api/app-user\" was called");
-        return resourceService.deleteAppUser(request);
+    @DeleteMapping(path = "/{email}")
+    public ResponseEntity<?> deleteAppUser(HttpServletRequest request, @PathVariable String email) {
+        log.info("Endpoint: DELETE \"api/app-users/{}\" was called", email);
+        return resourceService.deleteAppUser(request, email);
     }
 
     @PostMapping(path = "/authentication")
     public ResponseEntity<?> authenticate(HttpServletRequest request) {
-        log.info("Endpoint: POST \"api/app-user/authentication\" was called");
+        log.info("Endpoint: POST \"api/app-users/authentication\" was called");
         return resourceService.authenticateAppUser(request);
     }
-
-
 }

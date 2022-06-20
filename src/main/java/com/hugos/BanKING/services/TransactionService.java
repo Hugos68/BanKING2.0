@@ -46,7 +46,7 @@ public class TransactionService {
         throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "Unknown transaction type");
     }
 
-    public ResponseEntity<?> getTransactions(HttpServletRequest request) {
+    public ResponseEntity<?> getTransactions(HttpServletRequest request, String email) {
 
         // Create response object
         JsonObject jsonObject = new JsonObject();
@@ -103,12 +103,17 @@ public class TransactionService {
         return ResponseEntity.status(HttpStatus.OK).body(jsonObject.toString());
     }
 
-    public ResponseEntity<?> updateTransaction(HttpServletRequest request) {
+    public ResponseEntity<?> getTransaction(HttpServletRequest request, String email) {
         // TODO: Write business logic to update transactions
         return null;
     }
 
-    public ResponseEntity<?> deleteAllTransactions(HttpServletRequest request) {
+    public ResponseEntity<?> updateTransaction(HttpServletRequest request, String email) {
+        // TODO: Write business logic to update transactions
+        return null;
+    }
+
+    public ResponseEntity<?> deleteTransactions(HttpServletRequest request, String email) {
 
         // Create response object
         JsonObject jsonObject = new JsonObject();
@@ -134,4 +139,7 @@ public class TransactionService {
     }
 
 
+    public ResponseEntity<?> deleteTransaction(HttpServletRequest request, String email) {
+        return null;
+    }
 }

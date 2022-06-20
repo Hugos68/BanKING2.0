@@ -32,7 +32,7 @@ public class AppUserService {
     private final TransactionRepository transactionRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    public ResponseEntity<?> getAppUser(HttpServletRequest request) {
+    public ResponseEntity<?> getAppUser(HttpServletRequest request, String email) {
 
         DecodedAccessToken decodedAccessToken = requestService.getDecodedAccessTokenFromRequest(request);
         AppUser appUser = appUserRepository.findByEmail(
@@ -59,7 +59,7 @@ public class AppUserService {
         return ResponseEntity.status(HttpStatus.OK).body(jsonObject.toString());
     }
 
-    public ResponseEntity<?> createAccount(HttpServletRequest request) {
+    public ResponseEntity<?> createAppUser(HttpServletRequest request) {
 
         // Get data from request
         JsonObject body = requestService.getJsonFromRequest(request);
@@ -69,17 +69,13 @@ public class AppUserService {
         // Data validation
         if (email.equals("")) {
             throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "Email is missing");
-        }
-        else if (!EmailValidator.validate(email)) {
+        } else if (!EmailValidator.validate(email)) {
             throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "Email is invalid");
-        }
-        else if (appUserRepository.findByEmail(email).isPresent()) {
+        } else if (appUserRepository.findByEmail(email).isPresent()) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "Email already taken");
-        }
-        else if (password==null || password.equals("")) {
+        } else if (password == null || password.equals("")) {
             throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "Password is missing");
-        }
-        else if (password.length() < 7) {
+        } else if (password.length() < 7) {
             throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "Password is too short");
         }
 
@@ -95,7 +91,7 @@ public class AppUserService {
         // Create unique iban for app user
         String iban;
         do {
-            iban = BankAccount.IBAN_PREFIX + " "+UUID.randomUUID().toString().substring(0,8);
+            iban = BankAccount.IBAN_PREFIX + " " + UUID.randomUUID().toString().substring(0, 8);
         } while (bankAccountRepository.findByIban(iban).isPresent());
 
         // Create and save bank account for new app user
@@ -123,7 +119,7 @@ public class AppUserService {
         return null;
     }
 
-    public ResponseEntity<?> deleteAppUser(HttpServletRequest request) {
+    public ResponseEntity<?> deleteAppUser(HttpServletRequest request, String email) {
 
         DecodedAccessToken decodedAccessToken = requestService.getDecodedAccessTokenFromRequest(request);
         AppUser appUser = appUserRepository.findByEmail(decodedAccessToken.subject()).get();
@@ -150,6 +146,11 @@ public class AppUserService {
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body(jsonObject.toString());
     }
 
+    public ResponseEntity<?> deleteAppUsers(HttpServletRequest request) {
+        return null;
+    }
+
+
     public ResponseEntity<?> authenticateAppUser(HttpServletRequest request) {
 
         // Get data from request
@@ -160,19 +161,16 @@ public class AppUserService {
         // Data validation
         if (email.equals("")) {
             throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "Email is missing");
-        }
-        else if (!EmailValidator.validate(email) || appUserRepository.findByEmail(email).isEmpty()) {
+        } else if (!EmailValidator.validate(email) || appUserRepository.findByEmail(email).isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Email not found");
-        }
-        else if (password==null || password.equals("")) {
+        } else if (password == null || password.equals("")) {
             throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "Password is missing");
-        }
-        else if (!bCryptPasswordEncoder.matches(password, appUserRepository.findByEmail(email).get().getPassword())) {
+        } else if (!bCryptPasswordEncoder.matches(password, appUserRepository.findByEmail(email).get().getPassword())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Password is incorrect");
         }
 
         // Get jwt pair
-        Map<String,String> tokenPair = tokenService.createAccessRefreshTokenPair(appUserRepository.findByEmail(email).get());
+        Map<String, String> tokenPair = tokenService.createAccessRefreshTokenPair(appUserRepository.findByEmail(email).get());
 
         // Log authentication
         log.info("User: \"{}\" was authenticated", email);

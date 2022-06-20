@@ -17,14 +17,14 @@ const transactionTable = document.querySelector(".transaction-table");
 const transactionTableHeader = transactionTable.children[0];
 let iban;
 
-import {greenHex, redHex, getCookie, promptFeedback} from "./util.js";
+import {greenHex, redHex, getCookie, parseJwt, promptFeedback} from "./util.js";
 
 const refreshToken = getCookie("refresh_token");
 
 async function refreshAccessToken() {
 
     // Send refresh token to server to get access token
-    const refreshAccessResponse = await fetch("http://localhost:8080/api/access-token", {
+    const refreshAccessResponse = await fetch("http://localhost:8080/api/access-tokens", {
         method: 'get',
         headers: new Headers({
             'content-type': 'application/json',
@@ -71,12 +71,16 @@ async function syncTokens() {
 
 async function getAccountInfo() {
 
+    const accessToken = getCookie("access_token");
+    const jsonJwt = parseJwt(accessToken);
+    const email = jsonJwt.sub;
+
     // Fetch account info with access token
-    const accountInfoResponse = await fetch("http://localhost:8080/api/app-user", {
+    const accountInfoResponse = await fetch("http://localhost:8080/api/app-users/"+email, {
         method: 'get',
         headers: new Headers({
             'content-type': 'application/json',
-            'Authorization': 'Bearer '+ getCookie("access_token")
+            'Authorization': 'Bearer '+ accessToken
         })
     });
     if (!accountInfoResponse.ok) {
@@ -104,12 +108,16 @@ async function getAccountInfo() {
 
 async function getAccountTransactions() {
 
+    const accessToken = getCookie("access_token");
+    const jsonJwt = parseJwt(accessToken);
+    const email = jsonJwt.sub;
+
     // Fetch account info with access token
-    const transactionsResponse = await fetch("http://localhost:8080/api/transaction",{
+    const transactionsResponse = await fetch("http://localhost:8080/api/transactions/app-users/"+email,{
         method: 'get',
         headers: new Headers({
             'content-type': 'application/json',
-            'Authorization': 'Bearer '+ getCookie("access_token")
+            'Authorization': 'Bearer '+ accessToken
         })
     });
     if (!transactionsResponse.ok) {
@@ -170,7 +178,7 @@ async function deposit() {
     }
 
     // Post deposit request
-    const depositResponse = await fetch("http://localhost:8080/api/transaction?type=DEPOSIT", {
+    const depositResponse = await fetch("http://localhost:8080/api/transactions?type=DEPOSIT", {
         method: 'post',
         headers: new Headers({
             'content-type': 'application/json',
@@ -225,7 +233,7 @@ async function transfer() {
     }
 
     // Post withdraw request
-    const transferResponse = await fetch("http://localhost:8080/api/transaction?type=TRANSFER", {
+    const transferResponse = await fetch("http://localhost:8080/api/transactions?type=TRANSFER", {
         method: 'post',
         headers: new Headers({
             'content-type': 'application/json',
@@ -280,7 +288,7 @@ async function withdraw() {
     }
 
     // Post withdraw request
-    const withdrawResponse = await fetch("http://localhost:8080/api/transaction?type=WITHDRAW", {
+    const withdrawResponse = await fetch("http://localhost:8080/api/transactions?type=WITHDRAW", {
         method: 'post',
         headers: new Headers({
             'content-type': 'application/json',
@@ -332,7 +340,12 @@ function logOut(errorCausedLogout) {
 }
 
 async function deleteAccount() {
-    const deleteAccountResponse = await fetch("http://localhost:8080/api/app-user", {
+
+    const accessToken = getCookie("access_token");
+    const jsonJwt = parseJwt(accessToken);
+    const email = jsonJwt.sub;
+
+    const deleteAccountResponse = await fetch("http://localhost:8080/api/app-users/"+email, {
         method: 'delete',
         headers: new Headers({
             'content-type': 'application/json',
