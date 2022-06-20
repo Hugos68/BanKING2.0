@@ -144,7 +144,7 @@ public class AppUserService {
         appUserRepository.delete(appUser);
 
         // Log deletion
-        log.info("Account from user: \"{}\" was deleted", appUser.getEmail());
+        log.info("User: \"{}\" was deleted", appUser.getEmail());
 
         // Create json response body
         JsonObject jsonObject = new JsonObject();
