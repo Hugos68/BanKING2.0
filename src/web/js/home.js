@@ -117,7 +117,7 @@ async function signIn() {
         return;
     }
     try {
-        const signInResponse = await fetch("http://localhost:8080/api/account/authentication",  {
+        const signInResponse = await fetch("http://localhost:8080/api/appuser/authentication",  {
             method: 'post',
             headers: new Headers({
                 'content-type': 'application/json'
@@ -198,7 +198,7 @@ async function signUp() {
         return;
     }
     try {
-        const signUpResponse = await fetch("http://localhost:8080/api/account",  {
+        const signUpResponse = await fetch("http://localhost:8080/api/appuser",  {
             method: 'post',
             headers: new Headers({
                 'Content-Type': 'application/json'

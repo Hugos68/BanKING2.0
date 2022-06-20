@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(path = "api/apppuser")
+@RequestMapping(path = "api/appuser")
 public class AppUserController {
     private final ResourceService resourceService;
 
