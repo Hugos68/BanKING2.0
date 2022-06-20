@@ -50,7 +50,7 @@ public class RequestService {
         // This if statement ensures only users are allowed to access their own information (admins can access anything)
         if (!email.equals(decodedAccessToken.subject()) &&
             decodedAccessToken.role().getLevelOfClearance() < Role.ADMIN.getLevelOfClearance()) {
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "User not authorized");
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "User does not have the needed role to access this resource");
         }
 
         // Create outcome object based on token properties

@@ -52,11 +52,6 @@ public class ResourceService {
         return transactionService.getTransactions(email);
     }
 
-    public ResponseEntity<?> updateTransaction(HttpServletRequest request, String email) {
-        requestService.authorizeRequest(request, Role.USER, email);
-        return transactionService.updateTransaction(request, email);
-    }
-
     public ResponseEntity<?> deleteTransactions(HttpServletRequest request, String email) {
         requestService.authorizeRequest(request, Role.USER, email);
         return transactionService.deleteTransactions(email);
