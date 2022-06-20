@@ -18,27 +18,27 @@ public class ResourceService {
     private final RequestService requestService;
     private final TransactionService transactionService;
 
-    public ResponseEntity<?> getAccount(HttpServletRequest request) {
+    public ResponseEntity<?> getAppUser(HttpServletRequest request) {
         requestService.authorizeRequest(request, Role.USER);
-        return appUserService.getAccount(request);
+        return appUserService.getAppUser(request);
     }
 
-    public ResponseEntity<?> createAccount(HttpServletRequest request) {
+    public ResponseEntity<?> createAppUser(HttpServletRequest request) {
         return appUserService.createAccount(request);
     }
 
-    public ResponseEntity<?> updateAccount(HttpServletRequest request) {
+    public ResponseEntity<?> updateAppUser(HttpServletRequest request) {
         requestService.authorizeRequest(request, Role.USER);
-        return appUserService.updateAccount(request);
+        return appUserService.updateAppUser(request);
     }
 
-    public ResponseEntity<?> deleteAccount(HttpServletRequest request) {
+    public ResponseEntity<?> deleteAppUser(HttpServletRequest request) {
         requestService.authorizeRequest(request, Role.USER);
-        return appUserService.deleteAccount(request);
+        return appUserService.deleteAppUser(request);
     }
 
-    public ResponseEntity<?> authenticate(HttpServletRequest request) {
-        return appUserService.authenticate(request);
+    public ResponseEntity<?> authenticateAppUser(HttpServletRequest request) {
+        return appUserService.authenticateAppUser(request);
     }
 
     public ResponseEntity<?> createTransaction(HttpServletRequest request, String type) {

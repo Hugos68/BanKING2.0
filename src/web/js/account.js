@@ -72,7 +72,7 @@ async function syncTokens() {
 async function getAccountInfo() {
 
     // Fetch account info with access token
-    const accountInfoResponse = await fetch("http://localhost:8080/api/account", {
+    const accountInfoResponse = await fetch("http://localhost:8080/api/appuser", {
         method: 'get',
         headers: new Headers({
             'content-type': 'application/json',

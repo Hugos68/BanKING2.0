@@ -32,7 +32,7 @@ public class AppUserService {
     private final TransactionRepository transactionRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    public ResponseEntity<?> getAccount(HttpServletRequest request) {
+    public ResponseEntity<?> getAppUser(HttpServletRequest request) {
 
         DecodedAccessToken decodedAccessToken = requestService.getDecodedAccessTokenFromRequest(request);
 
@@ -120,12 +120,12 @@ public class AppUserService {
         return ResponseEntity.status(HttpStatus.CREATED).body(jsonObject.toString());
     }
 
-    public ResponseEntity<?> updateAccount(HttpServletRequest request) {
+    public ResponseEntity<?> updateAppUser(HttpServletRequest request) {
         // TODO: Get email from request and change it if its valid and not taken
         return null;
     }
 
-    public ResponseEntity<?> deleteAccount(HttpServletRequest request) {
+    public ResponseEntity<?> deleteAppUser(HttpServletRequest request) {
 
         DecodedAccessToken decodedAccessToken = requestService.getDecodedAccessTokenFromRequest(request);
 
@@ -154,7 +154,7 @@ public class AppUserService {
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body(jsonObject.toString());
     }
 
-    public ResponseEntity<?> authenticate(HttpServletRequest request) {
+    public ResponseEntity<?> authenticateAppUser(HttpServletRequest request) {
 
         // Get data from request
         JsonObject body = requestService.getJsonFromRequest(request);
