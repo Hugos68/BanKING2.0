@@ -1,6 +1,7 @@
 package com.hugos.BanKING.services;
 
 import com.google.gson.JsonObject;
+import com.hugos.BanKING.entities.AppUser;
 import com.hugos.BanKING.entities.BankAccount;
 import com.hugos.BanKING.entities.Transaction;
 import com.hugos.BanKING.enums.Role;
@@ -47,16 +48,15 @@ public class TransactionService {
         throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "Unknown transaction type");
     }
 
-    public ResponseEntity<?> getTransactions(HttpServletRequest request) {
+    public ResponseEntity<?> getTransactions(String email) {
 
-        // Create response object
-        JsonObject jsonObject = new JsonObject();
-
-        DecodedAccessToken decodedAccessToken = requestService.getDecodedAccessTokenFromRequest(request);
-
-        BankAccount bankAccount = bankAccountRepository.findByAppUser(
-            appUserRepository.findByEmail(decodedAccessToken.subject()).get()
-        ).get();
+        // This checks if the given email is an existing user
+        Optional<AppUser> optionalAppUser = appUserRepository.findByEmail(email);
+        if (optionalAppUser.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
+        }
+        AppUser appUser = optionalAppUser.get();
+        BankAccount bankAccount = bankAccountRepository.findByAppUser(appUser).get();
 
         // Get relevant transactions
         JsonObject transactionsObject = new JsonObject();
@@ -94,9 +94,10 @@ public class TransactionService {
         });
 
         // Log fetch
-        log.info("Transactions from user \"{}\" were fetched", decodedAccessToken.subject());
+        log.info("Transactions from user \"{}\" were fetched", email);
 
         // Create json response body
+        JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty("message", "Transactions retrieved");
         jsonObject.add("transactions", transactionsObject);
 
@@ -104,43 +105,28 @@ public class TransactionService {
         return ResponseEntity.status(HttpStatus.OK).body(jsonObject.toString());
     }
 
-    public ResponseEntity<?> getTransaction(HttpServletRequest request) {
-        // TODO: Write business logic to update transactions
-        return null;
-    }
+    public ResponseEntity<?> deleteTransactions(String email) {
 
-    public ResponseEntity<?> updateTransaction(HttpServletRequest request) {
-        // TODO: Write business logic to update transactions
-        return null;
-    }
-
-    public ResponseEntity<?> deleteTransactions(HttpServletRequest request) {
-
-        // Create response object
-        JsonObject jsonObject = new JsonObject();
-
-        DecodedAccessToken decodedAccessToken = requestService.getDecodedAccessTokenFromRequest(request);
-
-        BankAccount bankAccount = bankAccountRepository.findByAppUser(
-            appUserRepository.findByEmail(decodedAccessToken.subject()).get()
-        ).get();
+        // This checks if the given email is an existing user
+        Optional<AppUser> optionalAppUser = appUserRepository.findByEmail(email);
+        if (optionalAppUser.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
+        }
+        AppUser appUser = optionalAppUser.get();
+        BankAccount bankAccount = bankAccountRepository.findByAppUser(appUser).get();
 
         // Clear all transactions from user
         transactionRepository.deleteAllByFromBankAccount(bankAccount);
         transactionRepository.deleteAllByToBankAccount(bankAccount);
 
         // Log deletion
-        log.info("Transactions from user \"{}\" were deleted", decodedAccessToken.subject());
+        log.info("Transactions from user \"{}\" were deleted", email);
 
         // Create json response body
+        JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty("message", "Transactions deleted");
 
         // Return response
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body(jsonObject.toString());
-    }
-
-
-    public ResponseEntity<?> deleteTransaction(HttpServletRequest request) {
-        return null;
     }
 }

@@ -32,8 +32,6 @@ public class BankAccountService {
 
     public ResponseEntity<?> deposit(HttpServletRequest request, String email) {
 
-        DecodedAccessToken decodedAccessToken = requestService.getDecodedAccessTokenFromRequest(request);
-
         // This checks if the given email is an existing user
         Optional<AppUser> optionalAppUser = appUserRepository.findByEmail(email);
         if (optionalAppUser.isEmpty()) {
@@ -77,7 +75,7 @@ public class BankAccountService {
         transactionRepository.save(transaction);
 
         // Log deposit
-        log.info("User \"{}\" deposited {}", decodedAccessToken.subject(), amount);
+        log.info("User \"{}\" deposited {}", email, amount);
 
         // Create json response body
         JsonObject jsonObject = new JsonObject();
@@ -88,8 +86,6 @@ public class BankAccountService {
     }
 
     public ResponseEntity<?> transfer(HttpServletRequest request, String email) {
-
-        DecodedAccessToken decodedAccessToken = requestService.getDecodedAccessTokenFromRequest(request);
 
         // This checks if the given email is an existing user
         Optional<AppUser> optionalAppUser = appUserRepository.findByEmail(email);
@@ -153,7 +149,7 @@ public class BankAccountService {
         transactionRepository.save(transaction);
 
         // Log withdrawal
-        log.info("User \"{}\" transferred {} to {}", decodedAccessToken.subject(), amount, receiverIban);
+        log.info("User \"{}\" transferred {} to {}", email, amount, receiverIban);
 
         // Create json response body
         JsonObject jsonObject = new JsonObject();
@@ -206,7 +202,7 @@ public class BankAccountService {
         transactionRepository.save(transaction);
 
         // Log withdrawal
-        log.info("User \"{}\" withdrew {}", decodedAccessToken.subject(), amount);
+        log.info("User \"{}\" withdrew {}", email, amount);
 
         // Create json response body
         JsonObject jsonObject = new JsonObject();
