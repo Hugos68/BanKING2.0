@@ -17,19 +17,19 @@ public class TransactionController {
 
     @PostMapping
     public ResponseEntity<?> postTransactions(HttpServletRequest request, @RequestParam String type) {
-        log.info("Endpoint: \"api/transaction\" was called");
+        log.info("Endpoint: POST \"api/transaction\" was called");
         return accountService.createTransaction(request, type);
     }
 
     @GetMapping
     public ResponseEntity<?> getTransactions(HttpServletRequest request) {
-        log.info("Endpoint: \"api/account/transaction\" was called");
+        log.info("Endpoint: GET \"api/account/transaction\" was called");
         return accountService.getTransactions(request);
     }
 
     @DeleteMapping
     public ResponseEntity<?> deleteTransactions(HttpServletRequest request) {
-        log.info("Endpoint: \"api/transaction\" was called");
+        log.info("Endpoint: DELETE \"api/transaction\" was called");
         return accountService.deleteTransactions(request);
     }
 }

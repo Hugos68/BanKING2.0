@@ -16,31 +16,31 @@ public class AccountController {
 
     @PostMapping
     public ResponseEntity<?> createAccount(HttpServletRequest request) {
-        log.info("Endpoint: \"api/account\" was called");
+        log.info("Endpoint: POST \"api/account\" was called");
         return accountService.createAccount(request);
     }
 
     @GetMapping
     public ResponseEntity<?> getAccount(HttpServletRequest request) {
-        log.info("Endpoint: \"api/account\" was called");
+        log.info("Endpoint: GET \"api/account\" was called");
         return accountService.getAccount(request);
     }
 
     @PutMapping
     public ResponseEntity<?> updateAccount(HttpServletRequest request) {
-        log.info("Endpoint: \"api/account\" was called");
+        log.info("Endpoint: PUT \"api/account\" was called");
         return accountService.updateAccount(request);
     }
 
     @DeleteMapping
     public ResponseEntity<?> deleteAccount(HttpServletRequest request) {
-        log.info("Endpoint: \"api/account\" was called");
+        log.info("Endpoint: DELETE \"api/account\" was called");
         return accountService.deleteAccount(request);
     }
 
     @PostMapping(path = "/authentication")
     public ResponseEntity<?> authenticate(HttpServletRequest request) {
-        log.info("Endpoint: \"api/account\" was called");
+        log.info("Endpoint: POST \"api/account/authentication\" was called");
         return accountService.authenticate(request);
     }
 
