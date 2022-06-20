@@ -31,7 +31,7 @@ function setPageLoggedIn(loggedIn) {
 async function attemptAutoLogin()  {
     try {
         // Send refresh token to server to validate it
-        const refreshResponse = await fetch("http://localhost:8080/api/accesstoken", {
+        const refreshResponse = await fetch("http://localhost:8080/api/access-token", {
             method: 'get',
             headers: {
                 'Authorization': 'Bearer '+ refreshToken
@@ -117,7 +117,7 @@ async function signIn() {
         return;
     }
     try {
-        const signInResponse = await fetch("http://localhost:8080/api/appuser/authentication",  {
+        const signInResponse = await fetch("http://localhost:8080/api/app-user/authentication",  {
             method: 'post',
             headers: new Headers({
                 'content-type': 'application/json'
@@ -198,7 +198,7 @@ async function signUp() {
         return;
     }
     try {
-        const signUpResponse = await fetch("http://localhost:8080/api/appuser",  {
+        const signUpResponse = await fetch("http://localhost:8080/api/app-user",  {
             method: 'post',
             headers: new Headers({
                 'Content-Type': 'application/json'

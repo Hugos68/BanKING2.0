@@ -24,7 +24,7 @@ const refreshToken = getCookie("refresh_token");
 async function refreshAccessToken() {
 
     // Send refresh token to server to get access token
-    const refreshAccessResponse = await fetch("http://localhost:8080/api/accesstoken", {
+    const refreshAccessResponse = await fetch("http://localhost:8080/api/access-token", {
         method: 'get',
         headers: new Headers({
             'content-type': 'application/json',
@@ -72,7 +72,7 @@ async function syncTokens() {
 async function getAccountInfo() {
 
     // Fetch account info with access token
-    const accountInfoResponse = await fetch("http://localhost:8080/api/appuser", {
+    const accountInfoResponse = await fetch("http://localhost:8080/api/app-user", {
         method: 'get',
         headers: new Headers({
             'content-type': 'application/json',
@@ -105,7 +105,7 @@ async function getAccountInfo() {
 async function getAccountTransactions() {
 
     // Fetch account info with access token
-    const transactionsResponse = await fetch("http://localhost:8080/api/transactions",{
+    const transactionsResponse = await fetch("http://localhost:8080/api/transaction",{
         method: 'get',
         headers: new Headers({
             'content-type': 'application/json',
@@ -170,7 +170,7 @@ async function deposit() {
     }
 
     // Post deposit request
-    const depositResponse = await fetch("http://localhost:8080/api/transactions?type=DEPOSIT", {
+    const depositResponse = await fetch("http://localhost:8080/api/transaction?type=DEPOSIT", {
         method: 'post',
         headers: new Headers({
             'content-type': 'application/json',
@@ -225,7 +225,7 @@ async function transfer() {
     }
 
     // Post withdraw request
-    const transferResponse = await fetch("http://localhost:8080/api/transactions?type=TRANSFER", {
+    const transferResponse = await fetch("http://localhost:8080/api/transaction?type=TRANSFER", {
         method: 'post',
         headers: new Headers({
             'content-type': 'application/json',
@@ -280,7 +280,7 @@ async function withdraw() {
     }
 
     // Post withdraw request
-    const withdrawResponse = await fetch("http://localhost:8080/api/transactions?type=WITHDRAW", {
+    const withdrawResponse = await fetch("http://localhost:8080/api/transaction?type=WITHDRAW", {
         method: 'post',
         headers: new Headers({
             'content-type': 'application/json',
@@ -332,7 +332,7 @@ function logOut(errorCausedLogout) {
 }
 
 async function deleteAccount() {
-    const deleteAccountResponse = await fetch("http://localhost:8080/api/account", {
+    const deleteAccountResponse = await fetch("http://localhost:8080/api/app-user", {
         method: 'delete',
         headers: new Headers({
             'content-type': 'application/json',
