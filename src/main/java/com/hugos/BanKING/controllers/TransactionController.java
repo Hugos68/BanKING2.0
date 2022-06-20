@@ -15,16 +15,21 @@ import javax.servlet.http.HttpServletRequest;
 public class TransactionController {
     private final AccountService accountService;
 
-
     @GetMapping
     public ResponseEntity<?> getTransactions(HttpServletRequest request) {
         log.info("Endpoint: \"api/account/transaction\" was called");
-        return accountService.getAllTransactions(request);
+        return accountService.getTransactions(request);
     }
 
     @PostMapping
-    public ResponseEntity<?> postTransaction(HttpServletRequest request, @RequestParam String type) {
+    public ResponseEntity<?> postTransactions(HttpServletRequest request, @RequestParam String type) {
         log.info("Endpoint: \"api/transaction\" was called");
         return accountService.createTransaction(request, type);
+    }
+
+    @DeleteMapping
+    public ResponseEntity<?> deleteTransactions(HttpServletRequest request) {
+        log.info("Endpoint: \"api/transaction\" was called");
+        return accountService.deleteTransactions(request);
     }
 }

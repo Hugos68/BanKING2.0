@@ -27,26 +27,6 @@ public class BankAccountService {
     private final AppUserRepository appUserRepository;
     private final RequestService requestService;
 
-    public ResponseEntity<?> createTransaction(HttpServletRequest request, String type) {
-
-        // Execute request once authorized
-        if (type.equals(TransactionType.DEPOSIT.name())) {
-            return deposit(request);
-        }
-        if (type.equals(TransactionType.TRANSFER.name())) {
-            return transfer(request);
-        }
-        if (type.equals(TransactionType.WITHDRAW.name())) {
-            return withdraw(request);
-        }
-
-        // Create json response body
-        JsonObject jsonObject = new JsonObject();
-        jsonObject.addProperty("message", "Unknown transaction type");
-
-        // Return response
-        return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(jsonObject.toString());
-    }
     public ResponseEntity<?> deposit(HttpServletRequest request) {
 
         // Create response object
@@ -265,58 +245,5 @@ public class BankAccountService {
 
         // Return response
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body(jsonObject.toString());
-    }
-    public ResponseEntity<?> getAllTransactions(HttpServletRequest request) {
-
-        // Create response object
-        JsonObject jsonObject = new JsonObject();
-
-        DecodedAccessToken decodedAccessToken = requestService.getDecodedAccessTokenFromRequest(request);
-
-        BankAccount bankAccount = bankAccountRepository.findByAppUser(
-                appUserRepository.findByEmail(decodedAccessToken.subject()).get()
-        ).get();
-
-        // Get json object from relevant transactions
-        JsonObject transactionsObject = new JsonObject();
-        List<Transaction> transactionList = transactionRepository.findAll();
-        transactionList.forEach(transaction -> {
-            if (bankAccount!=transaction.getFromBankAccount() && bankAccount!=transaction.getToBankAccount()) {
-                return;
-            }
-            JsonObject transactionObject = new JsonObject();
-            String ibanFrom;
-            if (transaction.getFromBankAccount()==null) {
-                ibanFrom="unknown source";
-            }
-            else {
-                ibanFrom = transaction.getFromBankAccount().getIban();
-            }
-            String ibanTo;
-            if (transaction.getToBankAccount()==null) {
-                ibanTo = "unknown source";
-            }
-            else {
-                ibanTo = transaction.getToBankAccount().getIban();
-            }
-            transactionObject.addProperty("id", transaction.getId());
-            transactionObject.addProperty("type", transaction.getType().name());
-            transactionObject.addProperty("iban_from", ibanFrom);
-            transactionObject.addProperty("iban_to", ibanTo);
-            transactionObject.addProperty("amount", transaction.getAmount());
-            transactionObject.addProperty("date_time", transaction.getDateTime().toString());
-            transactionsObject.add("transaction_"+transaction.getId(), transactionObject);
-        });
-
-        // Log fetch
-        log.info("Transactions from user \"{}\" were fetched", decodedAccessToken.subject());
-
-
-        // Create json response body
-        jsonObject.addProperty("message", "Transactions retrieved");
-        jsonObject.add("transactions", transactionsObject);
-
-        // Return response
-        return ResponseEntity.status(HttpStatus.OK).body(jsonObject.toString());
     }
 }

@@ -102,10 +102,10 @@ async function getAccountInfo() {
     balanceElement.textContent = "Balance: "+ formatter.format(accountInfo.bank_account.balance);
 }
 
-async function getTransactions() {
+async function getAccountTransactions() {
 
     // Fetch account info with access token
-    const transactionsResponse = await fetch("http://localhost:8080/api/account/transactions",{
+    const transactionsResponse = await fetch("http://localhost:8080/api/transactions",{
         method: 'get',
         headers: new Headers({
             'content-type': 'application/json',
@@ -113,18 +113,11 @@ async function getTransactions() {
         })
     });
     if (!transactionsResponse.ok) {
-
-        // Get error message
-        const message = (await transactionsResponse.json())["message"]
-
-        // If access token expired -> request for a new one
-        if (message==="Access token is invalid") {
-            await syncTokens();
-            await withdraw();
-            return;
-        }
-        await logOut(true);
+        await syncTokens();
+        await getAccountTransactions();
+        return;
     }
+
     const transactionObj = (await transactionsResponse.json()).transactions;
 
 
@@ -147,7 +140,7 @@ async function getTransactions() {
 
 async function loadAccountContent() {
     await getAccountInfo();
-    await getTransactions();
+    await getAccountTransactions();
 }
 
 function validateAmount(amount) {
@@ -177,7 +170,7 @@ async function deposit() {
     }
 
     // Post deposit request
-    const depositResponse = await fetch("http://localhost:8080/api/account/transactions?type=DEPOSIT", {
+    const depositResponse = await fetch("http://localhost:8080/api/transactions?type=DEPOSIT", {
         method: 'post',
         headers: new Headers({
             'content-type': 'application/json',
@@ -205,8 +198,7 @@ async function deposit() {
     promptFeedback(depositFeedback, "Amount Deposited!", greenHex);
 
     // Refresh account data
-    await getAccountInfo();
-    await getTransactions();
+    await loadAccountContent();
 
     // Scroll to overview after 0.5s
     setTimeout(() => {
@@ -233,7 +225,7 @@ async function transfer() {
     }
 
     // Post withdraw request
-    const transferResponse = await fetch("http://localhost:8080/api/account/transactions?type=TRANSFER", {
+    const transferResponse = await fetch("http://localhost:8080/api/transactions?type=TRANSFER", {
         method: 'post',
         headers: new Headers({
             'content-type': 'application/json',
@@ -261,8 +253,7 @@ async function transfer() {
     promptFeedback(transferFeedback, "Amount Transferred!", greenHex);
 
     // Refresh account data
-    await getAccountInfo();
-    await getTransactions();
+    await loadAccountContent();
 
     // Scroll to overview after 0.5s
     setTimeout(() => {
@@ -289,7 +280,7 @@ async function withdraw() {
     }
 
     // Post withdraw request
-    const withdrawResponse = await fetch("http://localhost:8080/api/account/transactions?type=WITHDRAW", {
+    const withdrawResponse = await fetch("http://localhost:8080/api/transactions?type=WITHDRAW", {
         method: 'post',
         headers: new Headers({
             'content-type': 'application/json',
@@ -317,8 +308,7 @@ async function withdraw() {
     promptFeedback(withdrawFeedback, "Amount Withdrawn!", greenHex);
 
     // Refresh account data
-    await getAccountInfo();
-    await getTransactions();
+    await loadAccountContent();
 
     // Scroll to overview after 0.5s
     setTimeout(() => {

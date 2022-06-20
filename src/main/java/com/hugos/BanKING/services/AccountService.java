@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 @RequiredArgsConstructor
 public class AccountService {
     private final AppUserService appUserService;
-    private final BankAccountService bankAccountService;
+    private final TransactionService transactionService;
     private final AuthorizationService authorizationService;
 
     public ResponseEntity<?> getAccount(HttpServletRequest request) {
@@ -48,10 +48,10 @@ public class AccountService {
         }
 
         // Execute request once authorized
-        return bankAccountService.createTransaction(request, type);
+        return transactionService.createTransaction(request, type);
     }
 
-    public ResponseEntity<?> getAllTransactions(HttpServletRequest request) {
+    public ResponseEntity<?> getTransactions(HttpServletRequest request) {
         ResponseEntity<?> authorizeResponse = authorizeRequest(request);
 
         // If response entity is not null, request was unauthorized
@@ -60,7 +60,19 @@ public class AccountService {
         }
 
         // Execute request once authorized
-        return bankAccountService.getAllTransactions(request);
+        return transactionService.getTransactions(request);
+    }
+
+    public ResponseEntity<?> deleteTransactions(HttpServletRequest request) {
+        ResponseEntity<?> authorizeResponse = authorizeRequest(request);
+
+        // If response entity is not null, request was unauthorized
+        if (authorizeResponse!=null) {
+            return authorizeResponse;
+        }
+
+        // Execute request once authorized
+        return transactionService.deleteAllTransactions(request);
     }
 
     private ResponseEntity<?> authorizeRequest(HttpServletRequest request) {
@@ -78,5 +90,4 @@ public class AccountService {
         // Return empty response entity if request was authorized
         return null;
     }
-
 }
