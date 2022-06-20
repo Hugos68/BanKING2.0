@@ -230,6 +230,10 @@ async function transfer() {
     },{});
 
     // Validate user input (For user experience)
+    if (jsonObj.iban==="") {
+        promptFeedback(transferFeedback, "Iban is missing", redHex);
+    }
+
     const validationResponse = validateAmount(jsonObj.amount);
     if (validationResponse!=="OK") {
         promptFeedback(transferFeedback, validationResponse, redHex);
