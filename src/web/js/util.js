@@ -37,6 +37,7 @@ function promptFeedback(element, text, color) {
         element.classList.add("feedback-label-fade");
         setTimeout(async () => {
             element.classList.remove("feedback-label-fade"); fading=false;
+            element.innerText="";
         }, 2000);
     }
 }
