@@ -41,7 +41,7 @@ public class AppUserService {
         BankAccount bankAccount = bankAccountRepository.findByAppUser(appUser).get();
 
         // Log fetch
-        log.info("Account from user: \"{}\" was fetched", appUser.getEmail());
+        log.info("User: \"{}\" was fetched", appUser.getEmail());
 
         // Create json response body
         JsonObject jsonBank = new JsonObject();
@@ -53,7 +53,7 @@ public class AppUserService {
         jsonObject.addProperty("id", appUser.getId());
         jsonObject.addProperty("email", appUser.getEmail());
         jsonObject.add("bank_account", jsonBank);
-        jsonObject.addProperty("message", "Account fetched");
+        jsonObject.addProperty("message", "User fetched");
 
         // Return response
         return ResponseEntity.status(HttpStatus.OK).body(jsonObject.toString());
@@ -108,7 +108,7 @@ public class AppUserService {
         bankAccountRepository.save(bankAccount);
 
         // Log registration
-        log.info("User registered: [email: \"{}\", password: \"{}\"]", email, password);
+        log.info("User: \"{}\" was registered", email);
 
         // Create json response body
         JsonObject jsonObject = new JsonObject();
@@ -144,7 +144,7 @@ public class AppUserService {
 
         // Create json response body
         JsonObject jsonObject = new JsonObject();
-        jsonObject.addProperty("message", "Account deleted");
+        jsonObject.addProperty("message", "User deleted");
 
         // Return response
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body(jsonObject.toString());
@@ -175,7 +175,7 @@ public class AppUserService {
         Map<String,String> tokenPair = tokenService.createAccessRefreshTokenPair(appUserRepository.findByEmail(email).get());
 
         // Log authentication
-        log.info("User authenticated: [email: \"{}\", password: \"{}\"]", email, password);
+        log.info("User: \"{}\" was authenticated", email);
 
         // Create json response body
         JsonObject jsonObject = new JsonObject();
