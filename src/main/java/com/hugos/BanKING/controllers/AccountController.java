@@ -38,4 +38,11 @@ public class AccountController {
         return accountService.deleteAccount(request);
     }
 
+    @PostMapping(path = "/authentication")
+    public ResponseEntity<?> authenticate(HttpServletRequest request) {
+        log.info("Endpoint: \"api/account\" was called");
+        return accountService.authenticate(request);
+    }
+
+
 }
