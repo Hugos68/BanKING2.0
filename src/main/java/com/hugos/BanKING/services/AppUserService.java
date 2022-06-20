@@ -4,7 +4,6 @@ import com.google.gson.JsonObject;
 import com.hugos.BanKING.entities.AppUser;
 import com.hugos.BanKING.entities.BankAccount;
 import com.hugos.BanKING.helpobjects.DecodedAccessToken;
-import com.hugos.BanKING.entities.Transaction;
 import com.hugos.BanKING.repositories.BankAccountRepository;
 import com.hugos.BanKING.repositories.AppUserRepository;
 import com.hugos.BanKING.enums.Role;
@@ -25,49 +24,13 @@ import java.util.*;
 @Service
 @AllArgsConstructor
 public class AppUserService {
+
+    private final JwtService jwtService;
+    private final RequestService requestService;
     private final AppUserRepository appUserRepository;
     private final BankAccountRepository bankAccountRepository;
     private final TransactionRepository transactionRepository;
-    private final RequestService requestService;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
-    private final JwtService jwtService;
-
-    public ResponseEntity<?> authenticate(HttpServletRequest request) {
-
-        // Get data from request
-        JsonObject body = requestService.getJsonFromRequest(request);
-        String email = body.get("email").getAsString().toLowerCase();
-        String password = body.get("password").getAsString();
-
-        // Data validation
-        if (email.equals("")) {
-            throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "Email is missing");
-        }
-        else if (!EmailValidator.validate(email) || appUserRepository.findByEmail(email).isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Email not found");
-        }
-        else if (password==null || password.equals("")) {
-            throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "Password is missing");
-        }
-        else if (!bCryptPasswordEncoder.matches(password, appUserRepository.findByEmail(email).get().getPassword())) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Password is incorrect");
-        }
-
-        // Get jwt pair
-        Map<String,String> tokenPair = jwtService.createAccessRefreshTokenPair(appUserRepository.findByEmail(email).get());
-
-        // Log authentication
-        log.info("User authenticated: [email: \"{}\", password: \"{}\"]", email, password);
-
-        // Create json response body
-        JsonObject jsonObject = new JsonObject();
-        jsonObject.addProperty("access_token", tokenPair.get("access_token"));
-        jsonObject.addProperty("refresh_token", tokenPair.get("refresh_token"));
-        jsonObject.addProperty("message", "User authenticated");
-
-        // Return response
-        return ResponseEntity.status(HttpStatus.OK).body(jsonObject.toString());
-    }
 
     public ResponseEntity<?> getAccount(HttpServletRequest request) {
 
@@ -189,5 +152,42 @@ public class AppUserService {
 
         // Return response
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body(jsonObject.toString());
+    }
+
+    public ResponseEntity<?> authenticate(HttpServletRequest request) {
+
+        // Get data from request
+        JsonObject body = requestService.getJsonFromRequest(request);
+        String email = body.get("email").getAsString().toLowerCase();
+        String password = body.get("password").getAsString();
+
+        // Data validation
+        if (email.equals("")) {
+            throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "Email is missing");
+        }
+        else if (!EmailValidator.validate(email) || appUserRepository.findByEmail(email).isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Email not found");
+        }
+        else if (password==null || password.equals("")) {
+            throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "Password is missing");
+        }
+        else if (!bCryptPasswordEncoder.matches(password, appUserRepository.findByEmail(email).get().getPassword())) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Password is incorrect");
+        }
+
+        // Get jwt pair
+        Map<String,String> tokenPair = jwtService.createAccessRefreshTokenPair(appUserRepository.findByEmail(email).get());
+
+        // Log authentication
+        log.info("User authenticated: [email: \"{}\", password: \"{}\"]", email, password);
+
+        // Create json response body
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty("access_token", tokenPair.get("access_token"));
+        jsonObject.addProperty("refresh_token", tokenPair.get("refresh_token"));
+        jsonObject.addProperty("message", "User authenticated");
+
+        // Return response
+        return ResponseEntity.status(HttpStatus.OK).body(jsonObject.toString());
     }
 }

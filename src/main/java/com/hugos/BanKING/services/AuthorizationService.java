@@ -1,67 +1,37 @@
 package com.hugos.BanKING.services;
 
-import com.hugos.BanKING.helpobjects.AuthorizationOutcome;
+import com.hugos.BanKING.enums.Role;
 import com.hugos.BanKING.helpobjects.DecodedAccessToken;
-import com.hugos.BanKING.repositories.AppUserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 import javax.servlet.http.HttpServletRequest;
-import static org.springframework.http.HttpHeaders.AUTHORIZATION;
-import static org.springframework.http.HttpStatus.OK;
-import static org.springframework.http.HttpStatus.UNAUTHORIZED;
 
 @Service
 @RequiredArgsConstructor
 public class AuthorizationService {
     private final JwtService jwtService;
-    private final AppUserRepository appUserRepository;
 
-    public AuthorizationOutcome authorizeAccessToken(HttpServletRequest request) {
+    public void authorizeRequest(HttpServletRequest request, Role minimumRole) {
 
         // Retrieve and decode access token
         String accessToken;
         try {
-            accessToken = request.getHeader(AUTHORIZATION).substring("Bearer ".length());
+            accessToken = request.getHeader(HttpHeaders.AUTHORIZATION).substring("Bearer ".length());
         } catch (Exception exception) {
-            accessToken = null;
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Missing JWT in header");
         }
 
         DecodedAccessToken decodedAccessToken = jwtService.decodeAccessToken(accessToken);
 
         // Create outcome object based on token properties
-        if (decodedAccessToken==null) {
-            return new AuthorizationOutcome(
-                false,
-                null,
-                null,
-                UNAUTHORIZED,
-                "Access token is invalid"
-            );
-        }
         if (decodedAccessToken.isExpired()) {
-            return new AuthorizationOutcome(
-                false,
-                decodedAccessToken.subject(),
-                null,
-                UNAUTHORIZED,
-                "Access token is invalid"
-            );
+            throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "Access token is invalid");
         }
-        if (appUserRepository.findByEmail(decodedAccessToken.subject()).isEmpty()) {
-            return new AuthorizationOutcome(
-                false,
-                decodedAccessToken.subject(),
-                null,
-                UNAUTHORIZED,
-                "Access token is invalid"
-            );
+        if (decodedAccessToken.role().getLevelOfClearance() < minimumRole.getLevelOfClearance()) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "User not authorized");
         }
-        return new AuthorizationOutcome(
-            true,
-            decodedAccessToken.subject(),
-            decodedAccessToken.role(),
-            OK,
-            "Access token was validated"
-        );
     }
 }

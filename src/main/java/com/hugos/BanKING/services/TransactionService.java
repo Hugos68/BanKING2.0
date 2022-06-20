@@ -103,6 +103,11 @@ public class TransactionService {
         return ResponseEntity.status(HttpStatus.OK).body(jsonObject.toString());
     }
 
+    public ResponseEntity<?> updateTransaction(HttpServletRequest request) {
+        // TODO: Write business logic to update transactions
+        return null;
+    }
+
     public ResponseEntity<?> deleteAllTransactions(HttpServletRequest request) {
 
         // Create response object
@@ -127,4 +132,6 @@ public class TransactionService {
         // Return response
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body(jsonObject.toString());
     }
+
+
 }
