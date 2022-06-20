@@ -128,9 +128,7 @@ public class AppUserService {
     public ResponseEntity<?> deleteAppUser(HttpServletRequest request) {
 
         DecodedAccessToken decodedAccessToken = requestService.getDecodedAccessTokenFromRequest(request);
-
         AppUser appUser = appUserRepository.findByEmail(decodedAccessToken.subject()).get();
-
         BankAccount bankAccount = bankAccountRepository.findByAppUser(appUser).get();
 
         // Delete all transactions that involved the to be deleted user
