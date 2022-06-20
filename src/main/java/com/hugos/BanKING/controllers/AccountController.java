@@ -25,16 +25,4 @@ public class AccountController {
         log.info("Endpoint: \"api/account\" was called");
         return accountService.deleteAccount(request);
     }
-
-    @PostMapping(path = "transactions")
-    public ResponseEntity<?> postTransaction(HttpServletRequest request, @RequestParam String type) {
-        log.info("Endpoint: \"api/transaction\" was called");
-        return accountService.createTransaction(request, type);
-    }
-
-    @GetMapping(path = "transactions")
-    public ResponseEntity<?> getTransactions(HttpServletRequest request) {
-        log.info("Endpoint: \"api/account/transaction\" was called");
-        return accountService.getAllTransactions(request);
-    }
 }
