@@ -130,9 +130,6 @@ async function signIn() {
             promptFeedback(signInLabel, (await signInResponse.json())["message"], redHex);
             return;
         }
-        // Reset form
-        signInForm.reset();
-
         // Prompt a success message
         promptFeedback(signInLabel, "Success, signing in...", greenHex);
 
@@ -144,6 +141,9 @@ async function signIn() {
         setTimeout(async () => {
             location.replace("account.html")
         }, 750);
+
+        // Reset form
+        signInForm.reset();
     } catch (e) {
         console.error(e);
     }
@@ -212,9 +212,6 @@ async function signUp() {
             return;
         }
 
-        // Reset form
-        signUpForm.reset();
-
         // Prompt a success message
         promptFeedback(signUpLabel, "Registration success!", greenHex);
 
@@ -225,6 +222,8 @@ async function signUp() {
             });
         }, 500);
 
+        // Reset form
+        signUpForm.reset();
     } catch (e) {
         console.error(e);
     }

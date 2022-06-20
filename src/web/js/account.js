@@ -194,7 +194,6 @@ async function deposit() {
         promptFeedback(depositFeedback, (await depositResponse.json())["message"], redHex);
         throw new Error(depositResponse.status + ' ' + depositResponse.statusText);
     }
-    depositForm.reset();
     promptFeedback(depositFeedback, "Amount Deposited!", greenHex);
 
     // Refresh account data
@@ -206,6 +205,7 @@ async function deposit() {
             behavior: 'smooth'
         });
     }, 500);
+    depositForm.reset();
 }
 
 async function transfer() {
@@ -249,7 +249,6 @@ async function transfer() {
         promptFeedback(transferFeedback, message, redHex);
         throw new Error(transferFeedback.status + ' ' + transferFeedback.statusText);
     }
-    transferForm.reset();
     promptFeedback(transferFeedback, "Amount Transferred!", greenHex);
 
     // Refresh account data
@@ -261,6 +260,7 @@ async function transfer() {
             behavior: 'smooth'
         });
     }, 500);
+    transferForm.reset();
 }
 
 async function withdraw() {
@@ -304,7 +304,6 @@ async function withdraw() {
         promptFeedback(withdrawFeedback, message, redHex);
         throw new Error(withdrawResponse.status + ' ' + withdrawResponse.statusText);
     }
-    withdrawForm.reset();
     promptFeedback(withdrawFeedback, "Amount Withdrawn!", greenHex);
 
     // Refresh account data
@@ -316,6 +315,7 @@ async function withdraw() {
             behavior: 'smooth'
         });
     }, 500);
+    withdrawForm.reset();
 }
 
 function logOut(errorCausedLogout) {
