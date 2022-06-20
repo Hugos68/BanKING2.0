@@ -43,4 +43,28 @@ public class AppUserController {
         log.info("Endpoint: POST \"api/app-users/authentication\" was called");
         return resourceService.authenticateAppUser(request);
     }
+
+    @PostMapping(path = "/{email}/transactions")
+    public ResponseEntity<?> createTransaction(HttpServletRequest request, @PathVariable String email, @RequestParam String type) {
+        log.info("Endpoint: POST \"api/transactions\" was called");
+        return resourceService.createTransaction(request, email, type);
+    }
+
+    @GetMapping(path = "/{email}/transactions")
+    public ResponseEntity<?> getTransactions(HttpServletRequest request, @PathVariable String email) {
+        log.info("Endpoint: GET \"api/app-users/{}/transactions\" was called", email);
+        return resourceService.getTransactions(request, email);
+    }
+
+    @PutMapping(path = "/{email}/transactions")
+    public ResponseEntity<?> updateTransaction(HttpServletRequest request, @PathVariable String email) {
+        log.info("Endpoint: PUT \"api/app-user/{}/transactions\" was called", email);
+        return resourceService.updateTransaction(request, email);
+    }
+
+    @DeleteMapping(path = "/{email}/transactions")
+    public ResponseEntity<?> deleteTransactions(HttpServletRequest request, @PathVariable String email) {
+        log.info("Endpoint: DELETE \"api/app-user/{}/transactions\" was called", email);
+        return resourceService.deleteTransactions(request, email);
+    }
 }

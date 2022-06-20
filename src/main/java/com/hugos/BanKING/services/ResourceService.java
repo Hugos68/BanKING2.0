@@ -20,8 +20,8 @@ public class ResourceService {
     private final TransactionService transactionService;
 
     public ResponseEntity<?> getAppUser(HttpServletRequest request, String email) {
-        requestService.authorizeRequest(request, Role.USER);
-        return appUserService.getAppUser(request, email);
+        requestService.authorizeRequest(request, Role.USER, email);
+        return appUserService.getAppUser(email);
     }
 
     public ResponseEntity<?> createAppUser(HttpServletRequest request) {
@@ -29,37 +29,37 @@ public class ResourceService {
     }
 
     public ResponseEntity<?> updateAppUser(HttpServletRequest request, String email) {
-        requestService.authorizeRequest(request, Role.USER);
-        return appUserService.updateAppUser(request);
+        requestService.authorizeRequest(request, Role.USER, email);
+        return appUserService.updateAppUser(request, email);
     }
 
     public ResponseEntity<?> deleteAppUser(HttpServletRequest request, String email) {
-        requestService.authorizeRequest(request, Role.USER);
-        return appUserService.deleteAppUser(request, email);
+        requestService.authorizeRequest(request, Role.USER, email);
+        return appUserService.deleteAppUser(email);
     }
 
     public ResponseEntity<?> authenticateAppUser(HttpServletRequest request) {
         return appUserService.authenticateAppUser(request);
     }
 
-    public ResponseEntity<?> createTransaction(HttpServletRequest request, String type) {
-        requestService.authorizeRequest(request, Role.USER);
-        return transactionService.createTransaction(request, type);
+    public ResponseEntity<?> createTransaction(HttpServletRequest request, String email, String type) {
+        requestService.authorizeRequest(request, Role.USER, email);
+        return transactionService.createTransaction(request, email, type);
     }
 
     public ResponseEntity<?> getTransactions(HttpServletRequest request, String email) {
-        requestService.authorizeRequest(request, Role.USER);
-        return transactionService.getTransactions(request, email);
+        requestService.authorizeRequest(request, Role.USER, email);
+        return transactionService.getTransactions(email);
     }
 
     public ResponseEntity<?> updateTransaction(HttpServletRequest request, String email) {
-        requestService.authorizeRequest(request, Role.USER);
+        requestService.authorizeRequest(request, Role.USER, email);
         return transactionService.updateTransaction(request, email);
     }
 
     public ResponseEntity<?> deleteTransactions(HttpServletRequest request, String email) {
-        requestService.authorizeRequest(request, Role.USER);
-        return transactionService.deleteTransactions(request, email);
+        requestService.authorizeRequest(request, Role.USER, email);
+        return transactionService.deleteTransactions(email);
     }
 
     public ResponseEntity<?> refreshAccessToken(HttpServletRequest request) {

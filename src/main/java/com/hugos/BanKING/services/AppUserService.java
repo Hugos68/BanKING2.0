@@ -32,12 +32,14 @@ public class AppUserService {
     private final TransactionRepository transactionRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    public ResponseEntity<?> getAppUser(HttpServletRequest request, String email) {
+    public ResponseEntity<?> getAppUser(String email) {
 
-        DecodedAccessToken decodedAccessToken = requestService.getDecodedAccessTokenFromRequest(request);
-        AppUser appUser = appUserRepository.findByEmail(
-            decodedAccessToken.subject()
-        ).get();
+        // This checks if the given email is an existing user
+        Optional<AppUser> optionalAppUser = appUserRepository.findByEmail(email);
+        if (optionalAppUser.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
+        }
+        AppUser appUser = optionalAppUser.get();
         BankAccount bankAccount = bankAccountRepository.findByAppUser(appUser).get();
 
         // Log fetch
@@ -114,15 +116,19 @@ public class AppUserService {
         return ResponseEntity.status(HttpStatus.CREATED).body(jsonObject.toString());
     }
 
-    public ResponseEntity<?> updateAppUser(HttpServletRequest request) {
+    public ResponseEntity<?> updateAppUser(HttpServletRequest request, String email) {
         // TODO: Get email from request and change it if its valid and not taken
         return null;
     }
 
-    public ResponseEntity<?> deleteAppUser(HttpServletRequest request, String email) {
+    public ResponseEntity<?> deleteAppUser(String email) {
 
-        DecodedAccessToken decodedAccessToken = requestService.getDecodedAccessTokenFromRequest(request);
-        AppUser appUser = appUserRepository.findByEmail(decodedAccessToken.subject()).get();
+        // This checks if the given email is an existing user
+        Optional<AppUser> optionalAppUser = appUserRepository.findByEmail(email);
+        if (optionalAppUser.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
+        }
+        AppUser appUser = optionalAppUser.get();
         BankAccount bankAccount = bankAccountRepository.findByAppUser(appUser).get();
 
         // Delete all transactions that involved the to be deleted user

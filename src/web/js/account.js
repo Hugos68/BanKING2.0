@@ -113,7 +113,7 @@ async function getAccountTransactions() {
     const email = jsonJwt.sub;
 
     // Fetch account info with access token
-    const transactionsResponse = await fetch("http://localhost:8080/api/transactions/app-users/"+email,{
+    const transactionsResponse = await fetch("http://localhost:8080/api/app-users/"+email+"/transactions",{
         method: 'get',
         headers: new Headers({
             'content-type': 'application/json',
@@ -177,8 +177,12 @@ async function deposit() {
         return;
     }
 
+    const accessToken = getCookie("access_token");
+    const jsonJwt = parseJwt(accessToken);
+    const email = jsonJwt.sub;
+
     // Post deposit request
-    const depositResponse = await fetch("http://localhost:8080/api/transactions?type=DEPOSIT", {
+    const depositResponse = await fetch("http://localhost:8080/api/app-users/"+email+"/transactions?type=DEPOSIT", {
         method: 'post',
         headers: new Headers({
             'content-type': 'application/json',
@@ -232,8 +236,12 @@ async function transfer() {
         return;
     }
 
+    const accessToken = getCookie("access_token");
+    const jsonJwt = parseJwt(accessToken);
+    const email = jsonJwt.sub;
+
     // Post withdraw request
-    const transferResponse = await fetch("http://localhost:8080/api/transactions?type=TRANSFER", {
+    const transferResponse = await fetch("http://localhost:8080/api/app-users/"+email+"/transactions?type=TRANSFER", {
         method: 'post',
         headers: new Headers({
             'content-type': 'application/json',
@@ -287,8 +295,12 @@ async function withdraw() {
         return;
     }
 
+    const accessToken = getCookie("access_token");
+    const jsonJwt = parseJwt(accessToken);
+    const email = jsonJwt.sub;
+
     // Post withdraw request
-    const withdrawResponse = await fetch("http://localhost:8080/api/transactions?type=WITHDRAW", {
+    const withdrawResponse = await fetch("http://localhost:8080/api/app-users/"+email+"/transactions?type=WITHDRAW", {
         method: 'post',
         headers: new Headers({
             'content-type': 'application/json',

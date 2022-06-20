@@ -3,6 +3,7 @@ package com.hugos.BanKING.services;
 import com.google.gson.JsonObject;
 import com.hugos.BanKING.entities.BankAccount;
 import com.hugos.BanKING.entities.Transaction;
+import com.hugos.BanKING.enums.Role;
 import com.hugos.BanKING.enums.TransactionType;
 import com.hugos.BanKING.helpobjects.DecodedAccessToken;
 import com.hugos.BanKING.repositories.AppUserRepository;
@@ -30,23 +31,23 @@ public class TransactionService {
     private final AppUserRepository appUserRepository;
     private final RequestService requestService;
 
-    public ResponseEntity<?> createTransaction(HttpServletRequest request, String type) {
+    public ResponseEntity<?> createTransaction(HttpServletRequest request, String email, String type) {
 
         // Execute request once authorized
         if (type.equals(TransactionType.DEPOSIT.name())) {
-            return bankAccountService.deposit(request);
+            return bankAccountService.deposit(request, email);
         }
         if (type.equals(TransactionType.TRANSFER.name())) {
-            return bankAccountService.transfer(request);
+            return bankAccountService.transfer(request, email);
         }
         if (type.equals(TransactionType.WITHDRAW.name())) {
-            return bankAccountService.withdraw(request);
+            return bankAccountService.withdraw(request, email);
         }
 
         throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "Unknown transaction type");
     }
 
-    public ResponseEntity<?> getTransactions(HttpServletRequest request, String email) {
+    public ResponseEntity<?> getTransactions(HttpServletRequest request) {
 
         // Create response object
         JsonObject jsonObject = new JsonObject();
@@ -103,17 +104,17 @@ public class TransactionService {
         return ResponseEntity.status(HttpStatus.OK).body(jsonObject.toString());
     }
 
-    public ResponseEntity<?> getTransaction(HttpServletRequest request, String email) {
+    public ResponseEntity<?> getTransaction(HttpServletRequest request) {
         // TODO: Write business logic to update transactions
         return null;
     }
 
-    public ResponseEntity<?> updateTransaction(HttpServletRequest request, String email) {
+    public ResponseEntity<?> updateTransaction(HttpServletRequest request) {
         // TODO: Write business logic to update transactions
         return null;
     }
 
-    public ResponseEntity<?> deleteTransactions(HttpServletRequest request, String email) {
+    public ResponseEntity<?> deleteTransactions(HttpServletRequest request) {
 
         // Create response object
         JsonObject jsonObject = new JsonObject();
@@ -139,7 +140,7 @@ public class TransactionService {
     }
 
 
-    public ResponseEntity<?> deleteTransaction(HttpServletRequest request, String email) {
+    public ResponseEntity<?> deleteTransaction(HttpServletRequest request) {
         return null;
     }
 }

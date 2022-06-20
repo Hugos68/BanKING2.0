@@ -35,7 +35,7 @@ public class RequestService {
         return tokenService.decodeAccessToken(accessToken);
     }
 
-    public void authorizeRequest(HttpServletRequest request, Role minimumRole) {
+    public void authorizeRequest(HttpServletRequest request, Role requiredRole, String email) {
 
         // Retrieve and decode access token
         String accessToken;
@@ -47,11 +47,17 @@ public class RequestService {
 
         DecodedAccessToken decodedAccessToken = tokenService.decodeAccessToken(accessToken);
 
+        // This if statement ensures only users are allowed to access their own information (admins can access anything)
+        if (!email.equals(decodedAccessToken.subject()) &&
+            decodedAccessToken.role().getLevelOfClearance() < Role.ADMIN.getLevelOfClearance()) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "User not authorized");
+        }
+
         // Create outcome object based on token properties
         if (decodedAccessToken.isExpired()) {
             throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "Access token is invalid");
         }
-        if (decodedAccessToken.role().getLevelOfClearance() < minimumRole.getLevelOfClearance()) {
+        if (decodedAccessToken.role().getLevelOfClearance() < requiredRole.getLevelOfClearance()) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "User not authorized");
         }
     }

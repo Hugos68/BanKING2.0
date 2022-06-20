@@ -1,6 +1,7 @@
 package com.hugos.BanKING.services;
 
 import com.google.gson.*;
+import com.hugos.BanKING.entities.AppUser;
 import com.hugos.BanKING.enums.TransactionType;
 import com.hugos.BanKING.entities.BankAccount;
 import com.hugos.BanKING.helpobjects.DecodedAccessToken;
@@ -29,9 +30,19 @@ public class BankAccountService {
     private final AppUserRepository appUserRepository;
     private final RequestService requestService;
 
-    public ResponseEntity<?> deposit(HttpServletRequest request) {
+    public ResponseEntity<?> deposit(HttpServletRequest request, String email) {
 
         DecodedAccessToken decodedAccessToken = requestService.getDecodedAccessTokenFromRequest(request);
+
+        // This checks if the given email is an existing user
+        Optional<AppUser> optionalAppUser = appUserRepository.findByEmail(email);
+        if (optionalAppUser.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
+        }
+        AppUser appUser = optionalAppUser.get();
+        BankAccount bankAccount = bankAccountRepository.findByAppUser(appUser).get();
+
+        double balance = bankAccount.getBalance();
 
         // Get data from request
         JsonObject body = requestService.getJsonFromRequest(request);
@@ -41,12 +52,6 @@ public class BankAccountService {
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "Invalid amount");
         }
-
-        BankAccount bankAccount = bankAccountRepository.findByAppUser(
-            appUserRepository.findByEmail(decodedAccessToken.subject()).get()
-        ).get();
-
-        double balance = bankAccount.getBalance();
 
         if (amount > 1000) {
             throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "Transfer limit reached");
@@ -82,9 +87,19 @@ public class BankAccountService {
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body(jsonObject.toString());
     }
 
-    public ResponseEntity<?> transfer(HttpServletRequest request) {
+    public ResponseEntity<?> transfer(HttpServletRequest request, String email) {
 
         DecodedAccessToken decodedAccessToken = requestService.getDecodedAccessTokenFromRequest(request);
+
+        // This checks if the given email is an existing user
+        Optional<AppUser> optionalAppUser = appUserRepository.findByEmail(email);
+        if (optionalAppUser.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
+        }
+        AppUser appUser = optionalAppUser.get();
+        BankAccount senderBankAccount = bankAccountRepository.findByAppUser(appUser).get();
+
+        double senderBalance = senderBankAccount.getBalance();
 
         // Get data from request
         JsonObject body = requestService.getJsonFromRequest(request);
@@ -108,20 +123,10 @@ public class BankAccountService {
         // Get receiver bank account
         BankAccount receiverBankAccount = receiverOptional.get();
 
-        // Get sender bank account
-        BankAccount senderBankAccount = bankAccountRepository.findByAppUser(
-            appUserRepository.findByEmail(
-                decodedAccessToken.subject()
-            ).get()
-        ).get();
-
-
         if(receiverBankAccount==senderBankAccount) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "Cannot transfer to yourself");
         }
 
-        // Get require info from accounts
-        double senderBalance = senderBankAccount.getBalance();
         double receiverBalance = receiverBankAccount.getBalance();
 
         if (senderBalance - amount < 0) {
@@ -158,9 +163,19 @@ public class BankAccountService {
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body(jsonObject.toString());
     }
 
-    public ResponseEntity<?> withdraw(HttpServletRequest request) {
+    public ResponseEntity<?> withdraw(HttpServletRequest request, String email) {
 
         DecodedAccessToken decodedAccessToken = requestService.getDecodedAccessTokenFromRequest(request);
+
+        // This checks if the given email is an existing user
+        Optional<AppUser> optionalAppUser = appUserRepository.findByEmail(email);
+        if (optionalAppUser.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
+        }
+        AppUser appUser = optionalAppUser.get();
+        BankAccount bankAccount = bankAccountRepository.findByAppUser(appUser).get();
+
+        double balance = bankAccount.getBalance();
 
         // Get data from request
         JsonObject body = requestService.getJsonFromRequest(request);
@@ -170,14 +185,6 @@ public class BankAccountService {
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "Invalid amount");
         }
-
-        BankAccount bankAccount = bankAccountRepository.findByAppUser(
-            appUserRepository.findByEmail(
-                    decodedAccessToken.subject()
-            ).get()
-        ).get();
-
-        double balance = bankAccount.getBalance();
 
         if (balance - amount < 0) {
             throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "Insufficient balance");
