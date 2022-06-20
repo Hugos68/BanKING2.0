@@ -208,9 +208,4 @@ public class BankAccountService {
         // Return response
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body(jsonObject.toString());
     }
-
-    public ResponseEntity<?> putBankAccount(HttpServletRequest request) {
-        // TODO: Add business logic to set new iban (if not taken and valid)
-        return null;
-    }
 }

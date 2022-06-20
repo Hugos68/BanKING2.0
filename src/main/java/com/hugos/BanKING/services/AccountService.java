@@ -13,7 +13,6 @@ import javax.servlet.http.HttpServletRequest;
 public class AccountService {
     private final AppUserService appUserService;
     private final TransactionService transactionService;
-    private final BankAccountService bankAccountService;
     private final AuthorizationService authorizationService;
 
     public ResponseEntity<?> getAccount(HttpServletRequest request) {
@@ -74,9 +73,5 @@ public class AccountService {
 
     public ResponseEntity<?> authenticate(HttpServletRequest request) {
         return appUserService.authenticate(request);
-    }
-
-    public ResponseEntity<?> putBankAccount(HttpServletRequest request) {
-        return bankAccountService.putBankAccount(request);
     }
 }
