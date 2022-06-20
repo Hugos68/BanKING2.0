@@ -35,11 +35,9 @@ public class AppUserService {
     public ResponseEntity<?> getAppUser(HttpServletRequest request) {
 
         DecodedAccessToken decodedAccessToken = requestService.getDecodedAccessTokenFromRequest(request);
-
         AppUser appUser = appUserRepository.findByEmail(
             decodedAccessToken.subject()
         ).get();
-
         BankAccount bankAccount = bankAccountRepository.findByAppUser(appUser).get();
 
         // Log fetch
