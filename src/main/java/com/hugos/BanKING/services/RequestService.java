@@ -42,20 +42,20 @@ public class RequestService {
         try {
             accessToken = request.getHeader(HttpHeaders.AUTHORIZATION).substring("Bearer ".length());
         } catch (Exception exception) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Missing JWT in header");
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Missing access token");
         }
 
         DecodedAccessToken decodedAccessToken = tokenService.decodeAccessToken(accessToken);
 
         // This if statement ensures only users are allowed to access their own information (admins can access anything)
-        if (!email.equals(decodedAccessToken.subject()) &&
+        if (!decodedAccessToken.subject().equals(email) &&
             decodedAccessToken.role().getLevelOfClearance() < Role.ADMIN.getLevelOfClearance()) {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "User does not have the needed role to access this resource");
         }
 
         // Create outcome object based on token properties
         if (decodedAccessToken.isExpired()) {
-            throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "Access token is invalid");
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Access token is invalid");
         }
         if (decodedAccessToken.role().getLevelOfClearance() < requiredRole.getLevelOfClearance()) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "User not authorized");
