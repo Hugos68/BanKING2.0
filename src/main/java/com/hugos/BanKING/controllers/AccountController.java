@@ -26,7 +26,7 @@ public class AccountController {
         return accountService.deleteAccount(request);
     }
 
-    @PostMapping(path = "transaction")
+    @PostMapping(path = "transactions")
     public ResponseEntity<?> postTransaction(HttpServletRequest request, @RequestParam String type) {
         log.info("Endpoint: \"api/transaction\" was called");
         return accountService.createTransaction(request, type);

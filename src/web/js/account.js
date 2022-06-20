@@ -177,7 +177,7 @@ async function deposit() {
     }
 
     // Post deposit request
-    const depositResponse = await fetch("http://localhost:8080/api/account/transaction?type=DEPOSIT", {
+    const depositResponse = await fetch("http://localhost:8080/api/account/transactions?type=DEPOSIT", {
         method: 'post',
         headers: new Headers({
             'content-type': 'application/json',
@@ -233,7 +233,7 @@ async function transfer() {
     }
 
     // Post withdraw request
-    const transferResponse = await fetch("http://localhost:8080/api/account/transaction?type=TRANSFER", {
+    const transferResponse = await fetch("http://localhost:8080/api/account/transactions?type=TRANSFER", {
         method: 'post',
         headers: new Headers({
             'content-type': 'application/json',
@@ -289,7 +289,7 @@ async function withdraw() {
     }
 
     // Post withdraw request
-    const withdrawResponse = await fetch("http://localhost:8080/api/account/transaction?type=WITHDRAW", {
+    const withdrawResponse = await fetch("http://localhost:8080/api/account/transactions?type=WITHDRAW", {
         method: 'post',
         headers: new Headers({
             'content-type': 'application/json',
