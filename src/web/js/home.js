@@ -140,10 +140,8 @@ async function signIn() {
         // Redirect to account page
         setTimeout(async () => {
             location.replace("account.html")
-        }, 750);
-
-        // Reset form
-        signInForm.reset();
+            setTimeout(signInForm.reset(), 1500);
+        }, 250);
     } catch (e) {
         console.error(e);
     }
@@ -220,10 +218,8 @@ async function signUp() {
             document.querySelector("#sign-in").scrollIntoView({
                 behavior: 'smooth'
             });
-        }, 500);
-
-        // Reset form
-        signUpForm.reset();
+            setTimeout(signUpForm.reset(), 1500);
+        }, 250);
     } catch (e) {
         console.error(e);
     }

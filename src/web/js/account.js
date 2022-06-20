@@ -204,8 +204,8 @@ async function deposit() {
         document.querySelector("#overview").scrollIntoView({
             behavior: 'smooth'
         });
-    }, 500);
-    depositForm.reset();
+        setTimeout(depositForm.reset(), 1500);
+    }, 250);
 }
 
 async function transfer() {
@@ -259,8 +259,8 @@ async function transfer() {
         document.querySelector("#overview").scrollIntoView({
             behavior: 'smooth'
         });
-    }, 500);
-    transferForm.reset();
+        setTimeout(transferForm.reset(), 1500);
+    }, 250);
 }
 
 async function withdraw() {
@@ -314,8 +314,8 @@ async function withdraw() {
         document.querySelector("#overview").scrollIntoView({
             behavior: 'smooth'
         });
-    }, 500);
-    withdrawForm.reset();
+        setTimeout(withdrawForm.reset(), 1500);
+    }, 250);
 }
 
 function logOut(errorCausedLogout) {
