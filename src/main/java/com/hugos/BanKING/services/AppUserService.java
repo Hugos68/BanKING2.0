@@ -108,11 +108,11 @@ public class AppUserService {
         bankAccountRepository.save(bankAccount);
 
         // Log registration
-        log.info("User: \"{}\" was registered", email);
+        log.info("User: \"{}\" was created", email);
 
         // Create json response body
         JsonObject jsonObject = new JsonObject();
-        jsonObject.addProperty("message", "User registered");
+        jsonObject.addProperty("message", "User created");
 
         // Return response
         return ResponseEntity.status(HttpStatus.CREATED).body(jsonObject.toString());
