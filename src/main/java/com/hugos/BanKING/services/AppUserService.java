@@ -25,7 +25,7 @@ import java.util.*;
 @AllArgsConstructor
 public class AppUserService {
 
-    private final JwtService jwtService;
+    private final TokenService tokenService;
     private final RequestService requestService;
     private final AppUserRepository appUserRepository;
     private final BankAccountRepository bankAccountRepository;
@@ -176,7 +176,7 @@ public class AppUserService {
         }
 
         // Get jwt pair
-        Map<String,String> tokenPair = jwtService.createAccessRefreshTokenPair(appUserRepository.findByEmail(email).get());
+        Map<String,String> tokenPair = tokenService.createAccessRefreshTokenPair(appUserRepository.findByEmail(email).get());
 
         // Log authentication
         log.info("User authenticated: [email: \"{}\", password: \"{}\"]", email, password);

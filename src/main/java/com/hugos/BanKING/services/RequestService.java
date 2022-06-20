@@ -2,9 +2,14 @@ package com.hugos.BanKING.services;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.hugos.BanKING.enums.Role;
 import com.hugos.BanKING.helpobjects.DecodedAccessToken;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
+
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.stream.Collectors;
@@ -13,28 +18,41 @@ import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 @Service
 @RequiredArgsConstructor
 public class RequestService {
-    private final JwtService jwtService;
+    private final TokenService tokenService;
 
-    // Returns null if parse fails
     public JsonObject getJsonFromRequest(HttpServletRequest request) {
         JsonObject jsonObj;
         try {
-             jsonObj = JsonParser.parseString(request.getReader().lines().collect(Collectors.joining(System.lineSeparator()))).getAsJsonObject();
-             return jsonObj;
+            jsonObj = JsonParser.parseString(request.getReader().lines().collect(Collectors.joining(System.lineSeparator()))).getAsJsonObject();
+            return jsonObj;
         } catch (IOException e) {
-            return null;
+            throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "Unable to process body");
         }
     }
 
-    // Returns null if parse fails
     public DecodedAccessToken getDecodedAccessTokenFromRequest(HttpServletRequest request) {
+        String accessToken = request.getHeader(AUTHORIZATION).substring("Bearer ".length());
+        return tokenService.decodeAccessToken(accessToken);
+    }
+
+    public void authorizeRequest(HttpServletRequest request, Role minimumRole) {
+
         // Retrieve and decode access token
         String accessToken;
         try {
-            accessToken = request.getHeader(AUTHORIZATION).substring("Bearer ".length());
+            accessToken = request.getHeader(HttpHeaders.AUTHORIZATION).substring("Bearer ".length());
         } catch (Exception exception) {
-            accessToken = null;
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Missing JWT in header");
         }
-        return jwtService.decodeAccessToken(accessToken);
+
+        DecodedAccessToken decodedAccessToken = tokenService.decodeAccessToken(accessToken);
+
+        // Create outcome object based on token properties
+        if (decodedAccessToken.isExpired()) {
+            throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "Access token is invalid");
+        }
+        if (decodedAccessToken.role().getLevelOfClearance() < minimumRole.getLevelOfClearance()) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "User not authorized");
+        }
     }
 }

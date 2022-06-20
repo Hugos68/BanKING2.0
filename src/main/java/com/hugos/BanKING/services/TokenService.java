@@ -24,7 +24,7 @@ import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 
 @Service
 @AllArgsConstructor
-public class JwtService {
+public class TokenService {
     // Generate key with secret
     private final String API_SECRET = "kjlfds4124ho4h1l24hl1l1gkj41h4k1u4h12l";
     private final byte[] encoded = API_SECRET.getBytes(StandardCharsets.UTF_8);
@@ -63,13 +63,12 @@ public class JwtService {
             return tokenPair;
     }
 
-    // Returns null when token is invalid
     public DecodedAccessToken decodeAccessToken(String token) {
 
         // Get payload from token
         Claims claims = getAllClaimsFromToken(token);
         if (claims==null) {
-            return null;
+            throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "Access token is invalid");
         }
 
         // Get claims
@@ -85,13 +84,12 @@ public class JwtService {
         return new DecodedAccessToken(subject, role, issuer, issuedAt, isExpired);
     }
 
-    // Returns null if token is invalid
     public DecodedRefreshToken decodeRefreshToken(String token) {
 
         // Get payload from token
         Claims claims = getAllClaimsFromToken(token);
         if (claims==null) {
-            return null;
+            throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "Refresh token is invalid");
         }
 
         // Get claims
@@ -114,7 +112,7 @@ public class JwtService {
         try {
             refreshToken = request.getHeader(AUTHORIZATION).substring("Bearer ".length());
         } catch (Exception exception) {
-            refreshToken = null;
+            throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "Refresh token is invalid");
         }
 
         // Get decoded token from request

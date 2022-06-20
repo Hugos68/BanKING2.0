@@ -13,13 +13,13 @@ import javax.servlet.http.HttpServletRequest;
 @RequiredArgsConstructor
 public class ResourceService {
 
-    private final JwtService jwtService;
+    private final TokenService tokenService;
     private final AppUserService appUserService;
+    private final RequestService requestService;
     private final TransactionService transactionService;
-    private final AuthorizationService authorizationService;
 
     public ResponseEntity<?> getAccount(HttpServletRequest request) {
-        authorizationService.authorizeRequest(request, Role.USER);
+        requestService.authorizeRequest(request, Role.USER);
         return appUserService.getAccount(request);
     }
 
@@ -28,12 +28,12 @@ public class ResourceService {
     }
 
     public ResponseEntity<?> updateAccount(HttpServletRequest request) {
-        authorizationService.authorizeRequest(request, Role.USER);
+        requestService.authorizeRequest(request, Role.USER);
         return appUserService.updateAccount(request);
     }
 
     public ResponseEntity<?> deleteAccount(HttpServletRequest request) {
-        authorizationService.authorizeRequest(request, Role.USER);
+        requestService.authorizeRequest(request, Role.USER);
         return appUserService.deleteAccount(request);
     }
 
@@ -42,26 +42,26 @@ public class ResourceService {
     }
 
     public ResponseEntity<?> createTransaction(HttpServletRequest request, String type) {
-        authorizationService.authorizeRequest(request, Role.USER);
+        requestService.authorizeRequest(request, Role.USER);
         return transactionService.createTransaction(request, type);
     }
 
     public ResponseEntity<?> getTransactions(HttpServletRequest request) {
-        authorizationService.authorizeRequest(request, Role.USER);
+        requestService.authorizeRequest(request, Role.USER);
         return transactionService.getTransactions(request);
     }
 
     public ResponseEntity<?> updateTransaction(HttpServletRequest request) {
-        authorizationService.authorizeRequest(request, Role.ADMIN);
+        requestService.authorizeRequest(request, Role.ADMIN);
         return transactionService.updateTransaction(request);
     }
 
     public ResponseEntity<?> deleteTransactions(HttpServletRequest request) {
-        authorizationService.authorizeRequest(request, Role.USER);
+        requestService.authorizeRequest(request, Role.USER);
         return transactionService.deleteAllTransactions(request);
     }
 
     public ResponseEntity<?> refreshAccessToken(HttpServletRequest request) {
-        return jwtService.refreshAccessToken(request);
+        return tokenService.refreshAccessToken(request);
     }
 }
