@@ -14,10 +14,22 @@ import javax.servlet.http.HttpServletRequest;
 public class AccountController {
     private final AccountService accountService;
 
+    @PostMapping
+    public ResponseEntity<?> createAccount(HttpServletRequest request) {
+        log.info("Endpoint: \"api/account\" was called");
+        return accountService.createAccount(request);
+    }
+
     @GetMapping
     public ResponseEntity<?> getAccount(HttpServletRequest request) {
         log.info("Endpoint: \"api/account\" was called");
         return accountService.getAccount(request);
+    }
+
+    @PutMapping
+    public ResponseEntity<?> updateAccount(HttpServletRequest request) {
+        log.info("Endpoint: \"api/account\" was called");
+        return accountService.updateAccount(request);
     }
 
     @DeleteMapping
@@ -25,4 +37,5 @@ public class AccountController {
         log.info("Endpoint: \"api/account\" was called");
         return accountService.deleteAccount(request);
     }
+
 }

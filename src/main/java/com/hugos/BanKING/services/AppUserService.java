@@ -32,64 +32,6 @@ public class AppUserService {
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final JwtService jwtService;
 
-    public ResponseEntity<?> register(HttpServletRequest request) {
-
-        // Get data from request
-        JsonObject body = requestService.getJsonFromRequest(request);
-        String email = body.get("email").getAsString().toLowerCase();
-        String password = body.get("password").getAsString();
-
-        // Data validation
-        if (email.equals("")) {
-            throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "Email is missing");
-        }
-        else if (!EmailValidator.validate(email)) {
-            throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "Email is invalid");
-        }
-        else if (appUserRepository.findByEmail(email).isPresent()) {
-            throw new ResponseStatusException(HttpStatus.CONFLICT, "Email already taken");
-        }
-        else if (password==null || password.equals("")) {
-            throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "Password is missing");
-        }
-        else if (password.length() < 7) {
-            throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "Password is too short");
-        }
-
-        // TODO: Create and save salt for every user (Optional)
-
-        // Create and save new app user
-        AppUser appUser = new AppUser(null,
-                email,
-                bCryptPasswordEncoder.encode(password),
-                Role.USER);
-        appUserRepository.save(appUser);
-
-        // Create unique iban for app user
-        String iban;
-        do {
-            iban = BankAccount.IBAN_PREFIX + " "+UUID.randomUUID().toString().substring(0,8);
-        } while (bankAccountRepository.findByIban(iban).isPresent());
-
-        // Create and save bank account for new app user
-        BankAccount bankAccount = new BankAccount(
-                null,
-                iban,
-                appUser,
-                0.0
-        );
-        bankAccountRepository.save(bankAccount);
-
-        // Log registration
-        log.info("User registered: [email: \"{}\", password: \"{}\"]", email, password);
-
-        // Create json response body
-        JsonObject jsonObject = new JsonObject();
-        jsonObject.addProperty("message", "User registered");
-
-        // Return response
-        return ResponseEntity.status(HttpStatus.CREATED).body(jsonObject.toString());
-    }
     public ResponseEntity<?> authenticate(HttpServletRequest request) {
 
         // Get data from request
@@ -154,6 +96,70 @@ public class AppUserService {
 
         // Return response
         return ResponseEntity.status(HttpStatus.OK).body(jsonObject.toString());
+    }
+
+    public ResponseEntity<?> createAccount(HttpServletRequest request) {
+
+        // Get data from request
+        JsonObject body = requestService.getJsonFromRequest(request);
+        String email = body.get("email").getAsString().toLowerCase();
+        String password = body.get("password").getAsString();
+
+        // Data validation
+        if (email.equals("")) {
+            throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "Email is missing");
+        }
+        else if (!EmailValidator.validate(email)) {
+            throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "Email is invalid");
+        }
+        else if (appUserRepository.findByEmail(email).isPresent()) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Email already taken");
+        }
+        else if (password==null || password.equals("")) {
+            throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "Password is missing");
+        }
+        else if (password.length() < 7) {
+            throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "Password is too short");
+        }
+
+        // TODO: Create and save salt for every user (Optional)
+
+        // Create and save new app user
+        AppUser appUser = new AppUser(null,
+            email,
+            bCryptPasswordEncoder.encode(password),
+            Role.USER);
+        appUserRepository.save(appUser);
+
+        // Create unique iban for app user
+        String iban;
+        do {
+            iban = BankAccount.IBAN_PREFIX + " "+UUID.randomUUID().toString().substring(0,8);
+        } while (bankAccountRepository.findByIban(iban).isPresent());
+
+        // Create and save bank account for new app user
+        BankAccount bankAccount = new BankAccount(
+            null,
+            iban,
+            appUser,
+            0.0
+        );
+        bankAccountRepository.save(bankAccount);
+
+        // Log registration
+        log.info("User registered: [email: \"{}\", password: \"{}\"]", email, password);
+
+        // Create json response body
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty("message", "User registered");
+
+        // Return response
+        return ResponseEntity.status(HttpStatus.CREATED).body(jsonObject.toString());
+    }
+
+    public ResponseEntity<?> updateAccount(HttpServletRequest request) {
+        // TODO: Get email from request and change it if its valid and not taken
+        return null;
     }
 
     public ResponseEntity<?> deleteAccount(HttpServletRequest request) {

@@ -21,6 +21,15 @@ public class AccountService {
         // Execute request once authorized
         return appUserService.getAccount(request);
     }
+    public ResponseEntity<?> createAccount(HttpServletRequest request) {
+        return appUserService.createAccount(request);
+    }
+
+    public ResponseEntity<?> updateAccount(HttpServletRequest request) {
+        authorizeRequest(request);
+
+        return appUserService.updateAccount(request);
+    }
 
     public ResponseEntity<?> deleteAccount(HttpServletRequest request) {
         authorizeRequest(request);
