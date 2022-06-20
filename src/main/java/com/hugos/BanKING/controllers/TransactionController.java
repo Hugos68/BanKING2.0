@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 
 @Slf4j
 @RestController
-@RequestMapping(path = "/api/transactions")
+@RequestMapping(path = "/api/transaction")
 @AllArgsConstructor
 public class TransactionController {
     private final ResourceService resourceService;
@@ -22,12 +22,12 @@ public class TransactionController {
 
     @GetMapping
     public ResponseEntity<?> getTransactions(HttpServletRequest request) {
-        log.info("Endpoint: GET \"api/account/transaction\" was called");
+        log.info("Endpoint: GET \"api/transaction\" was called");
         return resourceService.getTransactions(request);
     }
 
     @PutMapping ResponseEntity<?> updateTransaction(HttpServletRequest request) {
-        log.info("Endpoint: PUT \"api/account/transaction\" was called");
+        log.info("Endpoint: PUT \"api/transaction\" was called");
         return resourceService.updateTransaction(request);
     }
 

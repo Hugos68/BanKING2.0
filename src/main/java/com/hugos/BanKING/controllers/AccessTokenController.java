@@ -11,14 +11,14 @@ import javax.servlet.http.HttpServletRequest;
 
 @Slf4j
 @RestController
-@RequestMapping(path = "/api/accesstoken")
+@RequestMapping(path = "/api/access-token")
 @AllArgsConstructor
 public class AccessTokenController {
     private final ResourceService resourceService;
 
     @GetMapping
     public ResponseEntity<?> getAccessToken(HttpServletRequest request) {
-        log.info("Endpoint: GET \"api/accesstoken\" was called");
+        log.info("Endpoint: GET \"api/access-token\" was called");
         return resourceService.refreshAccessToken(request);
     }
 }
