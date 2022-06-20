@@ -62,7 +62,6 @@ public class TransactionService {
         Optional<List<Transaction>> optionalFromList = transactionRepository.findAllByFromBankAccount(bankAccount);
         Optional<List<Transaction>> optionalToList = transactionRepository.findAllByToBankAccount(bankAccount);
 
-        // TODO: Fix duplicate transactions being queried
         List<Transaction> transactionList = new ArrayList<>();
         optionalFromList.ifPresent(transactionList::addAll);
         optionalToList.ifPresent(transactionList::addAll);
