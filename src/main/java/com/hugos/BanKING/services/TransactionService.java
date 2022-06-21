@@ -26,11 +26,11 @@ import java.util.Optional;
 @Slf4j
 @AllArgsConstructor
 public class TransactionService {
+
     private final BankAccountService bankAccountService;
     private final BankAccountRepository bankAccountRepository;
     private final TransactionRepository transactionRepository;
     private final AppUserRepository appUserRepository;
-    private final RequestService requestService;
 
     public ResponseEntity<?> createTransaction(HttpServletRequest request, String email, String type) {
 

@@ -32,35 +32,6 @@ public class AppUserService {
     private final TransactionRepository transactionRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    public ResponseEntity<?> getAppUser(String email) {
-
-        // This checks if the given email is an existing user
-        Optional<AppUser> optionalAppUser = appUserRepository.findByEmail(email);
-        if (optionalAppUser.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
-        }
-        AppUser appUser = optionalAppUser.get();
-        BankAccount bankAccount = bankAccountRepository.findByAppUser(appUser).get();
-
-        // Log fetch
-        log.info("User: \"{}\" was fetched", appUser.getEmail());
-
-        // Create json response body
-        JsonObject jsonBank = new JsonObject();
-        jsonBank.addProperty("id", bankAccount.getId());
-        jsonBank.addProperty("iban", bankAccount.getIban());
-        jsonBank.addProperty("balance", bankAccount.getBalance());
-
-        JsonObject jsonObject = new JsonObject();
-        jsonObject.addProperty("id", appUser.getId());
-        jsonObject.addProperty("email", appUser.getEmail());
-        jsonObject.add("bank_account", jsonBank);
-        jsonObject.addProperty("message", "User fetched");
-
-        // Return response
-        return ResponseEntity.status(HttpStatus.OK).body(jsonObject.toString());
-    }
-
     public ResponseEntity<?> createAppUser(HttpServletRequest request) {
 
         // Get data from request
@@ -114,6 +85,35 @@ public class AppUserService {
 
         // Return response
         return ResponseEntity.status(HttpStatus.CREATED).body(jsonObject.toString());
+    }
+
+    public ResponseEntity<?> getAppUser(String email) {
+
+        // This checks if the given email is an existing user
+        Optional<AppUser> optionalAppUser = appUserRepository.findByEmail(email);
+        if (optionalAppUser.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
+        }
+        AppUser appUser = optionalAppUser.get();
+        BankAccount bankAccount = bankAccountRepository.findByAppUser(appUser).get();
+
+        // Log fetch
+        log.info("User: \"{}\" was fetched", appUser.getEmail());
+
+        // Create json response body
+        JsonObject jsonBank = new JsonObject();
+        jsonBank.addProperty("id", bankAccount.getId());
+        jsonBank.addProperty("iban", bankAccount.getIban());
+        jsonBank.addProperty("balance", bankAccount.getBalance());
+
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty("id", appUser.getId());
+        jsonObject.addProperty("email", appUser.getEmail());
+        jsonObject.add("bank_account", jsonBank);
+        jsonObject.addProperty("message", "User fetched");
+
+        // Return response
+        return ResponseEntity.status(HttpStatus.OK).body(jsonObject.toString());
     }
 
     public ResponseEntity<?> updateAppUser(HttpServletRequest request, String email) {
