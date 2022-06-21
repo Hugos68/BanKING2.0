@@ -128,6 +128,8 @@ public class AppUserService {
         String newPassword = body.get("password").getAsString();
         String encryptedNewPassword = bCryptPasswordEncoder.encode(newPassword);
 
+        // TODO: Password validation
+
         if (encryptedNewPassword.equals(appUser.getPassword())) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "New and old passwords are equal");
         }
@@ -174,11 +176,6 @@ public class AppUserService {
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body(jsonObject.toString());
     }
 
-    public ResponseEntity<?> deleteAppUsers(HttpServletRequest request) {
-        return null;
-    }
-
-
     public ResponseEntity<?> authenticateAppUser(HttpServletRequest request) {
 
         // Get data from request
@@ -194,7 +191,7 @@ public class AppUserService {
         } else if (password == null || password.equals("")) {
             throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "Password is missing");
         } else if (!bCryptPasswordEncoder.matches(password, appUserRepository.findByEmail(email).get().getPassword())) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Password is incorrect");
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Password is incorrect");
         }
 
         // Get jwt pair
