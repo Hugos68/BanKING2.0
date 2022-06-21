@@ -22,5 +22,5 @@ public class Transaction {
     @ManyToOne
     private BankAccount toBankAccount;
     private Double amount;
-    private LocalDateTime dateTime;
+    private LocalDateTime timestamp;
 }

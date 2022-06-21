@@ -50,6 +50,11 @@ public class ResourceProtectionService {
         return transactionService.getTransactions(email, sortBy);
     }
 
+    public ResponseEntity<?> updateTransaction(HttpServletRequest request, String email, Long id) {
+        requestService.authorizeRequest(request, Role.ADMIN, email);
+        return transactionService.updateTransaction(request, email, id);
+    }
+
     public ResponseEntity<?> deleteTransactions(HttpServletRequest request, String email) {
         requestService.authorizeRequest(request, Role.USER, email);
         return transactionService.deleteTransactions(email);

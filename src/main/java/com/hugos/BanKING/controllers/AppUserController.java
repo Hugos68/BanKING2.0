@@ -44,22 +44,4 @@ public class AppUserController {
         log.info("Endpoint: POST \"api/app-users/authentication\" was called");
         return resourceProtectionService.authenticateAppUser(request);
     }
-
-    @PostMapping(path = "/{email}/transactions/{type}")
-    public ResponseEntity<?> createTransaction(HttpServletRequest request, @PathVariable String email, @PathVariable String type) {
-        log.info("Endpoint: POST \"api/app-users/{}/transactions?type={}\" was called", email, type);
-        return resourceProtectionService.createTransaction(request, email, type.toUpperCase());
-    }
-
-    @GetMapping(path = "/{email}/transactions")
-    public ResponseEntity<?> getTransactions(HttpServletRequest request, @PathVariable String email, @RequestParam(required = false) String sortBy) {
-        log.info("Endpoint: GET \"api/app-users/{}/transactions?sortBy={}\" was called", email, sortBy);
-        return resourceProtectionService.getTransactions(request, email, sortBy);
-    }
-
-    @DeleteMapping(path = "/{email}/transactions")
-    public ResponseEntity<?> deleteTransactions(HttpServletRequest request, @PathVariable String email) {
-        log.info("Endpoint: DELETE \"api/app-user/{}/transactions\" was called", email);
-        return resourceProtectionService.deleteTransactions(request, email);
-    }
 }
