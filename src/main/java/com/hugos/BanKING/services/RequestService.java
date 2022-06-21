@@ -47,19 +47,14 @@ public class RequestService {
 
         DecodedAccessToken decodedAccessToken = tokenService.decodeAccessToken(accessToken);
 
-        // This if statement ensures only users are allowed to access their own information (admins can access anything)
-        if (!decodedAccessToken.subject().equals(email) &&
-            decodedAccessToken.role().getLevelOfClearance() < Role.ADMIN.getLevelOfClearance()) {
-            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "User does not have the needed role to access this resource");
-        }
-
         // Check if token is expired
         if (decodedAccessToken.isExpired()) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Access token is invalid");
         }
 
         // Check if the role from the token has the minimum level of clearance
-        if (decodedAccessToken.role().getLevelOfClearance() < requiredRole.getLevelOfClearance()) {
+        if (!decodedAccessToken.subject().equals(email) &&
+            decodedAccessToken.role().getLevelOfClearance() < requiredRole.getLevelOfClearance()) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "User not authorized");
         }
     }
