@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 
 @Service
 @RequiredArgsConstructor
-public class ResourceService {
+public class ResourceProtectionService {
 
     private final TokenService tokenService;
     private final AppUserService appUserService;

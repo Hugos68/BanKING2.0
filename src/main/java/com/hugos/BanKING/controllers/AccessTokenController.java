@@ -1,6 +1,6 @@
 package com.hugos.BanKING.controllers;
 
-import com.hugos.BanKING.services.ResourceService;
+import com.hugos.BanKING.services.ResourceProtectionService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -14,11 +14,11 @@ import javax.servlet.http.HttpServletRequest;
 @RequestMapping(path = "/api/access-token")
 @AllArgsConstructor
 public class AccessTokenController {
-    private final ResourceService resourceService;
+    private final ResourceProtectionService resourceProtectionService;
 
     @GetMapping
     public ResponseEntity<?> getAccessToken(HttpServletRequest request) {
         log.info("Endpoint: GET \"api/access-token\" was called");
-        return resourceService.refreshAccessToken(request);
+        return resourceProtectionService.refreshAccessToken(request);
     }
 }
