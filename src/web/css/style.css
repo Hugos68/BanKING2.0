@@ -452,6 +452,34 @@ tr:nth-child(even) {
     max-width: 150px;
 }
 
+/*
+====================================================
+====================================================
+              CHANGE PASSWORD PAGE
+====================================================
+====================================================
+ */
+
+
+/*
+===============================
+         Change Password
+===============================
+ */
+
+#change-password {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+}
+
+.change-password-middle {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+}
+
+
 
 /*
 ====================================================

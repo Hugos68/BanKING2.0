@@ -40,13 +40,17 @@ public class AppUserService {
         // Data validation
         if (email.equals("")) {
             throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "Email is missing");
-        } else if (!EmailValidator.validate(email)) {
+        }
+        if (!EmailValidator.validate(email)) {
             throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "Email is invalid");
-        } else if (appUserRepository.findByEmail(email).isPresent()) {
+        }
+        if (appUserRepository.findByEmail(email).isPresent()) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "Email already taken");
-        } else if (password == null || password.equals("")) {
+        }
+        if (password == null || password.equals("")) {
             throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "Password is missing");
-        } else if (password.length() < 7) {
+        }
+        if (password.length() < 7) {
             throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "Password is too short");
         }
 
@@ -125,11 +129,17 @@ public class AppUserService {
 
         // Get data from request
         JsonObject body = requestService.getJsonFromRequest(request);
-        String newPassword = body.get("password").getAsString();
+        String oldPassword = body.get("new-password").getAsString();
+        String newPassword = body.get("old-password").getAsString();
+        String encryptedOldPassword = bCryptPasswordEncoder.encode(oldPassword);
         String encryptedNewPassword = bCryptPasswordEncoder.encode(newPassword);
 
-        // TODO: Password validation
-
+        if(newPassword.length() < 7) {
+            throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "Password is too short");
+        }
+        if (!encryptedOldPassword.equals(appUser.getPassword())) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Incorrect password");
+        }
         if (encryptedNewPassword.equals(appUser.getPassword())) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "New and old passwords are equal");
         }
