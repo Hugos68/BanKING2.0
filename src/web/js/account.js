@@ -1,6 +1,7 @@
 const contentBlocks = document.querySelectorAll(".section-block");
 const signOutButton = document.querySelector(".sign-out-button");
 const deleteAccountButton = document.querySelector(".delete-account-button");
+const clearTransactionsButton = document.querySelector(".clear-transactions-button");
 const depositButton = document.querySelector(".deposit-button");
 const depositForm = document.querySelector(".deposit-form");
 const depositFeedback = document.querySelector(".deposit-feedback");
@@ -135,15 +136,24 @@ async function getAccountTransactions() {
     transactionTable.replaceChildren(transactionTableHeader);
 
     // Create table rows for transactions
-    transactionList.forEach(item => {
+    if (transactionList.length!==0) {
+        transactionList.forEach(item => {
+            const tr = document.createElement("tr");
+            for (let value in item) {
+                const td = document.createElement("td");
+                td.innerText = item[value];
+                tr.appendChild(td);
+            }
+            transactionTable.appendChild(tr);
+        });
+    }
+    else {
         const tr = document.createElement("tr");
-        for (let value in item) {
-            const td = document.createElement("td");
-            td.innerText = item[value];
-            tr.appendChild(td);
-        }
+        tr.innerText = "No transactions available"
         transactionTable.appendChild(tr);
-    });
+    }
+
+
 }
 
 async function loadAccountContent() {
@@ -182,7 +192,7 @@ async function deposit() {
     const email = jsonJwt.sub;
 
     // Post deposit request
-    const depositResponse = await fetch("http://localhost:8080/api/app-users/"+email+"/transactions?type=DEPOSIT", {
+    const depositResponse = await fetch("http://localhost:8080/api/app-users/"+email+"/transactions/deposit", {
         method: 'post',
         headers: new Headers({
             'content-type': 'application/json',
@@ -245,7 +255,7 @@ async function transfer() {
     const email = jsonJwt.sub;
 
     // Post withdraw request
-    const transferResponse = await fetch("http://localhost:8080/api/app-users/"+email+"/transactions?type=TRANSFER", {
+    const transferResponse = await fetch("http://localhost:8080/api/app-users/"+email+"/transactions/transfer", {
         method: 'post',
         headers: new Headers({
             'content-type': 'application/json',
@@ -304,7 +314,7 @@ async function withdraw() {
     const email = jsonJwt.sub;
 
     // Post withdraw request
-    const withdrawResponse = await fetch("http://localhost:8080/api/app-users/"+email+"/transactions?type=WITHDRAW", {
+    const withdrawResponse = await fetch("http://localhost:8080/api/app-users/"+email+"/transactions/withdraw", {
         method: 'post',
         headers: new Headers({
             'content-type': 'application/json',
@@ -353,6 +363,40 @@ function logOut(errorCausedLogout) {
     else {
         location.replace("home.html");
     }
+}
+
+async function clearTransactions() {
+    const accessToken = getCookie("access_token");
+    const jsonJwt = parseJwt(accessToken);
+    const email = jsonJwt.sub;
+
+    const clearTransactionsResponse = await fetch("http://localhost:8080/api/app-users/"+email+"/transactions", {
+        method: 'delete',
+        headers: new Headers({
+            'content-type': 'application/json',
+            'Authorization': 'Bearer '+ getCookie("access_token")
+        }),
+    });
+    if (!clearTransactionsResponse.ok) {
+
+        // Get error message
+        const message = (await clearTransactionsResponse.json())["message"]
+
+        // If access token expired -> request for a new one
+        if (message==="Access token is invalid") {
+            await syncTokens();
+            await deleteAccount();
+            return;
+        }
+    }
+    // Scroll to overview after 0.5s
+    setTimeout(() => {
+        document.querySelector("#overview").scrollIntoView({
+            behavior: 'smooth'
+        });
+        setTimeout(getAccountTransactions(), 1500);
+    }, 250);
+
 }
 
 async function deleteAccount() {
@@ -417,6 +461,10 @@ withdrawButton.addEventListener('click', async () => {
 
 signOutButton.addEventListener('click', async () => {
     await logOut(false);
+});
+
+clearTransactionsButton.addEventListener('click', async () => {
+   await clearTransactions();
 });
 
 deleteAccountButton.addEventListener('click', async () => {

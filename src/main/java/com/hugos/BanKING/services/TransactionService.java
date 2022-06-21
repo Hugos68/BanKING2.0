@@ -126,6 +126,7 @@ public class TransactionService {
         // Clear all transactions from user
         transactionRepository.deleteAllByFromBankAccount(bankAccount);
         transactionRepository.deleteAllByToBankAccount(bankAccount);
+        bankAccountRepository.save(bankAccount);
 
         // Log deletion
         log.info("Transactions from user \"{}\" were deleted", email);
