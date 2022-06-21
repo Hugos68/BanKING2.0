@@ -26,6 +26,7 @@ async function changePassword() {
         return res;
     },{});
 
+    // Fetch password put request
     const changePasswordResponse = await fetch("http://localhost:8080/api/app-users/"+formData.get("email"), {
         method: 'put',
         headers: new Headers({
