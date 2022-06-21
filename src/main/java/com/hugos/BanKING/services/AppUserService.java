@@ -137,7 +137,7 @@ public class AppUserService {
         appUser.setPassword(encryptedNewPassword);
         appUserRepository.save(appUser);
 
-        // Create json response body
+        // Create json response body    
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty("message", "Password updated");
 
