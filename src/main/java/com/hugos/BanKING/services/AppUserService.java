@@ -115,8 +115,32 @@ public class AppUserService {
     }
 
     public ResponseEntity<?> updateAppUser(HttpServletRequest request, String email) {
-        // TODO: Get email from request and change it if its valid and not taken
-        return null;
+
+        // This checks if the given email is an existing user
+        Optional<AppUser> optionalAppUser = appUserRepository.findByEmail(email);
+        if (optionalAppUser.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
+        }
+        AppUser appUser = optionalAppUser.get();
+
+        // Get data from request
+        JsonObject body = requestService.getJsonFromRequest(request);
+        String newPassword = body.get("password").getAsString();
+        String encryptedNewPassword = bCryptPasswordEncoder.encode(newPassword);
+
+        if (encryptedNewPassword.equals(appUser.getPassword())) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "New password is equal to old one");
+        }
+
+        appUser.setPassword(encryptedNewPassword);
+        appUserRepository.save(appUser);
+
+        // Create json response body
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty("message", "Password updated");
+
+        // Return response
+        return ResponseEntity.status(HttpStatus.OK).body(jsonObject.toString());
     }
 
     public ResponseEntity<?> deleteAppUser(String email) {
