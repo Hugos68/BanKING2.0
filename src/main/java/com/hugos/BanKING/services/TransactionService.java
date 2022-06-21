@@ -68,7 +68,7 @@ public class TransactionService {
         if (sortBy==null || sortBy.equals("id")) {
             transactionList.sort(Comparator.comparingLong(Transaction::getId));
         }
-        else if (sortBy.equals("date")) {
+        else if (sortBy.equals("timestamp")) {
             // TODO: Sort by date
         }
         else if (sortBy.equals("amount")) {
@@ -110,7 +110,7 @@ public class TransactionService {
         jsonObject.add("transactions", transactionsObject);
 
         // Return response
-        return ResponseEntity.status(HttpStatus.CREATED).body(jsonObject.toString());
+        return ResponseEntity.status(HttpStatus.OK).body(jsonObject.toString());
     }
 
     public ResponseEntity<?> deleteTransactions(String email) {

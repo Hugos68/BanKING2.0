@@ -1,6 +1,9 @@
 const contentBlocks = document.querySelectorAll(".section-block");
 const signOutButton = document.querySelector(".sign-out-button");
 const deleteAccountButton = document.querySelector(".delete-account-button");
+const sortByIdButton = document.querySelector(".sort-id-button");
+const sortByTimestampButton = document.querySelector(".sort-date-button");
+const sortByAmountButton = document.querySelector(".sort-amount-button");
 const clearTransactionsButton = document.querySelector(".clear-transactions-button");
 const depositButton = document.querySelector(".deposit-button");
 const depositForm = document.querySelector(".deposit-form");
@@ -107,14 +110,16 @@ async function getAccountInfo() {
     balanceElement.textContent = "Balance: "+ formatter.format(accountInfo.bank_account.balance);
 }
 
-async function getAccountTransactions() {
-
+async function getAccountTransactions(sortBy) {
+    if (sortBy===undefined) {
+        sortBy = "id";
+    }
     const accessToken = getCookie("access_token");
     const jsonJwt = parseJwt(accessToken);
     const email = jsonJwt.sub;
 
     // Fetch account info with access token
-    const transactionsResponse = await fetch("http://localhost:8080/api/app-users/"+email+"/transactions",{
+    const transactionsResponse = await fetch("http://localhost:8080/api/app-users/"+email+"/transactions?sortBy="+sortBy,{
         method: 'get',
         headers: new Headers({
             'content-type': 'application/json',
@@ -461,6 +466,15 @@ withdrawButton.addEventListener('click', async () => {
 
 signOutButton.addEventListener('click', async () => {
     await logOut(false);
+});
+sortByIdButton.addEventListener('click', async () => {
+    await getAccountTransactions("id");
+});
+sortByTimestampButton.addEventListener('click', async () => {
+    await getAccountTransactions("timestamp");
+});
+sortByAmountButton.addEventListener('click', async () => {
+    await getAccountTransactions("amount");
 });
 
 clearTransactionsButton.addEventListener('click', async () => {

@@ -409,6 +409,12 @@ input[type=number]{
     animation: slide-left 1s alternate;
 }
 
+.sorting-buttons {
+    display: flex;
+    flex-direction: row;
+    gap: 25px;
+}
+
 .transactions-middle {
     margin-top: 50px;
     width: 50vw;
