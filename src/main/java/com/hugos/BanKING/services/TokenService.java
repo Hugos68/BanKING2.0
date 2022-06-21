@@ -2,25 +2,23 @@ package com.hugos.BanKING.services;
 
 import com.google.gson.JsonObject;
 import com.hugos.BanKING.entities.AppUser;
-import com.hugos.BanKING.helpobjects.DecodedAccessToken;
-import com.hugos.BanKING.helpobjects.DecodedRefreshToken;
+import com.hugos.BanKING.util.DecodedAccessToken;
+import com.hugos.BanKING.util.DecodedRefreshToken;
 import com.hugos.BanKING.enums.Role;
 import com.hugos.BanKING.repositories.AppUserRepository;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
-
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 import javax.servlet.http.HttpServletRequest;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
-
-import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 
 @Service
 @AllArgsConstructor
@@ -110,7 +108,7 @@ public class TokenService {
         // Retrieve and decode access token
         String refreshToken;
         try {
-            refreshToken = request.getHeader(AUTHORIZATION).substring("Bearer ".length());
+            refreshToken = request.getHeader(HttpHeaders.AUTHORIZATION).substring("Bearer ".length());
         } catch (Exception exception) {
             throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "Refresh token is invalid");
         }

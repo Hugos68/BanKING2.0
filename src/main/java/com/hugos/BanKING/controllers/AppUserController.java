@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 @RequiredArgsConstructor
 @RequestMapping(path = "api/app-users")
 public class AppUserController {
+
     private final ResourceProtectionService resourceProtectionService;
 
     @PostMapping

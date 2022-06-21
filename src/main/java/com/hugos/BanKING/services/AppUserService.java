@@ -3,7 +3,6 @@ package com.hugos.BanKING.services;
 import com.google.gson.JsonObject;
 import com.hugos.BanKING.entities.AppUser;
 import com.hugos.BanKING.entities.BankAccount;
-import com.hugos.BanKING.helpobjects.DecodedAccessToken;
 import com.hugos.BanKING.repositories.BankAccountRepository;
 import com.hugos.BanKING.repositories.AppUserRepository;
 import com.hugos.BanKING.enums.Role;
@@ -16,7 +15,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
-
 import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 

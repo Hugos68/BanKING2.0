@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 @RequestMapping(path = "/api/access-token")
 @AllArgsConstructor
 public class AccessTokenController {
+
     private final ResourceProtectionService resourceProtectionService;
 
     @GetMapping

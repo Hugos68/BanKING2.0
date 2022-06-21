@@ -4,9 +4,7 @@ import com.google.gson.JsonObject;
 import com.hugos.BanKING.entities.AppUser;
 import com.hugos.BanKING.entities.BankAccount;
 import com.hugos.BanKING.entities.Transaction;
-import com.hugos.BanKING.enums.Role;
 import com.hugos.BanKING.enums.TransactionType;
-import com.hugos.BanKING.helpobjects.DecodedAccessToken;
 import com.hugos.BanKING.repositories.AppUserRepository;
 import com.hugos.BanKING.repositories.BankAccountRepository;
 import com.hugos.BanKING.repositories.TransactionRepository;
@@ -16,7 +14,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
-
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;

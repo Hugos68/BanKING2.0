@@ -12,12 +12,8 @@ import java.util.Optional;
 @Repository
 @Transactional(readOnly = true)
 public interface TransactionRepository extends JpaRepository<Transaction, Long> {
-
     Optional<List<Transaction>> findAllByFromBankAccount(BankAccount bankAccount);
-
     Optional<List<Transaction>>  findAllByToBankAccount(BankAccount bankAccount);
-
     void deleteAllByFromBankAccount(BankAccount bankAccount);
-
     void deleteAllByToBankAccount(BankAccount bankAccount);
 }

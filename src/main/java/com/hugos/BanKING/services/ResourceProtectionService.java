@@ -4,7 +4,6 @@ import com.hugos.BanKING.enums.Role;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-
 import javax.servlet.http.HttpServletRequest;
 
 // This class is here to make sure any user trying to access a resource actually has access to that resource
@@ -60,5 +59,4 @@ public class ResourceProtectionService {
     public ResponseEntity<?> refreshAccessToken(HttpServletRequest request) {
         return tokenService.refreshAccessToken(request);
     }
-
 }

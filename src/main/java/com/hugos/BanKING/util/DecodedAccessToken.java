@@ -1,4 +1,4 @@
-package com.hugos.BanKING.helpobjects;
+package com.hugos.BanKING.util;
 
 import com.hugos.BanKING.enums.Role;
 import java.util.Date;

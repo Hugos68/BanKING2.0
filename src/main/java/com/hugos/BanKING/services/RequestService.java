@@ -3,13 +3,12 @@ package com.hugos.BanKING.services;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.hugos.BanKING.enums.Role;
-import com.hugos.BanKING.helpobjects.DecodedAccessToken;
+import com.hugos.BanKING.util.DecodedAccessToken;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
-
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.stream.Collectors;
@@ -18,6 +17,7 @@ import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 @Service
 @RequiredArgsConstructor
 public class RequestService {
+
     private final TokenService tokenService;
 
     public JsonObject getJsonFromRequest(HttpServletRequest request) {

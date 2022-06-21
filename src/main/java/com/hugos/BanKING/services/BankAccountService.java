@@ -4,7 +4,7 @@ import com.google.gson.*;
 import com.hugos.BanKING.entities.AppUser;
 import com.hugos.BanKING.enums.TransactionType;
 import com.hugos.BanKING.entities.BankAccount;
-import com.hugos.BanKING.helpobjects.DecodedAccessToken;
+import com.hugos.BanKING.util.DecodedAccessToken;
 import com.hugos.BanKING.entities.Transaction;
 import com.hugos.BanKING.repositories.AppUserRepository;
 import com.hugos.BanKING.repositories.BankAccountRepository;
@@ -18,13 +18,13 @@ import org.springframework.web.server.ResponseStatusException;
 
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Optional;
 
 @Service
 @Slf4j
 @AllArgsConstructor
 public class BankAccountService {
+
     private final TransactionRepository transactionRepository;
     private final BankAccountRepository bankAccountRepository;
     private final AppUserRepository appUserRepository;

@@ -1,5 +1,6 @@
 package com.hugos.BanKING.util;
 
+import lombok.experimental.UtilityClass;
 import org.springframework.stereotype.Service;
 
 @Service
