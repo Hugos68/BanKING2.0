@@ -26,7 +26,7 @@ public class RequestService {
             jsonObj = JsonParser.parseString(request.getReader().lines().collect(Collectors.joining(System.lineSeparator()))).getAsJsonObject();
             return jsonObj;
         } catch (IOException e) {
-            throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "Unable to process body");
+            throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "Unable to process request body");
         }
     }
 
