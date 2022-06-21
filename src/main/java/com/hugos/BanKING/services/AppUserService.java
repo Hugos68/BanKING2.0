@@ -129,7 +129,7 @@ public class AppUserService {
         String encryptedNewPassword = bCryptPasswordEncoder.encode(newPassword);
 
         if (encryptedNewPassword.equals(appUser.getPassword())) {
-            throw new ResponseStatusException(HttpStatus.CONFLICT, "New password is equal to old one");
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "New and old passwords are equal");
         }
 
         appUser.setPassword(encryptedNewPassword);
