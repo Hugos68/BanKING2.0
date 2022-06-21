@@ -99,7 +99,7 @@ public class TransactionService {
         jsonObject.add("transactions", transactionsObject);
 
         // Return response
-        return ResponseEntity.status(HttpStatus.OK).body(jsonObject.toString());
+        return ResponseEntity.status(HttpStatus.CREATED).body(jsonObject.toString());
     }
 
     public ResponseEntity<?> deleteTransactions(String email) {

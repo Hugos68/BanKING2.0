@@ -45,8 +45,8 @@ public class AppUserController {
         return resourceProtectionService.authenticateAppUser(request);
     }
 
-    @PostMapping(path = "/{email}/transactions")
-    public ResponseEntity<?> createTransaction(HttpServletRequest request, @PathVariable String email, @RequestParam String type) {
+    @PostMapping(path = "/{email}/transactions/{type}")
+    public ResponseEntity<?> createTransaction(HttpServletRequest request, @PathVariable String email, @PathVariable String type) {
         log.info("Endpoint: POST \"api/app-users/{}/transactions?type={}\" was called", email, type);
         return resourceProtectionService.createTransaction(request, email, type);
     }
