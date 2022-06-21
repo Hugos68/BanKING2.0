@@ -53,10 +53,12 @@ public class RequestService {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "User does not have the needed role to access this resource");
         }
 
-        // Create outcome object based on token properties
+        // Check if token is expired
         if (decodedAccessToken.isExpired()) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Access token is invalid");
         }
+
+        // Check if the role from the token has the minimum level of clearance
         if (decodedAccessToken.role().getLevelOfClearance() < requiredRole.getLevelOfClearance()) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "User not authorized");
         }
