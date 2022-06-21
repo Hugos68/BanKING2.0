@@ -28,7 +28,6 @@ public class ResourceProtectionService {
     }
 
     public ResponseEntity<?> updateAppUser(HttpServletRequest request, String email) {
-        requestService.authorizeRequest(request, Role.USER, email);
         return appUserService.updateAppUser(request, email);
     }
 

@@ -129,21 +129,23 @@ public class AppUserService {
 
         // Get data from request
         JsonObject body = requestService.getJsonFromRequest(request);
-        String oldPassword = body.get("new-password").getAsString();
-        String newPassword = body.get("old-password").getAsString();
-        String encryptedOldPassword = bCryptPasswordEncoder.encode(oldPassword);
+        String oldPassword = body.get("old-password").getAsString();
+        String newPassword = body.get("new-password").getAsString();
         String encryptedNewPassword = bCryptPasswordEncoder.encode(newPassword);
 
-        if(newPassword.length() < 7) {
-            throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "Password is too short");
+
+        // Validation
+        if (!bCryptPasswordEncoder.matches(oldPassword, appUser.getPassword())) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Incorrect old password");
         }
-        if (!encryptedOldPassword.equals(appUser.getPassword())) {
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Incorrect password");
+        if (newPassword.length() < 7) {
+            throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "New password is too short");
         }
         if (encryptedNewPassword.equals(appUser.getPassword())) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "New and old passwords are equal");
         }
 
+        // Set and save new password
         appUser.setPassword(encryptedNewPassword);
         appUserRepository.save(appUser);
 
