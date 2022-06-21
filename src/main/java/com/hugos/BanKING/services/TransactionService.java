@@ -15,9 +15,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+
+import static com.fasterxml.jackson.databind.type.LogicalType.DateTime;
 
 @Service
 @Slf4j
@@ -47,10 +47,6 @@ public class TransactionService {
 
     public ResponseEntity<?> getTransactions(String email, String sortBy) {
 
-        if (sortBy==null) {
-
-        }
-
         // This checks if the given email is an existing user
         Optional<AppUser> optionalAppUser = appUserRepository.findByEmail(email);
         if (optionalAppUser.isEmpty()) {
@@ -67,6 +63,17 @@ public class TransactionService {
         List<Transaction> transactionList = new ArrayList<>();
         optionalFromList.ifPresent(transactionList::addAll);
         optionalToList.ifPresent(transactionList::addAll);
+
+        // Set default sorting algorithm by id
+        if (sortBy==null || sortBy.equals("id")) {
+            transactionList.sort(Comparator.comparingLong(Transaction::getId));
+        }
+        else if (sortBy.equals("date")) {
+            // TODO: Sort by date
+        }
+        else if (sortBy.equals("amount")) {
+            transactionList.sort(Comparator.comparingDouble(Transaction::getAmount));
+        }
 
         // Create json object from transactions
         transactionList.forEach(transaction -> {
