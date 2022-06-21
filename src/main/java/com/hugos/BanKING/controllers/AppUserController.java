@@ -52,9 +52,9 @@ public class AppUserController {
     }
 
     @GetMapping(path = "/{email}/transactions")
-    public ResponseEntity<?> getTransactions(HttpServletRequest request, @PathVariable String email) {
-        log.info("Endpoint: GET \"api/app-users/{}/transactions\" was called", email);
-        return resourceProtectionService.getTransactions(request, email);
+    public ResponseEntity<?> getTransactions(HttpServletRequest request, @PathVariable String email, @RequestParam String sortBy) {
+        log.info("Endpoint: GET \"api/app-users/{}/transactions?sortBy={}\" was called", email, sortBy);
+        return resourceProtectionService.getTransactions(request, email, sortBy);
     }
 
     @DeleteMapping(path = "/{email}/transactions")

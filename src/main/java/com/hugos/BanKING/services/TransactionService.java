@@ -45,7 +45,11 @@ public class TransactionService {
         throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "Unknown transaction type");
     }
 
-    public ResponseEntity<?> getTransactions(String email) {
+    public ResponseEntity<?> getTransactions(String email, String sortBy) {
+
+        if (sortBy==null) {
+
+        }
 
         // This checks if the given email is an existing user
         Optional<AppUser> optionalAppUser = appUserRepository.findByEmail(email);

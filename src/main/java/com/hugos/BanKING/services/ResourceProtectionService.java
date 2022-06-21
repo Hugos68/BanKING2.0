@@ -46,9 +46,9 @@ public class ResourceProtectionService {
         return transactionService.createTransaction(request, email, type);
     }
 
-    public ResponseEntity<?> getTransactions(HttpServletRequest request, String email) {
+    public ResponseEntity<?> getTransactions(HttpServletRequest request, String email, String sortBy) {
         requestService.authorizeRequest(request, Role.USER, email);
-        return transactionService.getTransactions(email);
+        return transactionService.getTransactions(email, sortBy);
     }
 
     public ResponseEntity<?> deleteTransactions(HttpServletRequest request, String email) {
