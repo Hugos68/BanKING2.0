@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(path = "api/bank-account/{iban}/transactions")
+@RequestMapping(path = "api/bank-accounts/{iban}/transactions")
 public class TransactionController {
     private final ResourceProtectionService resourceProtectionService;
 

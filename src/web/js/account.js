@@ -55,7 +55,6 @@ async function refreshAccessToken() {
         + "; expires="+accessExpire.toUTCString()+";";
 }
 
-
 async function validateTokens(refreshAttempted) {
 
     // Refresh if possible otherwise logout
@@ -119,7 +118,7 @@ async function getAccountTransactions(sortBy) {
     const email = jsonJwt.sub;
 
     // Fetch account info with access token
-    const transactionsResponse = await fetch("http://localhost:8080/api/app-users/"+email+"/transactions?sortBy="+sortBy,{
+    const transactionsResponse = await fetch("http://localhost:8080/api/bank-accounts/"+iban+"/transactions?sortBy="+sortBy,{
         method: 'get',
         headers: new Headers({
             'content-type': 'application/json',
@@ -197,7 +196,7 @@ async function deposit() {
     const email = jsonJwt.sub;
 
     // Post deposit request
-    const depositResponse = await fetch("http://localhost:8080/api/app-users/"+email+"/transactions/deposit", {
+    const depositResponse = await fetch("http://localhost:8080/api/bank-accounts/"+iban+"/transactions/deposit", {
         method: 'post',
         headers: new Headers({
             'content-type': 'application/json',
@@ -260,7 +259,7 @@ async function transfer() {
     const email = jsonJwt.sub;
 
     // Post withdraw request
-    const transferResponse = await fetch("http://localhost:8080/api/app-users/"+email+"/transactions/transfer", {
+    const transferResponse = await fetch("http://localhost:8080/api/bank-accounts/"+iban+"/transactions/transfer", {
         method: 'post',
         headers: new Headers({
             'content-type': 'application/json',
@@ -319,7 +318,7 @@ async function withdraw() {
     const email = jsonJwt.sub;
 
     // Post withdraw request
-    const withdrawResponse = await fetch("http://localhost:8080/api/app-users/"+email+"/transactions/withdraw", {
+    const withdrawResponse = await fetch("http://localhost:8080/api/bank-accounts/"+iban+"/transactions/withdraw", {
         method: 'post',
         headers: new Headers({
             'content-type': 'application/json',
@@ -375,7 +374,7 @@ async function clearTransactions() {
     const jsonJwt = parseJwt(accessToken);
     const email = jsonJwt.sub;
 
-    const clearTransactionsResponse = await fetch("http://localhost:8080/api/app-users/"+email+"/transactions", {
+    const clearTransactionsResponse = await fetch("http://localhost:8080/api/bank-accounts/"+iban+"/transactions", {
         method: 'delete',
         headers: new Headers({
             'content-type': 'application/json',
