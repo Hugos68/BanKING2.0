@@ -65,7 +65,7 @@ async function validateTokens(refreshAttempted) {
         refreshAttempted=true;
         await validateTokens(refreshAttempted);
     }
-    else if(getCookie("access_token")==="") {
+    else if (getCookie("access_token")==="") {
         logOut(true);
     }
 }
