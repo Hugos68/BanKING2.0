@@ -480,9 +480,11 @@ tr:nth-child(even) {
 }
 
 .change-password-middle {
+    margin-top: -150px;
     display: flex;
     justify-content: center;
     align-content: center;
+    animation: scroll-up 1s alternate;
 }
 
 

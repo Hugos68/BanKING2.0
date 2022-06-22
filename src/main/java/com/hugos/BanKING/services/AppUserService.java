@@ -127,7 +127,7 @@ public class AppUserService {
         if (newPassword.length() < 7) {
             throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "New password is too short");
         }
-        if (encryptedNewPassword.equals(appUser.getPassword())) {
+        if (bCryptPasswordEncoder.matches(newPassword, appUser.getPassword())) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "New and old passwords are equal");
         }
 
