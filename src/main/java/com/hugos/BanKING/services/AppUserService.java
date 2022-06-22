@@ -84,8 +84,6 @@ public class AppUserService {
         // Create json response body
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty("message", "User created");
-
-        // Return response
         return ResponseEntity.status(HttpStatus.CREATED).body(jsonObject.toString());
     }
 
@@ -108,8 +106,6 @@ public class AppUserService {
         jsonObject.addProperty("email", appUser.getEmail());
         jsonObject.add("bank_account", jsonBank);
         jsonObject.addProperty("message", "User fetched");
-
-        // Return response
         return ResponseEntity.status(HttpStatus.OK).body(jsonObject.toString());
     }
 
@@ -142,8 +138,6 @@ public class AppUserService {
         // Create json response body    
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty("message", "Password updated");
-
-        // Return response
         return ResponseEntity.status(HttpStatus.OK).body(jsonObject.toString());
     }
 
@@ -168,8 +162,6 @@ public class AppUserService {
         // Create json response body
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty("message", "User deleted");
-
-        // Return response
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body(jsonObject.toString());
     }
 
@@ -202,8 +194,6 @@ public class AppUserService {
         jsonObject.addProperty("access_token", tokenPair.get("access_token"));
         jsonObject.addProperty("refresh_token", tokenPair.get("refresh_token"));
         jsonObject.addProperty("message", "User authenticated");
-
-        // Return response
         return ResponseEntity.status(HttpStatus.OK).body(jsonObject.toString());
     }
 
