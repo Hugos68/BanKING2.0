@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8" name="viewport" content="initial-scale=1.0">
     <title>Account</title>
@@ -7,97 +8,105 @@
     <script type="module" src="../js/account.js"></script>
     <link rel="stylesheet" href="../css/style.css">
 </head>
-    <body>
-        <div class="page-wrapper">
-            <header class="header">
-                <a href="index.html">
-                    <img class="logo banking-icon" loading="lazy" src="../resources/logo.svg">
-                </a>
-                <nav class="nav">
-                    <a class="nav-item nav-overview" href="#overview">Overview</a>
-                    <a class="nav-item nav-banking" href="#banking">Banking</a>
-                    <a class="nav-item nav-transactions" href="#transactions">Transactions</a>
-                </nav>
-                <button class="general-button sign-out-button">Sign out</button>
-            </header>
 
-            <section class="section overview" id="overview">
-                <div class="section-block overview-left">
-                    <h1 class="page-title">Account Overview</h1>
-                    <p class="email"></p>
-                    <p class="iban"></p>
-                    <p class="balance"></p>
-                    <a href="change-password.html">
-                        <button class="general-button change-password">Change password</button>
-                    </a>
-                </div>
-                <div class="section-block overview-right">
+<body>
+<div class="page-wrapper">
+    <header class="header">
+        <a href="index.html">
+            <img class="logo banking-icon" loading="lazy" src="../resources/logo.svg">
+        </a>
+        <nav class="nav">
+            <a class="nav-item nav-overview" href="#overview">Overview</a>
+            <a class="nav-item nav-banking" href="#banking">Banking</a>
+            <a class="nav-item nav-transactions" href="#transactions">Transactions</a>
+        </nav>
+        <button class="general-button sign-out-button">Sign out</button>
+    </header>
 
-                </div>
-            </section>
-
-            <section class="section banking" id="banking">
-                <div class="section-block banking-left">
-                    <form class="deposit-form general-form">
-                        <p class="page-title">Deposit</p>
-                        <div class="input-label-combination">
-                            <label class="deposit-label" for="deposit-amount">Amount</label>
-                            <input class="general-input" id="deposit-amount" type="number" min="0.01" max="1.000" name="amount">
-                        </div>
-                        <div class="feedback-label deposit-feedback"></div>
-                        <button class="general-button deposit-button" type="button">Deposit</button>
-                    </form>
-                </div>
-                <div class="section-block banking-middle">
-                    <form class="transfer-form general-form">
-                        <p class="page-title">Transfer</p>
-                        <div class="input-label-combination">
-                            <label class="transfer-label" for="transfer-to">Receiver (IBAN)</label>
-                            <input class="general-input" id="transfer-to" type="text" minlength="18" maxlength="18" name="iban">
-                        </div>
-                        <div class="input-label-combination">
-                            <label class="transfer-label" for="transfer-amount" >Amount</label>
-                            <input class="general-input" id="transfer-amount" type="number" min="0.01" max="1.000" name="amount">
-                        </div>
-                        <div class="feedback-label transfer-feedback"></div>
-                        <button class="general-button transfer-button" type="button">Transfer</button>
-                    </form>
-
-                </div>
-                <div class="section-block banking-right">
-                    <form class="withdraw-form general-form">
-                        <p class="page-title">Withdraw</p>
-                        <div class="input-label-combination">
-                            <label class="withdraw-label" for="withdraw-amount">Amount</label>
-                            <input class="general-input" id="withdraw-amount" type="number" min="0.01" max="1.000" name="amount">
-                        </div>
-                        <div class="feedback-label withdraw-feedback"></div>
-                        <button class="general-button withdraw-button" type="button">Withdraw</button>
-                    </form>
-                </div>
-            </section>
-
-            <section class="section transactions" id="transactions">
-                <p class="page-title">Transactions<p/>
-                <p class="page-text">View all your transactions here</p>
-                <div class="sorting-buttons">
-                    <button class="general-button sort-type-button">Sort By: Type</button>
-                    <button class="general-button sort-date-button">Sort By: Time</button>
-                    <button class="general-button sort-amount-button">Sort By: Amount</button>
-                </div>
-                <div class="section-block transactions-middle">
-                    <table class="transaction-table">
-                        <tr>
-                            <th>ID:</th> <th>Type:</th> <th>From:</th> <th>To:</th> <th>Amount:</th> <th>Timestamp:</th>
-                        </tr>
-                    </table>
-                </div>
-                <button class="general-button clear-transactions-button">Clear transactions</button>
-                <button class="general-button delete-account-button">Delete Your Account</button>
-            </section>
-            <footer class="footer">
-                Designed and created by: Hugo
-            </footer>
+    <section class="section overview" id="overview">
+        <div class="section-block overview-left">
+            <h1 class="page-title">Account Overview</h1>
+            <p class="email"></p>
+            <p class="iban"></p>
+            <p class="balance"></p>
+            <a href="change-password.html">
+                <button class="general-button change-password">Change password</button>
+            </a>
         </div>
-    </body>
+        <div class="section-block overview-right">
+
+        </div>
+    </section>
+
+    <section class="section banking" id="banking">
+        <div class="section-block banking-left">
+            <form class="deposit-form general-form">
+                <p class="page-title">Deposit</p>
+                <div class="input-label-combination">
+                    <label class="deposit-label" for="deposit-amount">Amount</label>
+                    <input class="general-input" id="deposit-amount" type="number" min="0.01" max="1.000" name="amount">
+                </div>
+                <div class="feedback-label deposit-feedback"></div>
+                <button class="general-button deposit-button" type="button">Deposit</button>
+            </form>
+        </div>
+        <div class="section-block banking-middle">
+            <form class="transfer-form general-form">
+                <p class="page-title">Transfer</p>
+                <div class="input-label-combination">
+                    <label class="transfer-label" for="transfer-to">Receiver (IBAN)</label>
+                    <input class="general-input" id="transfer-to" type="text" minlength="18" maxlength="18" name="iban">
+                </div>
+                <div class="input-label-combination">
+                    <label class="transfer-label" for="transfer-amount">Amount</label>
+                    <input class="general-input" id="transfer-amount" type="number" min="0.01" max="1.000" name="amount">
+                </div>
+                <div class="feedback-label transfer-feedback"></div>
+                <button class="general-button transfer-button" type="button">Transfer</button>
+            </form>
+
+        </div>
+        <div class="section-block banking-right">
+            <form class="withdraw-form general-form">
+                <p class="page-title">Withdraw</p>
+                <div class="input-label-combination">
+                    <label class="withdraw-label" for="withdraw-amount">Amount</label>
+                    <input class="general-input" id="withdraw-amount" type="number" min="0.01" max="1.000" name="amount">
+                </div>
+                <div class="feedback-label withdraw-feedback"></div>
+                <button class="general-button withdraw-button" type="button">Withdraw</button>
+            </form>
+        </div>
+    </section>
+
+    <section class="section transactions" id="transactions">
+        <p class="page-title">Transactions
+        <p/>
+        <p class="page-text">View all your transactions here</p>
+        <div class="sorting-buttons">
+            <button class="general-button sort-type-button">Sort By: Type</button>
+            <button class="general-button sort-date-button">Sort By: Time</button>
+            <button class="general-button sort-amount-button">Sort By: Amount</button>
+        </div>
+        <div class="section-block transactions-middle">
+            <table class="transaction-table">
+                <tr>
+                    <th>ID:</th>
+                    <th>Type:</th>
+                    <th>From:</th>
+                    <th>To:</th>
+                    <th>Amount:</th>
+                    <th>Timestamp:</th>
+                </tr>
+            </table>
+        </div>
+        <button class="general-button clear-transactions-button">Clear transactions</button>
+        <button class="general-button delete-account-button">Delete Your Account</button>
+    </section>
+    <footer class="footer">
+        Designed and created by: Hugo
+    </footer>
+</div>
+</body>
+
 </html>
