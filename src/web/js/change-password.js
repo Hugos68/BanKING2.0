@@ -2,20 +2,8 @@ const changePasswordButton = document.querySelector(".change-password-button");
 const changePasswordForm = document.querySelector(".change-password-form");
 const changePasswordFeedback = document.querySelector(".password-feedback");
 
-import {greenHex, redHex, getCookie, parseJwt, promptFeedback} from "./util.js";
+import {greenHex, redHex, promptFeedback} from "./util.js";
 
-function logOut(errorCausedLogout) {
-    // Set tokens to undefine to counter auto-login, set expires to now plus 1 second to expire them
-    document.cookie = "refresh_token=; Max-Age=-99999999;";
-    document.cookie = "access_token=; Max-Age=-99999999;";
-    // Replace screen to error if an error occurred
-    if (errorCausedLogout) {
-        location.replace("error.html");
-    }
-    else {
-        location.replace("home.html");
-    }
-}
 
 async function changePassword() {
     const formData = new FormData(changePasswordForm);

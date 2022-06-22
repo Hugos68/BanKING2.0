@@ -40,7 +40,8 @@ async function refreshAccessToken() {
         document.cookie = "refresh_token=; Max-Age=-99999999;";
         document.cookie = "access_token=; Max-Age=-99999999;";
         logOut(true);
-        throw new Error(await (refreshAccessTokenResponse["message"]));
+        console.error(await (refreshAccessTokenResponse["message"]));
+        return;
     }
 
     // Get token pair from response
@@ -111,7 +112,6 @@ async function getAccountInfo() {
 }
 
 async function getAccountTransactions(limit, sortBy) {
-
     if (limit===undefined) {
         limit = 0;
     }
@@ -119,6 +119,7 @@ async function getAccountTransactions(limit, sortBy) {
     if (sortBy===undefined) {
         sortBy = "id";
     }
+
 
 
     // Fetch account info with access token
@@ -132,7 +133,8 @@ async function getAccountTransactions(limit, sortBy) {
     if (!transactionsResponse.ok) {
         await syncTokens();
         await getAccountTransactions();
-        throw new Error((await transactionsResponse)["message"]);
+        console.error((await transactionsResponse)["message"]);
+        return;
     }
 
     const transactionObj = (await transactionsResponse.json()).transactions;
@@ -215,7 +217,8 @@ async function deposit() {
 
         // Prompt server response formatted to be user friendly
         promptFeedback(depositFeedback, message, redHex);
-        throw new Error(message);
+        console.error(message);
+        return;
     }
     promptFeedback(depositFeedback, "Amount Deposited!", greenHex);
 
@@ -274,7 +277,8 @@ async function transfer() {
 
         // Prompt server response formatted to be user friendly
         promptFeedback(transferFeedback, message, redHex);
-        throw new Error(message);
+        console.error(message);
+        return;
     }
     promptFeedback(transferFeedback, "Amount Transferred!", greenHex);
 
@@ -329,7 +333,8 @@ async function withdraw() {
 
         // Prompt server response formatted to be user friendly
         promptFeedback(withdrawFeedback, message, redHex);
-        throw new Error(message);
+        console.error(message);
+        return;
     }
     promptFeedback(withdrawFeedback, "Amount Withdrawn!", greenHex);
 
@@ -378,7 +383,8 @@ async function clearTransactions() {
             await deleteAccount();
             return;
         }
-        throw new Error(message);
+        console.error(message);
+        return;
     }
     // Scroll to overview after 0.5s
     setTimeout(() => {
@@ -414,7 +420,8 @@ async function deleteAccount() {
             await deleteAccount();
             return;
         }
-        throw new Error(message);
+        console.error(message);
+        return;
     }
     logOut(false);
 }
@@ -458,19 +465,19 @@ signOutButton.addEventListener('click', async () => {
 });
 
 sortByIdButton.addEventListener('click', async () => {
-    await getAccountTransactions("id");
+    await getAccountTransactions(0, "id");
 });
 
 sortByTimestampButton.addEventListener('click', async () => {
-    await getAccountTransactions("timestamp");
+    await getAccountTransactions(0, "timestamp");
 });
 
 sortByAmountButton.addEventListener('click', async () => {
-    await getAccountTransactions("amount");
+    await getAccountTransactions(0, "amount");
 });
 
 clearTransactionsButton.addEventListener('click', async () => {
-   await clearTransactions();
+    await clearTransactions();
 });
 
 deleteAccountButton.addEventListener('click', async () => {

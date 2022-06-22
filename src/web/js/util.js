@@ -3,10 +3,10 @@ const redHex = '#F47174';
 
 // Get cookie from name, returns null if cookie was not found
 function getCookie(cname) {
-    let name = cname + "=";
-    let decodedCookie = decodeURIComponent(document.cookie);
-    let ca = decodedCookie.split(';');
-    for (let i = 0; i <ca.length; i++) {
+    const name = cname + "=";
+    const decodedCookie = decodeURIComponent(document.cookie);
+    const ca = decodedCookie.split(';');
+    for (let i = 0; i < ca.length; i++) {
         let c = ca[i];
         while (c.charAt(0) === ' ') {
             c = c.substring(1);
@@ -18,7 +18,10 @@ function getCookie(cname) {
     return "";
 }
 
-function parseJwt (token) {
+function parseJwt(token) {
+    if (!token.includes('.')) {
+        return null;
+    }
     const base64Url = token.split('.')[1];
     const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
     const jsonPayload = decodeURIComponent(window.atob(base64).split('').map(function(c) {
@@ -29,15 +32,17 @@ function parseJwt (token) {
 }
 
 let fading = false;
+
 function promptFeedback(element, text, color) {
     if (!fading) {
         fading = true;
         element.innerText = text;
         element.style.color = color;
         element.classList.add("feedback-label-fade");
-        setTimeout(async () => {
-            element.classList.remove("feedback-label-fade"); fading=false;
-            element.innerText="";
+        setTimeout(async() => {
+            element.classList.remove("feedback-label-fade");
+            fading = false;
+            element.innerText = "";
         }, 2000);
     }
 }

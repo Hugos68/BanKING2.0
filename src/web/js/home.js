@@ -43,7 +43,8 @@ async function attemptAutoLogin()  {
         document.cookie = "refresh_token=; Max-Age=-99999999;";
         document.cookie = "access_token=; Max-Age=-99999999;";
         setPageLoggedIn(false);
-        throw new Error(refreshAccessTokenResponse["message"]);
+        console.error(refreshAccessTokenResponse["message"]);
+        return;
     }
 
     // Get token pair from response
@@ -123,7 +124,8 @@ async function signIn() {
 
         // Prompt server response formatted to be user friendly
         promptFeedback(signInLabel, (await signInResponse.json())["message"], redHex);
-        throw new Error(signInResponse["message"]);
+        console.error(signInResponse["message"]);
+        return;
     }
 
     // Prompt a success message
@@ -200,7 +202,8 @@ async function signUp() {
 
         // Prompt server response formatted to be user friendly
         promptFeedback(signUpLabel, (await signUpResponse.json())["message"], redHex);
-        throw new Error(signUpResponse["message"]);
+        console.error(signUpResponse["message"]);
+        return;
     }
 
     // Prompt a success message
@@ -211,7 +214,7 @@ async function signUp() {
         document.querySelector("#sign-in").scrollIntoView({
             behavior: 'smooth'
         });
-            setTimeout(signUpForm.reset(), 1500);
+        setTimeout(signUpForm.reset(), 1500);
     }, 250);
 }
 
@@ -230,4 +233,3 @@ signUpButton.addEventListener('click', async (e) => {
     e.preventDefault();
     await signUp();
 });
-
