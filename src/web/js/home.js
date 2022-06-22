@@ -43,24 +43,23 @@ async function attemptAutoLogin()  {
         document.cookie = "refresh_token=; Max-Age=-99999999;";
         document.cookie = "access_token=; Max-Age=-99999999;";
         setPageLoggedIn(false);
+        throw new Error(refreshResponse["message"]);
     }
-    else {
 
-        // Get token pair from response
-        const tokenPair = await refreshResponse.json();
+    // Get token pair from response
+    const tokenPair = await refreshResponse.json();
 
-        // Create expire dates for tokens
-        const date = new Date();
-        const accessExpire = new Date(date.getTime() + (15 * 60 * 1000));
+    // Create expire dates for tokens
+    const date = new Date();
+    const accessExpire = new Date(date.getTime() + (15 * 60 * 1000));
 
-        // Set access token cookie with expire date of session
-        document.cookie = "access_token="+tokenPair.access_token
-            + "; SameSite=lax"
-            + "; expires="+accessExpire.toUTCString()+";";
+    // Set access token cookie with expire date of session
+    document.cookie = "access_token="+tokenPair.access_token
+        + "; SameSite=lax"
+        + "; expires="+accessExpire.toUTCString()+";";
 
-        // Set login page to true
-        setPageLoggedIn(true)
-    }
+    // Set login page to true
+    setPageLoggedIn(true)
 }
 
 function validateSignIn(jsonObj) {

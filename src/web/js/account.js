@@ -219,8 +219,8 @@ async function deposit() {
         }
 
         // Prompt server response formatted to be user friendly
-        promptFeedback(depositFeedback, (await depositResponse.json())["message"], redHex);
-        throw new Error(depositResponse.status + ' ' + depositResponse.statusText);
+        promptFeedback(depositFeedback, message, redHex);
+        throw new Error(message);
     }
     promptFeedback(depositFeedback, "Amount Deposited!", greenHex);
 
@@ -279,7 +279,7 @@ async function transfer() {
 
         // Prompt server response formatted to be user friendly
         promptFeedback(transferFeedback, message, redHex);
-        throw new Error(transferFeedback.status + ' ' + transferFeedback.statusText);
+        throw new Error(message);
     }
     promptFeedback(transferFeedback, "Amount Transferred!", greenHex);
 
@@ -334,7 +334,7 @@ async function withdraw() {
 
         // Prompt server response formatted to be user friendly
         promptFeedback(withdrawFeedback, message, redHex);
-        throw new Error(withdrawResponse.status + ' ' + withdrawResponse.statusText);
+        throw new Error(message);
     }
     promptFeedback(withdrawFeedback, "Amount Withdrawn!", greenHex);
 
@@ -383,6 +383,7 @@ async function clearTransactions() {
             await deleteAccount();
             return;
         }
+        throw new Error(message);
     }
     // Scroll to overview after 0.5s
     setTimeout(() => {
@@ -418,6 +419,7 @@ async function deleteAccount() {
             await deleteAccount();
             return;
         }
+        throw new Error(deleteAccountResponse["message"]);
     }
     logOut(false);
 }
