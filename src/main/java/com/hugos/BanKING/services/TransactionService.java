@@ -63,11 +63,12 @@ public class TransactionService {
         }
 
         // Sort list, default is id
-        if (sortBy==null || sortBy.equals("id")) {
-            transactionList.sort(Comparator.comparing(Transaction::getId));
-        }
-        else if (sortBy.equals("timestamp")) {
+        if (sortBy==null || sortBy.equals("timestamp")) {
             transactionList.sort(Comparator.comparing(Transaction::getTimestamp));
+
+        }
+        else if (sortBy.equals("type")) {
+            transactionList.sort(Comparator.comparing(Transaction::getType));
         }
         else if (sortBy.equals("amount")) {
             transactionList.sort(Comparator.comparing(Transaction::getAmount));

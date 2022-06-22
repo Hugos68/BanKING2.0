@@ -1,7 +1,7 @@
 const contentBlocks = document.querySelectorAll(".sections > *");
 const signOutButton = document.querySelector(".sign-out-button");
 const deleteAccountButton = document.querySelector(".delete-account-button");
-const sortByIdButton = document.querySelector(".sort-id-button");
+const sortByTypeButton = document.querySelector(".sort-type-button");
 const sortByTimestampButton = document.querySelector(".sort-date-button");
 const sortByAmountButton = document.querySelector(".sort-amount-button");
 const clearTransactionsButton = document.querySelector(".clear-transactions-button");
@@ -464,12 +464,12 @@ signOutButton.addEventListener('click', async () => {
     await logOut(false);
 });
 
-sortByIdButton.addEventListener('click', async () => {
-    await getAccountTransactions(0, "id");
-});
-
 sortByTimestampButton.addEventListener('click', async () => {
     await getAccountTransactions(0, "timestamp");
+});
+
+sortByTypeButton.addEventListener('click', async () => {
+    await getAccountTransactions(0, "type");
 });
 
 sortByAmountButton.addEventListener('click', async () => {
