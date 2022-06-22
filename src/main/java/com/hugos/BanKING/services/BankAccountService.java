@@ -75,8 +75,6 @@ public class BankAccountService {
         // Create json response body
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty("message", "Amount deposited");
-
-        // Return response
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body(jsonObject.toString());
     }
 
@@ -144,8 +142,6 @@ public class BankAccountService {
         // Create json response body
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty("message", "Amount transferred");
-
-        // Return response
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body(jsonObject.toString());
     }
 
@@ -193,8 +189,6 @@ public class BankAccountService {
         // Create json response body
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty("message", "Amount withdrawn");
-
-        // Return response
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body(jsonObject.toString());
     }
 

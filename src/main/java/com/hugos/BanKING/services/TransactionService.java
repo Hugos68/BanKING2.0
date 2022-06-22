@@ -41,7 +41,6 @@ public class TransactionService {
         if (type.equals(TransactionType.WITHDRAW.name())) {
             return bankAccountService.withdraw(request, email);
         }
-
         throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "Unknown transaction type");
     }
 
@@ -65,16 +64,16 @@ public class TransactionService {
 
         // Sort list, default is id
         if (sortBy==null || sortBy.equals("id")) {
-            transactionList.sort(Comparator.comparingLong(Transaction::getId));
+            transactionList.sort(Comparator.comparing(Transaction::getId));
         }
         else if (sortBy.equals("timestamp")) {
-            // TODO: Sort by date
+            transactionList.sort(Comparator.comparing(Transaction::getTimestamp));
         }
         else if (sortBy.equals("amount")) {
-            transactionList.sort(Comparator.comparingDouble(Transaction::getAmount));
+            transactionList.sort(Comparator.comparing(Transaction::getAmount));
         }
 
-        // Create json object from transactions
+        // Format list to a JSON Object
         for (Transaction transaction : transactionList) {
             JsonObject transactionObject = new JsonObject();
             String ibanFrom;
@@ -107,14 +106,12 @@ public class TransactionService {
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty("message", "Transactions retrieved");
         jsonObject.add("transactions", transactionsObject);
-
-        // Return response
         return ResponseEntity.status(HttpStatus.OK).body(jsonObject.toString());
     }
 
     public ResponseEntity<?> updateTransaction(HttpServletRequest request, Long id) {
 
-        // This checks if the given id corresponds to an existing transaction
+        // Check if transaction exists
         Optional<Transaction> optionalTransaction = transactionRepository.findById(id);
         if (optionalTransaction.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Transaction not found");
@@ -143,7 +140,6 @@ public class TransactionService {
         transaction.setAmount(amount);
         transaction.setTimestamp(timestamp);
         transactionRepository.save(transaction);
-
         return ResponseEntity.status(HttpStatus.OK).body("Transaction successfully updated");
     }
 
