@@ -17,13 +17,16 @@ public class TransactionController {
     private final ResourceProtectionService resourceProtectionService;
 
     @PostMapping(path = "/{type}")
-    public ResponseEntity<?> createTransaction(HttpServletRequest request, @PathVariable String iban, @PathVariable String type) {
+    public ResponseEntity<?> createTransaction(HttpServletRequest request,
+                                               @PathVariable String iban,
+                                               @PathVariable String type) {
         log.info("Endpoint: POST \"api/bank-account/{}/transactions?type={}\" was called", iban, type);
         return resourceProtectionService.createTransaction(request, iban, type.toUpperCase());
     }
 
     @GetMapping
-    public ResponseEntity<?> getTransactions(HttpServletRequest request, @PathVariable String iban,
+    public ResponseEntity<?> getTransactions(HttpServletRequest request,
+                                             @PathVariable String iban,
                                              @RequestParam(required = false) String sortBy,
                                              @RequestParam(required = false) Integer limit) {
         log.info("Endpoint: GET \"api/bank-account/{}/transactions?limit={}&sortBy={}\" was called", iban, limit, sortBy);
@@ -32,7 +35,9 @@ public class TransactionController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateTransaction(HttpServletRequest request, @PathVariable String iban, @PathVariable Long id) {
+    public ResponseEntity<?> updateTransaction(HttpServletRequest request,
+                                               @PathVariable String iban,
+                                               @PathVariable Long id) {
         log.info("Endpoint: PUT \"api/bank-account/{}/transactions/{}\" was called", iban, id);
         return resourceProtectionService.updateTransaction(request, iban, id);
     }

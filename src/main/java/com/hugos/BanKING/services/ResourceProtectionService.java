@@ -64,7 +64,7 @@ public class ResourceProtectionService {
         }
         String email = bankAccountOptional.get().getAppUser().getEmail();
         requestService.authorizeRequest(request, Role.USER, email);
-        return transactionService.getTransactions(email, limit, sortBy) ;
+        return transactionService.getTransactions(iban, limit, sortBy) ;
     }
 
     public ResponseEntity<?> updateTransaction(HttpServletRequest request, String iban, Long id) {
@@ -74,7 +74,7 @@ public class ResourceProtectionService {
         }
         String email = bankAccountOptional.get().getAppUser().getEmail();
         requestService.authorizeRequest(request, Role.ADMIN, email);
-        return transactionService.updateTransaction(request, email, id);
+        return transactionService.updateTransaction(request, id);
     }
 
     public ResponseEntity<?> deleteTransactions(HttpServletRequest request, String iban) {
@@ -84,7 +84,7 @@ public class ResourceProtectionService {
         }
         String email = bankAccountOptional.get().getAppUser().getEmail();
         requestService.authorizeRequest(request, Role.USER, email);
-        return transactionService.deleteTransactions(email);
+        return transactionService.deleteTransactions(iban);
     }
 
     public ResponseEntity<?> refreshAccessToken(HttpServletRequest request) {

@@ -45,17 +45,11 @@ public class TransactionService {
         throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "Unknown transaction type");
     }
 
-    public ResponseEntity<?> getTransactions(String email, int limit, String sortBy) {
+    public ResponseEntity<?> getTransactions(String iban, int limit, String sortBy) {
 
-        // This checks if the given email is an existing user
-        Optional<AppUser> optionalAppUser = appUserRepository.findByEmail(email);
-        if (optionalAppUser.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
-        }
-        AppUser appUser = optionalAppUser.get();
-        BankAccount bankAccount = bankAccountRepository.findByAppUser(appUser).get();
+        BankAccount bankAccount = bankAccountRepository.findByIban(iban).get();
 
-        // Get relevant transactions
+        // Get all transactions related to this bank account
         JsonObject transactionsObject = new JsonObject();
         Optional<List<Transaction>> optionalFromList = transactionRepository.findAllByFromBankAccount(bankAccount);
         Optional<List<Transaction>> optionalToList = transactionRepository.findAllByToBankAccount(bankAccount);
@@ -107,7 +101,7 @@ public class TransactionService {
         }
 
         // Log fetch
-        log.info("Transactions from user \"{}\" were fetched", email);
+        log.info("Transactions from bank account: \"{}\" were fetched", iban);
 
         // Create json response body
         JsonObject jsonObject = new JsonObject();
@@ -118,15 +112,7 @@ public class TransactionService {
         return ResponseEntity.status(HttpStatus.OK).body(jsonObject.toString());
     }
 
-    public ResponseEntity<?> updateTransaction(HttpServletRequest request, String email, Long id) {
-
-        // This checks if the given email is an existing user
-        Optional<AppUser> optionalAppUser = appUserRepository.findByEmail(email);
-        if (optionalAppUser.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
-        }
-        AppUser appUser = optionalAppUser.get();
-        BankAccount bankAccount = bankAccountRepository.findByAppUser(appUser).get();
+    public ResponseEntity<?> updateTransaction(HttpServletRequest request, Long id) {
 
         // This checks if the given id corresponds to an existing transaction
         Optional<Transaction> optionalTransaction = transactionRepository.findById(id);
@@ -161,23 +147,17 @@ public class TransactionService {
         return ResponseEntity.status(HttpStatus.OK).body("Transaction successfully updated");
     }
 
-    public ResponseEntity<?> deleteTransactions(String email) {
+    public ResponseEntity<?> deleteTransactions(String iban) {
 
-        // This checks if the given email is an existing user
-        Optional<AppUser> optionalAppUser = appUserRepository.findByEmail(email);
-        if (optionalAppUser.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
-        }
-        AppUser appUser = optionalAppUser.get();
-        BankAccount bankAccount = bankAccountRepository.findByAppUser(appUser).get();
+        BankAccount bankAccount = bankAccountRepository.findByIban(iban).get();
 
-        // Clear all transactions from user
+        // Clear all transactions from bank account
         transactionRepository.deleteAllByFromBankAccount(bankAccount);
         transactionRepository.deleteAllByToBankAccount(bankAccount);
         bankAccountRepository.save(bankAccount);
 
         // Log deletion
-        log.info("Transactions from user \"{}\" were deleted", email);
+        log.info("Transactions from bank account: \"{}\" were deleted", iban);
 
         // Create json response body
         JsonObject jsonObject = new JsonObject();
@@ -186,6 +166,4 @@ public class TransactionService {
         // Return response
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body(jsonObject.toString());
     }
-
-
 }

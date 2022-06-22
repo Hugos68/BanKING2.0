@@ -3,6 +3,6 @@ await redirectToHome();
 
 async function redirectToHome() {
     setTimeout(function() {
-        window.location.replace("../html/home.html");
+        window.location.replace("../html/index.html");
     }, 2500);
 }

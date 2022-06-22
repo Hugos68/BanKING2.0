@@ -91,12 +91,7 @@ public class AppUserService {
 
     public ResponseEntity<?> getAppUser(String email) {
 
-        // This checks if the given email is an existing user
-        Optional<AppUser> optionalAppUser = appUserRepository.findByEmail(email);
-        if (optionalAppUser.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
-        }
-        AppUser appUser = optionalAppUser.get();
+        AppUser appUser = getAppUserFromEmail(email);
         BankAccount bankAccount = bankAccountRepository.findByAppUser(appUser).get();
 
         // Log fetch
@@ -120,12 +115,7 @@ public class AppUserService {
 
     public ResponseEntity<?> updateAppUser(HttpServletRequest request, String email) {
 
-        // This checks if the given email is an existing user
-        Optional<AppUser> optionalAppUser = appUserRepository.findByEmail(email);
-        if (optionalAppUser.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
-        }
-        AppUser appUser = optionalAppUser.get();
+        AppUser appUser = getAppUserFromEmail(email);
 
         // Get data from request
         JsonObject body = requestService.getJsonFromRequest(request);
@@ -159,12 +149,7 @@ public class AppUserService {
 
     public ResponseEntity<?> deleteAppUser(String email) {
 
-        // This checks if the given email is an existing user
-        Optional<AppUser> optionalAppUser = appUserRepository.findByEmail(email);
-        if (optionalAppUser.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
-        }
-        AppUser appUser = optionalAppUser.get();
+        AppUser appUser = getAppUserFromEmail(email);
         BankAccount bankAccount = bankAccountRepository.findByAppUser(appUser).get();
 
         // Delete all transactions that involved the to be deleted user
@@ -220,5 +205,13 @@ public class AppUserService {
 
         // Return response
         return ResponseEntity.status(HttpStatus.OK).body(jsonObject.toString());
+    }
+
+    private AppUser getAppUserFromEmail(String email) {
+        Optional<AppUser> optionalAppUser = appUserRepository.findByEmail(email);
+        if (optionalAppUser.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
+        }
+        return optionalAppUser.get();
     }
 }

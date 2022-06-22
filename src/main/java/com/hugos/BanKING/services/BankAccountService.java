@@ -32,12 +32,7 @@ public class BankAccountService {
 
     public ResponseEntity<?> deposit(HttpServletRequest request, String email) {
 
-        // This checks if the given email is an existing user
-        Optional<AppUser> optionalAppUser = appUserRepository.findByEmail(email);
-        if (optionalAppUser.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
-        }
-        AppUser appUser = optionalAppUser.get();
+        AppUser appUser = getAppUserFromEmail(email);
         BankAccount bankAccount = bankAccountRepository.findByAppUser(appUser).get();
 
         double balance = bankAccount.getBalance();
@@ -87,12 +82,7 @@ public class BankAccountService {
 
     public ResponseEntity<?> transfer(HttpServletRequest request, String email) {
 
-        // This checks if the given email is an existing user
-        Optional<AppUser> optionalAppUser = appUserRepository.findByEmail(email);
-        if (optionalAppUser.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
-        }
-        AppUser appUser = optionalAppUser.get();
+        AppUser appUser = getAppUserFromEmail(email);
         BankAccount senderBankAccount = bankAccountRepository.findByAppUser(appUser).get();
 
         double senderBalance = senderBankAccount.getBalance();
@@ -163,12 +153,8 @@ public class BankAccountService {
 
         DecodedAccessToken decodedAccessToken = requestService.getDecodedAccessTokenFromRequest(request);
 
-        // This checks if the given email is an existing user
-        Optional<AppUser> optionalAppUser = appUserRepository.findByEmail(email);
-        if (optionalAppUser.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
-        }
-        AppUser appUser = optionalAppUser.get();
+        AppUser appUser = getAppUserFromEmail(email);
+
         BankAccount bankAccount = bankAccountRepository.findByAppUser(appUser).get();
 
         double balance = bankAccount.getBalance();
@@ -210,5 +196,13 @@ public class BankAccountService {
 
         // Return response
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body(jsonObject.toString());
+    }
+
+    private AppUser getAppUserFromEmail(String email) {
+        Optional<AppUser> optionalAppUser = appUserRepository.findByEmail(email);
+        if (optionalAppUser.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
+        }
+        return optionalAppUser.get();
     }
 }
