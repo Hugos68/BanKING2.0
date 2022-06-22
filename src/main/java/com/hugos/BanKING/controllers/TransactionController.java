@@ -11,31 +11,31 @@ import javax.servlet.http.HttpServletRequest;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(path = "api/app-users/{email}/transactions")
+@RequestMapping(path = "api/bank-account/{iban}/transactions")
 public class TransactionController {
     private final ResourceProtectionService resourceProtectionService;
 
     @PostMapping(path = "/{type}")
-    public ResponseEntity<?> createTransaction(HttpServletRequest request, @PathVariable String email, @PathVariable String type) {
-        log.info("Endpoint: POST \"api/app-users/{}/transactions?type={}\" was called", email, type);
-        return resourceProtectionService.createTransaction(request, email, type.toUpperCase());
+    public ResponseEntity<?> createTransaction(HttpServletRequest request, @PathVariable String iban, @PathVariable String type) {
+        log.info("Endpoint: POST \"api/bank-account/{iban}/transactions?type={}\" was called", iban, type);
+        return resourceProtectionService.createTransaction(request, iban, type.toUpperCase());
     }
 
     @GetMapping
-    public ResponseEntity<?> getTransactions(HttpServletRequest request, @PathVariable String email, @RequestParam(required = false) String sortBy) {
-        log.info("Endpoint: GET \"api/app-users/{}/transactions?sortBy={}\" was called", email, sortBy);
-        return resourceProtectionService.getTransactions(request, email, sortBy);
+    public ResponseEntity<?> getTransactions(HttpServletRequest request, @PathVariable String iban, @RequestParam(required = false) String sortBy) {
+        log.info("Endpoint: GET \"api/bank-account/{}/transactions?sortBy={}\" was called", iban, sortBy);
+        return resourceProtectionService.getTransactions(request, iban, sortBy);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateTransaction(HttpServletRequest request, @PathVariable String email,@PathVariable Long id) {
-        log.info("Endpoint: PUT \"api/app-users/{}/transactions/{}\" was called", email, id);
-        return resourceProtectionService.updateTransaction(request, email, id);
+    public ResponseEntity<?> updateTransaction(HttpServletRequest request, @PathVariable String iban,@PathVariable Long id) {
+        log.info("Endpoint: PUT \"api/bank-account/{}/transactions/{}\" was called", iban, id);
+        return resourceProtectionService.updateTransaction(request, iban, id);
     }
 
     @DeleteMapping
-    public ResponseEntity<?> deleteTransactions(HttpServletRequest request, @PathVariable String email) {
-        log.info("Endpoint: DELETE \"api/app-user/{}/transactions\" was called", email);
-        return resourceProtectionService.deleteTransactions(request, email);
+    public ResponseEntity<?> deleteTransactions(HttpServletRequest request, @PathVariable String iban) {
+        log.info("Endpoint: DELETE \"api/bank-account/{}/transactions\" was called", iban);
+        return resourceProtectionService.deleteTransactions(request, iban);
     }
 }
