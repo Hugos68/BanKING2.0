@@ -1,4 +1,4 @@
-const contentBlocks = document.querySelectorAll(".sections > *");
+const contentBlocks = document.querySelectorAll(".section-block");
 const signOutButton = document.querySelector(".sign-out-button");
 const deleteAccountButton = document.querySelector(".delete-account-button");
 const sortByTypeButton = document.querySelector(".sort-type-button");
@@ -76,7 +76,14 @@ async function syncTokens() {
 
 async function getAccountInfo() {
 
+    // Check if token is present before fetching
     const accessToken = getCookie("access_token");
+    if (accessToken==="") {
+        await syncTokens();
+        await getAccountInfo();
+        return;
+    }
+
     const jsonJwt = parseJwt(accessToken);
     const email = jsonJwt.sub;
 
