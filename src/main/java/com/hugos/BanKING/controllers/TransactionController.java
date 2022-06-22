@@ -26,7 +26,7 @@ public class TransactionController {
                                              @RequestParam(required = false) String sortBy,
                                              @RequestParam(required = false) Integer limit) {
         log.info("Endpoint: GET \"api/bank-account/{}/transactions?sortBy={}&limit={}\" was called", iban, sortBy, limit);
-        if (limit==null) limit = 0;
+        if (limit==null || limit < 0) limit = 0;
         return resourceProtectionService.getTransactions(request, iban, sortBy, limit);
     }
 
