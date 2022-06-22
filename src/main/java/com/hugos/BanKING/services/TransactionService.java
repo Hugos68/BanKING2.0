@@ -45,7 +45,7 @@ public class TransactionService {
         throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "Unknown transaction type");
     }
 
-    public ResponseEntity<?> getTransactions(String email, String sortBy) {
+    public ResponseEntity<?> getTransactions(String email, String sortBy, int limit) {
 
         // This checks if the given email is an existing user
         Optional<AppUser> optionalAppUser = appUserRepository.findByEmail(email);
@@ -64,6 +64,11 @@ public class TransactionService {
         optionalFromList.ifPresent(transactionList::addAll);
         optionalToList.ifPresent(transactionList::addAll);
 
+        // Limit list size when limit was specified
+        if (limit!=0 && limit <= transactionList.size()) {
+            transactionList = transactionList.subList(0, limit);
+        }
+
         // Set default sorting algorithm by id
         if (sortBy==null || sortBy.equals("id")) {
             transactionList.sort(Comparator.comparingLong(Transaction::getId));
@@ -76,7 +81,7 @@ public class TransactionService {
         }
 
         // Create json object from transactions
-        transactionList.forEach(transaction -> {
+        for (Transaction transaction : transactionList) {
             JsonObject transactionObject = new JsonObject();
             String ibanFrom;
             if (transaction.getFromBankAccount()==null) {
@@ -99,7 +104,7 @@ public class TransactionService {
             transactionObject.addProperty("amount", transaction.getAmount());
             transactionObject.addProperty("date_time", transaction.getTimestamp().toString());
             transactionsObject.add("transaction_"+transaction.getId(), transactionObject);
-        });
+        }
 
         // Log fetch
         log.info("Transactions from user \"{}\" were fetched", email);

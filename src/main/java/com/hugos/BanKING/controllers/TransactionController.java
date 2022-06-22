@@ -17,18 +17,21 @@ public class TransactionController {
 
     @PostMapping(path = "/{type}")
     public ResponseEntity<?> createTransaction(HttpServletRequest request, @PathVariable String iban, @PathVariable String type) {
-        log.info("Endpoint: POST \"api/bank-account/{iban}/transactions?type={}\" was called", iban, type);
+        log.info("Endpoint: POST \"api/bank-account/{}/transactions?type={}\" was called", iban, type);
         return resourceProtectionService.createTransaction(request, iban, type.toUpperCase());
     }
 
     @GetMapping
-    public ResponseEntity<?> getTransactions(HttpServletRequest request, @PathVariable String iban, @RequestParam(required = false) String sortBy) {
-        log.info("Endpoint: GET \"api/bank-account/{}/transactions?sortBy={}\" was called", iban, sortBy);
-        return resourceProtectionService.getTransactions(request, iban, sortBy);
+    public ResponseEntity<?> getTransactions(HttpServletRequest request, @PathVariable String iban,
+                                             @RequestParam(required = false) String sortBy,
+                                             @RequestParam(required = false) Integer limit) {
+        log.info("Endpoint: GET \"api/bank-account/{}/transactions?sortBy={}&limit={}\" was called", iban, sortBy, limit);
+        if (limit==null) limit = 0;
+        return resourceProtectionService.getTransactions(request, iban, sortBy, limit);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateTransaction(HttpServletRequest request, @PathVariable String iban,@PathVariable Long id) {
+    public ResponseEntity<?> updateTransaction(HttpServletRequest request, @PathVariable String iban, @PathVariable Long id) {
         log.info("Endpoint: PUT \"api/bank-account/{}/transactions/{}\" was called", iban, id);
         return resourceProtectionService.updateTransaction(request, iban, id);
     }

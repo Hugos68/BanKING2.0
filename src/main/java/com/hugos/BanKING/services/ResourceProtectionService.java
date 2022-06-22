@@ -57,14 +57,14 @@ public class ResourceProtectionService {
         return transactionService.createTransaction(request, email, type);
     }
 
-    public ResponseEntity<?> getTransactions(HttpServletRequest request, String iban, String sortBy) {
+    public ResponseEntity<?> getTransactions(HttpServletRequest request, String iban, String sortBy, int limit) {
         Optional<BankAccount> bankAccountOptional = bankAccountRepository.findByIban(iban);
         if (bankAccountOptional.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Bank account with iban not found");
         }
         String email = bankAccountOptional.get().getAppUser().getEmail();
         requestService.authorizeRequest(request, Role.USER, email);
-        return transactionService.getTransactions(email, sortBy);
+        return transactionService.getTransactions(email, sortBy, limit);
     }
 
     public ResponseEntity<?> updateTransaction(HttpServletRequest request, String iban, Long id) {
