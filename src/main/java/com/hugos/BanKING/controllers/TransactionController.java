@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 @RequiredArgsConstructor
 @RequestMapping(path = "api/bank-accounts/{iban}/transactions")
 public class TransactionController {
+
     private final ResourceProtectionService resourceProtectionService;
 
     @PostMapping(path = "/{type}")
