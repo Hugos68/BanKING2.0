@@ -29,41 +29,37 @@ function setPageLoggedIn(loggedIn) {
 }
 
 async function attemptAutoLogin()  {
-    try {
-        // Send refresh token to server to validate it
-        const refreshResponse = await fetch("http://localhost:8080/api/access-token", {
-            method: 'get',
-            headers: {
-                'Authorization': 'Bearer '+ refreshToken
-            }
-        });
-        if (!refreshResponse.ok) {
 
-            // Delete leftover access_token
-            document.cookie = "refresh_token=; Max-Age=-99999999;";
-            document.cookie = "access_token=; Max-Age=-99999999;";
-            setPageLoggedIn(false);
+    // Send refresh token to server to validate it
+    const refreshResponse = await fetch("http://localhost:8080/api/access-token", {
+        method: 'get',
+        headers: {
+            'Authorization': 'Bearer '+ refreshToken
         }
-        else {
+    });
+    if (!refreshResponse.ok) {
 
-            // Get token pair from response
-            const tokenPair = await refreshResponse.json();
-
-            // Create expire dates for tokens
-            const date = new Date();
-            const accessExpire = new Date(date.getTime() + (15 * 60 * 1000));
-
-            // Set access token cookie with expire date of session
-            document.cookie = "access_token="+tokenPair.access_token
-                + "; SameSite=lax"
-                + "; expires="+accessExpire.toUTCString()+";";
-
-            // Set login page to true
-            setPageLoggedIn(true)
-        }
-    }
-    catch (e) {
+        // Delete leftover access_token
+        document.cookie = "refresh_token=; Max-Age=-99999999;";
+        document.cookie = "access_token=; Max-Age=-99999999;";
         setPageLoggedIn(false);
+    }
+    else {
+
+        // Get token pair from response
+        const tokenPair = await refreshResponse.json();
+
+        // Create expire dates for tokens
+        const date = new Date();
+        const accessExpire = new Date(date.getTime() + (15 * 60 * 1000));
+
+        // Set access token cookie with expire date of session
+        document.cookie = "access_token="+tokenPair.access_token
+            + "; SameSite=lax"
+            + "; expires="+accessExpire.toUTCString()+";";
+
+        // Set login page to true
+        setPageLoggedIn(true)
     }
 }
 
@@ -116,35 +112,33 @@ async function signIn() {
         promptFeedback(signInLabel, validationResponse, redHex);
         return;
     }
-    try {
-        const signInResponse = await fetch("http://localhost:8080/api/app-users/authentication",  {
-            method: 'post',
-            headers: new Headers({
-                'content-type': 'application/json'
-            }),
-            body: JSON.stringify(jsonObj)
-        });
-        if (!signInResponse.ok) {
 
-            // Prompt server response formatted to be user friendly
-            promptFeedback(signInLabel, (await signInResponse.json())["message"], redHex);
-            return;
-        }
-        // Prompt a success message
-        promptFeedback(signInLabel, "Success, signing in...", greenHex);
+    const signInResponse = await fetch("http://localhost:8080/api/app-users/authentication",  {
+        method: 'post',
+        headers: new Headers({
+            'content-type': 'application/json'
+        }),
+        body: JSON.stringify(jsonObj)
+    });
+    if (!signInResponse.ok) {
 
-        // Get token pair from response
-        const tokenPair = await signInResponse.json();
-        setTokenPairCookies(tokenPair);
-
-        // Redirect to account page
-        setTimeout(async () => {
-            location.replace("account.html")
-            setTimeout(signInForm.reset(), 1500);
-        }, 250);
-    } catch (e) {
-        console.error(e);
+        // Prompt server response formatted to be user friendly
+        promptFeedback(signInLabel, (await signInResponse.json())["message"], redHex);
+        throw new Error(signInResponse["message"]);
     }
+
+    // Prompt a success message
+    promptFeedback(signInLabel, "Success, signing in...", greenHex);
+
+    // Get token pair from response
+    const tokenPair = await signInResponse.json();
+    setTokenPairCookies(tokenPair);
+
+    // Redirect to account page
+    setTimeout(async () => {
+        location.replace("account.html")
+        setTimeout(signInForm.reset(), 1500);
+    }, 250);
 }
 
 function validateSignUp(jsonObj, confirmPassword) {
@@ -195,37 +189,32 @@ async function signUp() {
         promptFeedback(signUpLabel, validationResponse, redHex)
         return;
     }
-    try {
-        const signUpResponse = await fetch("http://localhost:8080/api/app-users",  {
-            method: 'post',
-            headers: new Headers({
-                'Content-Type': 'application/json'
-            }),
-            body: JSON.stringify(jsonObj)
-        });
-        if (!signUpResponse.ok) {
 
-            // Prompt server response formatted to be user friendly
-            promptFeedback(signUpLabel, (await signUpResponse.json())["message"], redHex);
-            return;
-        }
+    const signUpResponse = await fetch("http://localhost:8080/api/app-users",  {
+        method: 'post',
+        headers: new Headers({
+            'Content-Type': 'application/json'
+        }),
+        body: JSON.stringify(jsonObj)
+    });
+    if (!signUpResponse.ok) {
 
-        // Prompt a success message
-        promptFeedback(signUpLabel, "Registration success!", greenHex);
-
-        // Scroll to sing in section after 0.75 second so feedback message is readable
-        setTimeout(() => {
-            document.querySelector("#sign-in").scrollIntoView({
-                behavior: 'smooth'
-            });
-            setTimeout(signUpForm.reset(), 1500);
-        }, 250);
-    } catch (e) {
-        console.error(e);
+        // Prompt server response formatted to be user friendly
+        promptFeedback(signUpLabel, (await signUpResponse.json())["message"], redHex);
+        throw new Error(signUpResponse["message"]);
     }
 
-}
+    // Prompt a success message
+    promptFeedback(signUpLabel, "Registration success!", greenHex);
 
+    // Scroll to sing in section after 0.75 second so feedback message is readable
+    setTimeout(() => {
+        document.querySelector("#sign-in").scrollIntoView({
+            behavior: 'smooth'
+        });
+            setTimeout(signUpForm.reset(), 1500);
+    }, 250);
+}
 
 // Page load event
 location.href="#home";
