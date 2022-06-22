@@ -31,23 +31,23 @@ function setPageLoggedIn(loggedIn) {
 async function attemptAutoLogin()  {
 
     // Send refresh token to server to validate it
-    const refreshResponse = await fetch("http://localhost:8080/api/access-token", {
+    const refreshAccessTokenResponse = await fetch("http://localhost:8080/api/access-token", {
         method: 'get',
         headers: {
             'Authorization': 'Bearer '+ refreshToken
         }
     });
-    if (!refreshResponse.ok) {
+    if (!refreshAccessTokenResponse.ok) {
 
         // Delete leftover access_token
         document.cookie = "refresh_token=; Max-Age=-99999999;";
         document.cookie = "access_token=; Max-Age=-99999999;";
         setPageLoggedIn(false);
-        throw new Error(refreshResponse["message"]);
+        throw new Error(refreshAccessTokenResponse["message"]);
     }
 
     // Get token pair from response
-    const tokenPair = await refreshResponse.json();
+    const tokenPair = await refreshAccessTokenResponse.json();
 
     // Create expire dates for tokens
     const date = new Date();

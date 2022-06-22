@@ -1,4 +1,4 @@
-const contentBlocks = document.querySelectorAll(".section-block");
+const contentBlocks = document.querySelectorAll(".sections > *");
 const signOutButton = document.querySelector(".sign-out-button");
 const deleteAccountButton = document.querySelector(".delete-account-button");
 const sortByIdButton = document.querySelector(".sort-id-button");
@@ -27,30 +27,31 @@ const refreshToken = getCookie("refresh_token");
 
 async function refreshAccessToken() {
 
-    // Send refresh token to server to get access token
-    const refreshAccessResponse = await fetch("http://localhost:8080/api/access-tokens", {
+    // Send refresh token to server to validate it
+    const refreshAccessTokenResponse = await fetch("http://localhost:8080/api/access-token", {
         method: 'get',
-        headers: new Headers({
-            'content-type': 'application/json',
+        headers: {
             'Authorization': 'Bearer '+ refreshToken
-        })
+        }
     });
+    if (!refreshAccessTokenResponse.ok) {
 
-    // If access token refresh fails, log user out
-    if (!refreshAccessResponse.ok) {
+        // Delete leftover access_token
+        document.cookie = "refresh_token=; Max-Age=-99999999;";
+        document.cookie = "access_token=; Max-Age=-99999999;";
         logOut(true);
-        throw new Error(refreshAccessResponse.status + " " + refreshAccessResponse.statusText);
+        throw new Error(await (refreshAccessTokenResponse["message"]));
     }
 
-    // Get and set access token from response
-    const accessTokenFetched = (await refreshAccessResponse.json()).access_token;
+    // Get token pair from response
+    const tokenPair = await refreshAccessTokenResponse.json();
 
     // Create expire dates for tokens
     const date = new Date();
     const accessExpire = new Date(date.getTime() + (15 * 60 * 1000));
 
     // Set access token cookie with expire date of session
-    document.cookie = "access_token="+accessTokenFetched
+    document.cookie = "access_token="+tokenPair.access_token
         + "; SameSite=lax"
         + "; expires="+accessExpire.toUTCString()+";";
 }
@@ -119,22 +120,22 @@ async function getAccountTransactions(limit, sortBy) {
         sortBy = "id";
     }
 
+
     // Fetch account info with access token
     const transactionsResponse = await fetch("http://localhost:8080/api/bank-accounts/"+iban+"/transactions?limit="+limit+"&sortBy="+sortBy,{
         method: 'get',
         headers: new Headers({
             'content-type': 'application/json',
-            'Authorization': 'Bearer '+ accessToken
+            'Authorization': 'Bearer '+ getCookie("access_token")
         })
     });
     if (!transactionsResponse.ok) {
         await syncTokens();
         await getAccountTransactions();
-        return;
+        throw new Error((await transactionsResponse)["message"]);
     }
 
     const transactionObj = (await transactionsResponse.json()).transactions;
-
 
     const transactionList = Object.values(transactionObj);
 
@@ -158,8 +159,6 @@ async function getAccountTransactions(limit, sortBy) {
         tr.innerText = "No transactions available"
         transactionTable.appendChild(tr);
     }
-
-
 }
 
 async function loadAccountContent() {
@@ -192,10 +191,6 @@ async function deposit() {
         promptFeedback(depositFeedback, validationResponse, redHex);
         return;
     }
-
-    const accessToken = getCookie("access_token");
-    const jsonJwt = parseJwt(accessToken);
-    const email = jsonJwt.sub;
 
     // Post deposit request
     const depositResponse = await fetch("http://localhost:8080/api/bank-accounts/"+iban+"/transactions/deposit", {
@@ -419,7 +414,7 @@ async function deleteAccount() {
             await deleteAccount();
             return;
         }
-        throw new Error(deleteAccountResponse["message"]);
+        throw new Error(message);
     }
     logOut(false);
 }
