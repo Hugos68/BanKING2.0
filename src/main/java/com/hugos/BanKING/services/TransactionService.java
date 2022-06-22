@@ -45,7 +45,7 @@ public class TransactionService {
         throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "Unknown transaction type");
     }
 
-    public ResponseEntity<?> getTransactions(String email, String sortBy, int limit) {
+    public ResponseEntity<?> getTransactions(String email, int limit, String sortBy) {
 
         // This checks if the given email is an existing user
         Optional<AppUser> optionalAppUser = appUserRepository.findByEmail(email);
@@ -69,7 +69,7 @@ public class TransactionService {
             transactionList = transactionList.subList(0, limit);
         }
 
-        // Set default sorting algorithm by id
+        // Sort list, default is id
         if (sortBy==null || sortBy.equals("id")) {
             transactionList.sort(Comparator.comparingLong(Transaction::getId));
         }
