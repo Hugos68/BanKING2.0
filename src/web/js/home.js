@@ -31,7 +31,7 @@ function setPageLoggedIn(loggedIn) {
 async function attemptAutoLogin()  {
     try {
         // Send refresh token to server to validate it
-        const refreshResponse = await fetch("http://localhost:8080/api/access-tokens", {
+        const refreshResponse = await fetch("http://localhost:8080/api/access-token", {
             method: 'get',
             headers: {
                 'Authorization': 'Bearer '+ refreshToken
