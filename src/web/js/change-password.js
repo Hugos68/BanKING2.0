@@ -44,6 +44,7 @@ async function changePassword() {
     }, 250);
 }
 
-changePasswordButton.addEventListener('click', async () => {
+changePasswordButton.addEventListener('click', async (e) => {
+    e.preventDefault();
     await changePassword();
 });

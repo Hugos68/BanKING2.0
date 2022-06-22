@@ -109,16 +109,18 @@ async function getAccountInfo() {
     balanceElement.textContent = "Balance: "+ formatter.format(accountInfo.bank_account.balance);
 }
 
-async function getAccountTransactions(sortBy) {
+async function getAccountTransactions(limit, sortBy) {
+
+    if (limit===undefined) {
+        limit = 0;
+    }
+
     if (sortBy===undefined) {
         sortBy = "id";
     }
-    const accessToken = getCookie("access_token");
-    const jsonJwt = parseJwt(accessToken);
-    const email = jsonJwt.sub;
 
     // Fetch account info with access token
-    const transactionsResponse = await fetch("http://localhost:8080/api/bank-accounts/"+iban+"/transactions?sortBy="+sortBy,{
+    const transactionsResponse = await fetch("http://localhost:8080/api/bank-accounts/"+iban+"/transactions?limit="+limit+"&sortBy="+sortBy,{
         method: 'get',
         headers: new Headers({
             'content-type': 'application/json',
@@ -254,10 +256,6 @@ async function transfer() {
         return;
     }
 
-    const accessToken = getCookie("access_token");
-    const jsonJwt = parseJwt(accessToken);
-    const email = jsonJwt.sub;
-
     // Post withdraw request
     const transferResponse = await fetch("http://localhost:8080/api/bank-accounts/"+iban+"/transactions/transfer", {
         method: 'post',
@@ -313,10 +311,6 @@ async function withdraw() {
         return;
     }
 
-    const accessToken = getCookie("access_token");
-    const jsonJwt = parseJwt(accessToken);
-    const email = jsonJwt.sub;
-
     // Post withdraw request
     const withdrawResponse = await fetch("http://localhost:8080/api/bank-accounts/"+iban+"/transactions/withdraw", {
         method: 'post',
@@ -365,14 +359,11 @@ function logOut(errorCausedLogout) {
         location.replace("error.html");
     }
     else {
-        location.replace("home.html");
+        location.replace("index.html");
     }
 }
 
 async function clearTransactions() {
-    const accessToken = getCookie("access_token");
-    const jsonJwt = parseJwt(accessToken);
-    const email = jsonJwt.sub;
 
     const clearTransactionsResponse = await fetch("http://localhost:8080/api/bank-accounts/"+iban+"/transactions", {
         method: 'delete',
@@ -432,7 +423,6 @@ async function deleteAccount() {
 }
 
 
-
 // Hide content until account info is retrieved
 contentBlocks.forEach((element) => {
     element.classList.add("display-none")
@@ -451,27 +441,33 @@ ibanElement.addEventListener('click', () => {
     navigator.clipboard.writeText(iban.toString());
 });
 
-depositButton.addEventListener('click', async () => {
+depositButton.addEventListener('click', async (e) => {
+    e.preventDefault();
     await deposit();
 });
 
-transferButton.addEventListener('click', async () => {
+transferButton.addEventListener('click', async (e) => {
+    e.preventDefault();
     await transfer();
 });
 
-withdrawButton.addEventListener('click', async () => {
+withdrawButton.addEventListener('click', async (e) => {
+    e.preventDefault();
     await withdraw();
 });
 
 signOutButton.addEventListener('click', async () => {
     await logOut(false);
 });
+
 sortByIdButton.addEventListener('click', async () => {
     await getAccountTransactions("id");
 });
+
 sortByTimestampButton.addEventListener('click', async () => {
     await getAccountTransactions("timestamp");
 });
+
 sortByAmountButton.addEventListener('click', async () => {
     await getAccountTransactions("amount");
 });

@@ -5,7 +5,7 @@ const signUpForm = document.querySelector(".sign-up-form");
 const signInLabel = document.querySelector(".sign-in-feedback");
 const signUpLabel = document.querySelector(".sign-up-feedback");
 
-import {greenHex, redHex, getCookie, parseJwt, promptFeedback} from "./util.js";
+import {greenHex, redHex, getCookie, promptFeedback} from "./util.js";
 
 const refreshToken = getCookie("refresh_token");
 
@@ -232,12 +232,14 @@ location.href="#home";
 await attemptAutoLogin();
 
 // Sign In Event
-signInButton.addEventListener('click', async () => {
+signInButton.addEventListener('click', async (e) => {
+    e.preventDefault();
     await signIn();
 });
 
 // Sign Up Event
-signUpButton.addEventListener('click', async () => {
+signUpButton.addEventListener('click', async (e) => {
+    e.preventDefault();
     await signUp();
 });
 
