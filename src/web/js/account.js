@@ -91,6 +91,7 @@ async function getAccountInfo() {
     if (!accountInfoResponse.ok) {
         await syncTokens();
         await getAccountInfo();
+        console.error((await accountInfoResponse)["message"]);
         return;
     }
 
