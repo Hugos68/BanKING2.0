@@ -121,10 +121,9 @@ async function signIn() {
         body: JSON.stringify(jsonObj)
     });
     if (!signInResponse.ok) {
-
-        // Prompt server response formatted to be user friendly
-        promptFeedback(signInLabel, (await signInResponse.json())["message"], redHex);
-        console.error((await signInResponse.json())["message"])
+        const message = (await signInResponse.json())["message"];
+        promptFeedback(signInLabel, message, redHex);
+        console.error(message);
         return;
     }
 
@@ -199,10 +198,9 @@ async function signUp() {
         body: JSON.stringify(jsonObj)
     });
     if (!signUpResponse.ok) {
-
-        // Prompt server response formatted to be user friendly
-        promptFeedback(signUpLabel, (await signUpResponse.json())["message"], redHex);
-        console.error((await signUpResponse.json())["message"])
+        const message = (await signUpResponse.json())["message"];
+        promptFeedback(signUpLabel, message, redHex);
+        console.error(message);
         return;
     }
 

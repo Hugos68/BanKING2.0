@@ -373,11 +373,11 @@ function logOut(errorCausedLogout) {
 
 async function clearTransactions() {
 
-    const clearTransactionsResponse = await fetch("http://localhost:8080/api/bank-accounts/"+iban+"/transactions", {
+    const clearTransactionsResponse = await fetch("http://localhost:8080/api/bank-accounts/" + iban + "/transactions", {
         method: 'delete',
         headers: new Headers({
             'content-type': 'application/json',
-            'Authorization': 'Bearer '+ getCookie("access_token")
+            'Authorization': 'Bearer ' + getCookie("access_token")
         }),
     });
     if (!clearTransactionsResponse.ok) {
@@ -386,7 +386,7 @@ async function clearTransactions() {
         const message = (await clearTransactionsResponse.json())["message"]
 
         // If access token expired -> request for a new one
-        if (message==="Access token is invalid") {
+        if (message === "Access token is invalid") {
             await syncTokens();
             await deleteAccount();
             return;
