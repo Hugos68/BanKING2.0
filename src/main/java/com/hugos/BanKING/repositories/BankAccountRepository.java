@@ -8,7 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Optional;
 
 @Repository
-@Transactional(readOnly = true)
+@Transactional
 public interface BankAccountRepository extends JpaRepository<BankAccount, Long> {
     Optional<BankAccount> findByIban(String iban);
     Optional<BankAccount> findByAppUser(AppUser appUser);

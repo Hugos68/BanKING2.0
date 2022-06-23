@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-@Transactional(readOnly = true)
+@Transactional
 public interface TransactionRepository extends JpaRepository<Transaction, Long> {
     Optional<List<Transaction>> findAllByFromBankAccount(BankAccount bankAccount);
     Optional<List<Transaction>>  findAllByToBankAccount(BankAccount bankAccount);
