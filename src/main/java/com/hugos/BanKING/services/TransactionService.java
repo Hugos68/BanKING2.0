@@ -1,11 +1,9 @@
 package com.hugos.BanKING.services;
 
 import com.google.gson.JsonObject;
-import com.hugos.BanKING.entities.AppUser;
 import com.hugos.BanKING.entities.BankAccount;
 import com.hugos.BanKING.entities.Transaction;
 import com.hugos.BanKING.enums.TransactionType;
-import com.hugos.BanKING.repositories.AppUserRepository;
 import com.hugos.BanKING.repositories.BankAccountRepository;
 import com.hugos.BanKING.repositories.TransactionRepository;
 import lombok.AllArgsConstructor;
@@ -24,7 +22,6 @@ import java.util.*;
 public class TransactionService {
 
     private final RequestService requestService;
-    private final AppUserRepository appUserRepository;
     private final BankAccountService bankAccountService;
     private final BankAccountRepository bankAccountRepository;
     private final TransactionRepository transactionRepository;
@@ -65,7 +62,6 @@ public class TransactionService {
         // Sort list, default is id
         if (sortBy==null || sortBy.equals("timestamp")) {
             transactionList.sort(Comparator.comparing(Transaction::getTimestamp));
-
         }
         else if (sortBy.equals("type")) {
             transactionList.sort(Comparator.comparing(Transaction::getType));
