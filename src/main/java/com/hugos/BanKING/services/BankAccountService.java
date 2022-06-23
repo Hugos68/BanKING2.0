@@ -4,7 +4,7 @@ import com.google.gson.*;
 import com.hugos.BanKING.entities.AppUser;
 import com.hugos.BanKING.enums.TransactionType;
 import com.hugos.BanKING.entities.BankAccount;
-import com.hugos.BanKING.util.DecodedAccessToken;
+import com.hugos.BanKING.util.tokens.DecodedAccessToken;
 import com.hugos.BanKING.entities.Transaction;
 import com.hugos.BanKING.repositories.AppUserRepository;
 import com.hugos.BanKING.repositories.BankAccountRepository;

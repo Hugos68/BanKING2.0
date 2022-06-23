@@ -2,8 +2,8 @@ package com.hugos.BanKING.services;
 
 import com.google.gson.JsonObject;
 import com.hugos.BanKING.entities.AppUser;
-import com.hugos.BanKING.util.DecodedAccessToken;
-import com.hugos.BanKING.util.DecodedRefreshToken;
+import com.hugos.BanKING.util.tokens.DecodedAccessToken;
+import com.hugos.BanKING.util.tokens.DecodedRefreshToken;
 import com.hugos.BanKING.enums.Role;
 import com.hugos.BanKING.repositories.AppUserRepository;
 import io.jsonwebtoken.Claims;

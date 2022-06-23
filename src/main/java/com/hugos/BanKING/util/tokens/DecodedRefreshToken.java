@@ -1,4 +1,4 @@
-package com.hugos.BanKING.util;
+package com.hugos.BanKING.util.tokens;
 
 import java.util.Date;
 

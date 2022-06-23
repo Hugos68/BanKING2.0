@@ -3,7 +3,7 @@ package com.hugos.BanKING.services;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.hugos.BanKING.enums.Role;
-import com.hugos.BanKING.util.DecodedAccessToken;
+import com.hugos.BanKING.util.tokens.DecodedAccessToken;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
