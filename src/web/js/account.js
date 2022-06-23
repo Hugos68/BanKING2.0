@@ -40,7 +40,7 @@ async function refreshAccessToken() {
         document.cookie = "refresh_token=; Max-Age=-99999999;";
         document.cookie = "access_token=; Max-Age=-99999999;";
         logOut(true);
-        console.error(await (refreshAccessTokenResponse["message"]));
+        console.error((await refreshAccessTokenResponse.json())["message"])
         return;
     }
 
@@ -98,7 +98,7 @@ async function getAccountInfo() {
     if (!accountInfoResponse.ok) {
         await syncTokens();
         await getAccountInfo();
-        console.error((await accountInfoResponse)["message"]);
+        console.error((await accountInfoResponse.json())["message"])
         return;
     }
 
@@ -141,7 +141,7 @@ async function getAccountTransactions(limit, sortBy) {
     if (!transactionsResponse.ok) {
         await syncTokens();
         await getAccountTransactions();
-        console.error((await transactionsResponse)["message"]);
+        console.error((await transactionsResponse.json())["message"])
         return;
     }
 

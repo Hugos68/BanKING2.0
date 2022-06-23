@@ -46,6 +46,7 @@ public class TransactionService {
         BankAccount bankAccount = bankAccountRepository.findByIban(iban).get();
 
         // Get all transactions related to this bank account
+        JsonObject transactionsObject = new JsonObject();
         Optional<List<Transaction>> optionalFromList = transactionRepository.findAllByFromBankAccount(bankAccount);
         Optional<List<Transaction>> optionalToList = transactionRepository.findAllByToBankAccount(bankAccount);
 
@@ -70,13 +71,18 @@ public class TransactionService {
         }
 
         // Format list to a JSON Object
-        JsonObject transactionsObject = new JsonObject();
         for (Transaction transaction : transactionList) {
             JsonObject transactionObject = new JsonObject();
 
-            // Set ibanFrom and ibanTo, if null -> set it to "unknown source"
-            String ibanFrom = Optional.ofNullable(transaction.getFromBankAccount().getIban()).orElse("unknown source");
-            String ibanTo = Optional.ofNullable(transaction.getToBankAccount().getIban()).orElse("unknown source");
+            // Mark any null bank accounts as 'Unknown source'
+            String ibanFrom;
+            if (transaction.getFromBankAccount()==null) ibanFrom="unknown source";
+            else ibanFrom = transaction.getFromBankAccount().getIban();
+            String ibanTo;
+            if (transaction.getToBankAccount()==null) ibanTo = "unknown source";
+            else ibanTo = transaction.getToBankAccount().getIban();
+
+            // Format all transaction information
             transactionObject.addProperty("id", transaction.getId());
             transactionObject.addProperty("type", transaction.getType().name());
             transactionObject.addProperty("iban_from", ibanFrom);

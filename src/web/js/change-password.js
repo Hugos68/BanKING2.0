@@ -23,7 +23,9 @@ async function changePassword() {
         body: JSON.stringify(jsonObj)
     });
     if (!changePasswordResponse.ok) {
-        promptFeedback(changePasswordFeedback, (await changePasswordResponse.json())["message"], redHex)
+        const message = (await changePasswordResponse.json())["message"];
+        promptFeedback(changePasswordFeedback, message, redHex);
+        console.error(message);
         return;
     }
     promptFeedback(changePasswordFeedback, "Password changed", greenHex);
