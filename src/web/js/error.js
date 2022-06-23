@@ -4,5 +4,4 @@ async function redirectToHome() {
         window.location.replace("../html/index.html");
     }, 2500);
 }
-
 await redirectToHome();
