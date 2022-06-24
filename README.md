@@ -5,7 +5,6 @@
 ### **Table Of Contents**
 1. Introduction
 2. Technologies
-3. System Architecture
 
 
 ## Introduction
