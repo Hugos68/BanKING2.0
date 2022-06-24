@@ -42,7 +42,7 @@ public class RequestService {
         try {
             accessToken = request.getHeader(HttpHeaders.AUTHORIZATION).substring("Bearer ".length());
         } catch (Exception exception) {
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Missing access token");
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Access token is invalid");
         }
 
         DecodedAccessToken decodedAccessToken = tokenService.decodeAccessToken(accessToken);
@@ -53,8 +53,8 @@ public class RequestService {
         }
 
         // Check if the role from the token has the minimum level of clearance
-        if (!decodedAccessToken.subject().equals(email) &&
-            decodedAccessToken.role().getLevelOfClearance() < requiredRole.getLevelOfClearance()) {
+        if (decodedAccessToken.role().getLevelOfClearance() < requiredRole.getLevelOfClearance() ||
+            decodedAccessToken.role()==Role.USER && !decodedAccessToken.subject().equals(email)) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "User not authorized");
         }
     }

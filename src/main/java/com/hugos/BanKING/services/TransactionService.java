@@ -113,25 +113,10 @@ public class TransactionService {
 
         // Get body from request
         JsonObject body = requestService.getJsonFromRequest(request);
-        Optional<BankAccount> fromBankAccountOptional = bankAccountRepository.findByIban(body.get("from_iban").getAsString());
-        if (fromBankAccountOptional.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Failed to set attribute \"from_iban\", iban not found");
-        }
-        BankAccount fromBankAccount = fromBankAccountOptional.get();
-
-        Optional<BankAccount> toBankAccountOptional = bankAccountRepository.findByIban(body.get("from_iban").getAsString());
-        if (toBankAccountOptional.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Failed to set attribute \"to_iban\", iban not found");
-        }
-        BankAccount toBankAccount = fromBankAccountOptional.get();
         Double amount = body.get("amount").getAsDouble();
-        LocalDateTime timestamp = LocalDateTime.parse(body.get("timestamp").getAsString());
 
         // Set and save transaction
-        transaction.setFromBankAccount(fromBankAccount);
-        transaction.setToBankAccount(toBankAccount);
         transaction.setAmount(amount);
-        transaction.setTimestamp(timestamp);
         transactionRepository.save(transaction);
         return ResponseEntity.status(HttpStatus.OK).body("Transaction successfully updated");
     }

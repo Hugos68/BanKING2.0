@@ -23,6 +23,7 @@ import java.util.*;
 @Service
 @AllArgsConstructor
 public class TokenService {
+
     // Generate key with secret
     private final String API_SECRET = "kjlfds4124ho4h1l24hl1l1gkj41h4k1u4h12l";
     private final byte[] encoded = API_SECRET.getBytes(StandardCharsets.UTF_8);
@@ -66,7 +67,7 @@ public class TokenService {
         // Get payload from token
         Claims claims = getAllClaimsFromToken(token);
         if (claims==null) {
-            throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "Access token is invalid");
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Access token is invalid");
         }
 
         // Get claims
@@ -87,7 +88,7 @@ public class TokenService {
         // Get payload from token
         Claims claims = getAllClaimsFromToken(token);
         if (claims==null) {
-            throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "Refresh token is invalid");
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Refresh token is invalid");
         }
 
         // Get claims
