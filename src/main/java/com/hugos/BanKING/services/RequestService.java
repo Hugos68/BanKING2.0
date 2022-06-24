@@ -55,7 +55,7 @@ public class RequestService {
         // Check if the role from the token has the minimum level of clearance
         if (decodedAccessToken.role().getLevelOfClearance() < requiredRole.getLevelOfClearance() ||
             decodedAccessToken.role()==Role.USER && !decodedAccessToken.subject().equals(email)) {
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "User not authorized");
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Required roles are absent");
         }
     }
 }
