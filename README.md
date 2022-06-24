@@ -41,5 +41,3 @@ The Payload of a JWT typically contains information and claims about an entity (
 The Signature of a JWT is used to make sure the data inside the JWT hasnt been tempered with, this is possible with signing the JWT with a secret key. This key is then also used to authorize the token when it gets a request with the JWT.
 
 The reason JWT fits our needs is because its scalable and it doesnt need to be stored on the database. We simply get our secret key and check if its a valid JWT, if so, we can then extract the user and role from the JWT to check if the user has access to the resource requested. This ensures and goes hand in hand with the RESTfulness of our API.
-
-## System Architecture
