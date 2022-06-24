@@ -5,15 +5,15 @@
  */
 
 @font-face {
-    font-family: 'roboto_condensedbold';
-    src: url('../resources/RobotoCondensed-Bold-webfont.woff') format('woff');
+    font-family: "roboto_condensedbold";
+    src: url("../resources/RobotoCondensed-Bold-webfont.woff") format("woff");
     font-weight: normal;
     font-style: normal;
 }
 
 @font-face {
-    font-family: 'robotoregular';
-    src: url('../resources/Roboto-Regular-webfont.woff') format('woff');
+    font-family: "robotoregular";
+    src: url("../resources/Roboto-Regular-webfont.woff") format("woff");
     font-weight: normal;
     font-style: normal;
 }
@@ -75,7 +75,7 @@ body {
 .nav-item {
     list-style-type: none;
     text-decoration: none;
-    font-family: 'roboto_condensedbold', serif;
+    font-family: "roboto_condensedbold", serif;
     text-transform: uppercase;
     cursor: pointer;
     font-size: 20px;
@@ -122,7 +122,7 @@ body {
 }
 
 .general-input {
-    background-color: rgba(0,0,0,25%);
+    background-color: rgba(0, 0, 0, 25%);
     border: none;
     width: 225px;
     height: 25px;
@@ -143,7 +143,7 @@ input::-webkit-inner-spin-button {
     margin: 0;
 }
 
-input[type=number]{
+input[type="number"] {
     -moz-appearance: textfield;
 }
 
@@ -174,7 +174,6 @@ input[type=number]{
     }
 }
 
-
 .general-button {
     background: transparent;
     border: black solid 2px;
@@ -189,7 +188,7 @@ input[type=number]{
 }
 
 .general-button:hover {
-    background-color: rgba(0,0,0,25%);
+    background-color: rgba(0, 0, 0, 25%);
 }
 
 .general-button:active {
@@ -222,12 +221,11 @@ input[type=number]{
 ===============================
  */
 
-
 .home-left {
     animation: slide-right 1s alternate;
 }
 
-.home-left > .page-title{
+.home-left > .page-title {
     font-size: 50px;
     text-decoration: underline;
     text-decoration-color: black;
@@ -236,7 +234,6 @@ input[type=number]{
 .home-right {
     animation: slide-left 1s alternate;
 }
-
 
 /*
 ===============================
@@ -311,7 +308,6 @@ input[type=number]{
     font-weight: bold;
 }
 
-
 .sign-up-right {
     animation: slide-left 1s alternate;
 }
@@ -323,8 +319,6 @@ input[type=number]{
 ====================================================
 ====================================================
  */
-
-
 
 /*
 ===============================
@@ -349,7 +343,7 @@ input[type=number]{
     animation: slide-right 1s alternate;
 }
 
-.overview-left > .page-title{
+.overview-left > .page-title {
     font-size: 50px;
     text-decoration: underline;
     text-decoration-color: black;
@@ -466,7 +460,6 @@ tr:nth-child(even) {
 ====================================================
  */
 
-
 /*
 ===============================
          Change Password
@@ -510,7 +503,7 @@ tr:nth-child(even) {
     animation: slide-right 1s alternate;
 }
 
-.not-found-left > .page-title{
+.not-found-left > .page-title {
     font-size: 50px;
     text-decoration: underline;
     text-decoration-color: black;
@@ -634,7 +627,6 @@ tr:nth-child(even) {
     .transactions {
         flex-direction: column;
     }
-
 }
 
 @media (max-width: 600px) {
